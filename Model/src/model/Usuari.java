@@ -5,14 +5,73 @@
 package prova;
 
 import java.awt.Image;
+import model.WikilocException;
 
 /**
  *
  * @author isard
  */
 public class Usuari {
-    private String email;
-    private String login;
-    private String contrasenya;
-    private Image foto;
+    private String email;//obligatori,pk
+    private String login;//obligatori
+    private String contrasenya;//obligatori i unique
+    private Image foto;//opcional
+
+    public Usuari(String email, String login, String contrasenya, Image foto) {
+        setEmail(email);
+        setLogin(login);
+        setContrasenya(contrasenya);
+        setFoto(foto);
+    }
+
+    public Usuari(String email, String login, String contrasenya) {
+        this.email = email;
+        this.login = login;
+        this.contrasenya = contrasenya;
+    }
+    
+    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+            throw new WikilocException("Error en crear usuari. Email no vàlid");
+        }
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        if (login==null||login.length()<1||login.length()>60){
+            throw new WikilocException("Error en crear usuari. Login incorrecte");
+        }
+        this.login = login;
+    }
+
+    public String getContrasenya() {
+        return contrasenya;
+    }
+
+    public void setContrasenya(String contrasenya) {
+        if (contrasenya==null||contrasenya.length()<8||contrasenya.length()>60){
+            throw new WikilocException("Error en crear usuari. Contrasenya incorrecta");
+        }
+        this.contrasenya = contrasenya;
+    }
+
+    public Image getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Image foto) {
+        this.foto = foto;
+    }
+    
+    
 }

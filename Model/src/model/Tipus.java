@@ -11,9 +11,9 @@ import java.awt.Image;
  * @author isard
  */
 public class Tipus {
-    private int id;
-    private String nom;
-    private Image icona;
+    private int id;//auto
+    private String nom;//obligatori
+    private Image icona;//obligatori
 
     public Tipus(int id, String nom, Image icona) {
         setId(id);
@@ -35,7 +35,7 @@ public class Tipus {
 
     public void setNom(String nom) {
         if (nom == null || nom.length()<1 || nom.length()>60)
-            throw new WikilocException("Error e");
+            throw new WikilocException("Error en crear Tipus. El nom ha de tenir entre 1 i 60 caràcters");
         this.nom = nom;
     }
 
@@ -44,6 +44,8 @@ public class Tipus {
     }
 
     public void setIcona(Image icona) {
+        if (icona == null)
+            throw new WikilocException("Error en crear Tipus. L'icona no pot ser nul·la");
         this.icona = icona;
     }
     
