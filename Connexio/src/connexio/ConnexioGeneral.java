@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.WikilocException;
 /**
  *
@@ -62,6 +64,22 @@ public class ConnexioGeneral {
             } catch (SQLException ex) {
                 throw new WikilocException("Error en tancar la connexió.\n" + ex.getMessage());
             }
+        }
+    }
+    
+    public static void validateChanges() throws WikilocException {
+        try {
+            conn.commit();
+        } catch (SQLException ex) {
+            throw new WikilocException("Error en validar els canvis.\n" + ex.getMessage());
+        }
+    }
+    
+    public static void undoChanges() throws WikilocException {
+        try {
+            conn.commit();
+        } catch (SQLException ex) {
+            throw new WikilocException("Error en desfer els canvis.\n" + ex.getMessage());
         }
     }
 }
