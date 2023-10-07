@@ -107,7 +107,7 @@ public class Ruta {
 
     public void setDificultat(int dificultat) {
         if (dificultat<1 || dificultat>5){
-            throw new WikilocException("Error en crear la Ruta. La dificultat ha d'estar comporesa entre 1 i 5");
+            throw new WikilocException("Error en crear la Ruta. La dificultat ha d'estar compresa entre 1 i 5");
         }
         this.dificultat = dificultat;
     }
