@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package P1_T5_Model_FerrerMuñozCarles;
 
 import java.awt.Image;
 
@@ -48,6 +48,4 @@ public class Tipus {
             throw new WikilocException("Error en crear Tipus. L'icona no pot ser nul·la");
         this.icona = icona;
     }
-    
-    
 }

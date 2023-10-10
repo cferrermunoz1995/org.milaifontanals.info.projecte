@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package P1_T5_Model_FerrerMuñozCarles;
 
 import java.util.HashMap;
 import java.time.Duration;
@@ -16,12 +16,12 @@ public class Ruta {
     private String titol;
     private String text;
     private double distancia;
-    private Duration duracio;
+    private double duracio;
     private double desnivell_positiu;
     private double desnivell_negatiu;
     private int dificultat;
 
-    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, Duration duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat) {
+    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat) {
         setId(id);
         setPunts(punts);
         setTitol(titol);
@@ -73,11 +73,11 @@ public class Ruta {
         this.distancia = distancia;
     }
 
-    public Duration getDuracio() {
+    public double getDuracio() {
         return duracio;
     }
 
-    public void setDuracio(Duration duracio) {
+    public void setDuracio(double duracio) {
         this.duracio = duracio;
     }
 

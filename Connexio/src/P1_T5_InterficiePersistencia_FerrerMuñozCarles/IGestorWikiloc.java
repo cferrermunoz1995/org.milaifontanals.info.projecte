@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package connexio;
+package P1_T5_InterficiePersistencia_FerrerMuñozCarles;
 
 import java.util.List;
-import model.Punt;
-import model.Ruta;
-import model.WikilocException;
+import P1_T5_Model_FerrerMuñozCarles.Punt;
+import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import oracle.sql.DATE;
 
 /**

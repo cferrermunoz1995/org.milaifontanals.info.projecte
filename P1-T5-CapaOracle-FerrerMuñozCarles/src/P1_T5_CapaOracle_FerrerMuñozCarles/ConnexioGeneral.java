@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package P1_T5_CapaOracle_FerrerMuñozCarles;
 
 /**
  *
  * @author isard
  */
-public class WikilocException extends RuntimeException{
-    public WikilocException(String message){
-        super(message);
-    }
+public class ConnexioGeneral {
+    
 }
