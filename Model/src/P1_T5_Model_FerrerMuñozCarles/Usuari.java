@@ -5,6 +5,7 @@
 package P1_T5_Model_FerrerMuñozCarles;
 
 import java.awt.Image;
+import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 
 /**
  *

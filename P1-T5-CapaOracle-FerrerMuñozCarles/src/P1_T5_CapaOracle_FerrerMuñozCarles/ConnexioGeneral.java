@@ -5,6 +5,9 @@
  */
 package P1_T5_CapaOracle_FerrerMuñozCarles;
 
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorWikiloc;
+import P1_T5_Model_FerrerMuñozCarles.Punt;
+import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,12 +15,14 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.util.Properties;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import java.util.List;
 import oracle.sql.BLOB;
+import oracle.sql.DATE;
 /**
  *
  * @author isard
  */
-public class ConnexioGeneral {   
+public class ConnexioGeneral implements IGestorWikiloc{   
     private static Connection conn;
     
     private ConnexioGeneral() throws WikilocException {
@@ -52,7 +57,7 @@ public class ConnexioGeneral {
         return conn;
     }
     
-    public static void close() throws WikilocException {
+    public void close() throws WikilocException {
         if (conn != null) {
             try {
                 conn.rollback();
@@ -67,7 +72,7 @@ public class ConnexioGeneral {
         }
     }
     
-    public static void validateChanges() throws WikilocException {
+    public void validateChanges() throws WikilocException {
         try {
             conn.commit();
         } catch (SQLException ex) {
@@ -75,11 +80,51 @@ public class ConnexioGeneral {
         }
     }
     
-    public static void undoChanges() throws WikilocException {
+    public void undoChanges() throws WikilocException {
         try {
             conn.commit();
         } catch (SQLException ex) {
             throw new WikilocException("Error en desfer els canvis.\n" + ex.getMessage());
         }
+    }
+
+    @Override
+    public List<Ruta> obtenirLlistaRuta(int usuari, DATE date_inici, DATE data_final, String nom) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualitzarRuta(Ruta ruta) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void afegirRuta(Ruta ruta) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarRuta(Ruta ruta) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void crearPunt(Punt punt) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPunt(Punt punt) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualitzarPunt(Punt punt) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Punt> obtenirPunts(Ruta ruta) throws WikilocException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

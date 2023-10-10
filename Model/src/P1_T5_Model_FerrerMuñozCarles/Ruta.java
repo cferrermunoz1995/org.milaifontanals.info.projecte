@@ -5,7 +5,6 @@
 package P1_T5_Model_FerrerMuñozCarles;
 
 import java.util.HashMap;
-import java.time.Duration;
 /**
  *
  * @author isard
@@ -54,6 +53,9 @@ public class Ruta {
     }
 
     public void setTitol(String titol) {
+        if (titol == null || titol.length()== 0 || titol.length()>60){
+            throw new WikilocException("Error en crear Ruta. Títol no vàlid");
+        }
         this.titol = titol;
     }
 
@@ -62,6 +64,9 @@ public class Ruta {
     }
 
     public void setText(String text) {
+        if (text == null || text.length()== 0 || text.length()>60){
+            throw new WikilocException("Error en crear Ruta. Text no vàlid");
+        }
         this.text = text;
     }
 
@@ -78,6 +83,9 @@ public class Ruta {
     }
 
     public void setDuracio(double duracio) {
+        if (duracio < 0){
+            throw new WikilocException("Error en crear la Ruta. La duració ha de ser estrictament positiva");
+        }
         this.duracio = duracio;
     }
 
