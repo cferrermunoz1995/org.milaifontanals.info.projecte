@@ -65,6 +65,8 @@ create table PUNT(
     lon_punt decimal CONSTRAINT nn_lon_punt not null,
     alt_punt decimal,
     tipus_punt NUMBER constraint fk_tipus_punt references TIPUS,
+    constraint check_lat_punt check (lat_punt between -90 and 90),
+    constraint check_lon_punt check (lon_punt between -180 and 180),
     constraint pk_punt PRIMARY key (num_punt, id_ruta_punt)
 );
 
