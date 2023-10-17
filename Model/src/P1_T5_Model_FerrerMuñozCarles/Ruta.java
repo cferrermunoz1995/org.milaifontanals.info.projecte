@@ -19,8 +19,11 @@ public class Ruta {
     private double desnivell_positiu;
     private double desnivell_negatiu;
     private int dificultat;
+    private int numPunts;
 
-    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat) {
+    
+
+    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts) {
         setId(id);
         setPunts(punts);
         setTitol(titol);
@@ -30,6 +33,7 @@ public class Ruta {
         setDesnivell_positiu(desnivell_positiu);
         setDesnivell_negatiu(desnivell_negatiu);
         setDificultat(dificultat);
+        setNumPunts(numPunts);
     }
 
     public int getId() {
@@ -120,5 +124,11 @@ public class Ruta {
         this.dificultat = dificultat;
     }
     
-    
+    public int getNumPunts() {
+        return numPunts;
+    }
+
+    public void setNumPunts(int numPunts) {
+        this.numPunts = numPunts;
+    }
 }

@@ -4,7 +4,7 @@
  */
 package P1_T5_Model_FerrerMuñozCarles;
 
-import java.awt.Image;
+import java.sql.Blob;
 
 /**
  *
@@ -13,9 +13,9 @@ import java.awt.Image;
 public class Tipus {
     private int id;//auto
     private String nom;//obligatori
-    private Image icona;//obligatori
+    private Blob icona;//obligatori
 
-    public Tipus(int id, String nom, Image icona) {
+    public Tipus(int id, String nom, Blob icona) {
         setId(id);
         setNom(nom);
         setIcona(icona);
@@ -39,11 +39,11 @@ public class Tipus {
         this.nom = nom;
     }
 
-    public Image getIcona() {
+    public Blob getIcona() {
         return icona;
     }
 
-    public void setIcona(Image icona) {
+    public void setIcona(Blob icona) {
         if (icona == null)
             throw new WikilocException("Error en crear Tipus. L'icona no pot ser nul·la");
         this.icona = icona;

@@ -4,8 +4,8 @@
  */
 package P1_T5_Model_FerrerMuñozCarles;
 
-import java.awt.Image;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import java.sql.Blob;
 
 /**
  *
@@ -15,9 +15,9 @@ public class Usuari {
     private String email;//obligatori,pk
     private String login;//obligatori
     private String contrasenya;//obligatori i unique
-    private Image foto;//opcional
+    private Blob foto;//opcional
 
-    public Usuari(String email, String login, String contrasenya, Image foto) {
+    public Usuari(String email, String login, String contrasenya, Blob foto) {
         setEmail(email);
         setLogin(login);
         setContrasenya(contrasenya);
@@ -65,11 +65,11 @@ public class Usuari {
         this.contrasenya = contrasenya;
     }
 
-    public Image getFoto() {
+    public Blob getFoto() {
         return foto;
     }
 
-    public void setFoto(Image foto) {
+    public void setFoto(Blob foto) {
         this.foto = foto;
     }
     
