@@ -15,10 +15,15 @@ import java.sql.DriverManager;
 import java.util.Properties;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.util.List;
+import java.sql.ResultSet;
 import oracle.sql.BLOB;
 import oracle.sql.DATE;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
+import java.util.HashMap;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 /**
  *
  * @author isard
@@ -90,7 +95,25 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     }
 
     @Override
-    public List<Ruta> obtenirLlistaRuta(int usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException {
+    public List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException {
+        List<Ruta> rutes = new ArrayList<>();
+        PreparedStatement ps = null;
+        String sql = "select * from ruta where id_usuari_ruta like ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, usuari);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                //Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description)
+                int sum_val_ruta = rs.getInt("sum_val_ruta");
+                int num_com_ruta = rs.getInt("num_com_ruta");
+                int id = rs.getInt("id_ruta");
+                String titol_ruta = rs.getString("titol_ruta");
+                rutes.add(new Ruta(id, null, titol_ruta, ));
+            }
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en iniciar sessió");
+        }
         return null;
     }
 
@@ -125,7 +148,24 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     }
 
     @Override
-    public List<Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException {
+    public HashMap<Integer,Punt> obtenirPunts(int ruta) throws IGestorBDWikilocException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean comprovarContrasenya(String login, String contrasenya) {
+        PreparedStatement ps = null;
+        String sql = "select email_usuari from usuari where login_usuari like ? and contrasenya_usuari like ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, login);
+            ps.setString(2, contrasenya);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en iniciar sessió");
+        }
+    }
+    
+    
 }

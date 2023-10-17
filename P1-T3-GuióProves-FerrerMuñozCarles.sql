@@ -55,9 +55,9 @@ insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_pu
 (5, 3, 'Punt 5 - Ruta 3', 'Punt 5 - Ruta 3', null, 12, 13, 5, 3);
 
 insert into COMENTARI (id_comen, text_comen, valor_info_comen, feta_comen, dific_comen, v_pais_comen, v_seg_comen, mom_temp_comen, id_usu_comen, id_ruta_comen) values
-(null, 'Comentari 1 - Ruta 1', 1, 0, null, null, null, sysdate, 'cferrer2', 1);
+(null, 'Comentari 1 - Ruta 1', 1, 0, null, null, null, CURRENT_TIMESTAMP, 'cferrer2', 1);
 
 insert into COMENTARI (id_comen, text_comen, valor_info_comen, feta_comen, dific_comen, v_pais_comen, v_seg_comen, mom_temp_comen, id_usu_comen, id_ruta_comen) values
-(null, 'Comentari 1 - Ruta 2', 5, 1, 2, 3, 4, sysdate, 'cferrer2', 2);
+(null, 'Comentari 1 - Ruta 2', 5, 1, 2, 3, 4, CURRENT_TIMESTAMP, 'cferrer2', 2);
 
 commit;

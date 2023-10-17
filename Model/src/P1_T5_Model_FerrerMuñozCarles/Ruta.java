@@ -5,6 +5,10 @@
 package P1_T5_Model_FerrerMuñozCarles;
 
 import java.util.HashMap;
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author isard
@@ -13,17 +17,19 @@ public class Ruta {
     private int id;//obligatori
     private HashMap<Integer,Punt> punts;
     private String titol;
-    private String text;
+    private String description;
+    private Clob text;
     private double distancia;
     private double duracio;
     private double desnivell_positiu;
     private double desnivell_negatiu;
+    private double nota_mitja_valoracio;
     private int dificultat;
     private int numPunts;
 
     
 
-    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts) {
+    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, Clob text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description) {
         setId(id);
         setPunts(punts);
         setTitol(titol);
@@ -34,6 +40,8 @@ public class Ruta {
         setDesnivell_negatiu(desnivell_negatiu);
         setDificultat(dificultat);
         setNumPunts(numPunts);
+        setNota_mitja_valoracio(nota_mitja_valoracio);
+        setDescription(description);
     }
 
     public int getId() {
@@ -63,12 +71,17 @@ public class Ruta {
         this.titol = titol;
     }
 
-    public String getText() {
+    public Clob getText() {
         return text;
     }
 
-    public void setText(String text) {
-        if (text == null || text.length()== 0 || text.length()>60){
+    public void setText(Clob text) {
+        long zero = 0;
+        try {
+            if (text == null || text.length() ==  zero){
+                throw new WikilocException("Error en crear Ruta. Text no vàlid");
+            }
+        } catch (SQLException ex) {
             throw new WikilocException("Error en crear Ruta. Text no vàlid");
         }
         this.text = text;
@@ -131,4 +144,27 @@ public class Ruta {
     public void setNumPunts(int numPunts) {
         this.numPunts = numPunts;
     }
+
+    public double getNota_mitja_valoracio() {
+        return nota_mitja_valoracio;
+    }
+
+    public void setNota_mitja_valoracio(double nota_mitja_valoracio) {
+        this.nota_mitja_valoracio = nota_mitja_valoracio;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        if (description == null || description.length()== 0 || description.length()>60){
+            throw new WikilocException("Error en crear Ruta. Text no vàlid");
+        }
+        this.description = description;
+    }
+    
+    
+    
+    
 }

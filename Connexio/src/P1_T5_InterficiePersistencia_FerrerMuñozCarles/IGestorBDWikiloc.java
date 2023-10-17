@@ -7,6 +7,7 @@ package P1_T5_InterficiePersistencia_FerrerMuñozCarles;
 import java.util.List;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import java.util.HashMap;
 import oracle.sql.DATE;
 
 /**
@@ -17,7 +18,9 @@ public interface IGestorBDWikiloc {
     
     void close() throws IGestorBDWikilocException;
     
-    List<Ruta> obtenirLlistaRuta(int usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException;
+    boolean comprovarContrasenya(String login, String contrasenya);
+    
+    List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException;
     
     void actualitzarRuta(Ruta ruta) throws  IGestorBDWikilocException;
     
@@ -35,5 +38,7 @@ public interface IGestorBDWikiloc {
     
     void actualitzarPunt(Punt punt) throws IGestorBDWikilocException;
     
-    List<Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException;
+    HashMap<Integer,Punt> obtenirPunts(int ruta) throws IGestorBDWikilocException;
+    
+    
 }

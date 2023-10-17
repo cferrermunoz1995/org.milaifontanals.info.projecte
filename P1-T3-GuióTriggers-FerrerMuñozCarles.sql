@@ -24,8 +24,8 @@ create table TIPUS(
 );
 
 create table USUARI(
-    email_usuari varchar2(60) constraint usuari_pk primary key,
-    login_usuari varchar2(60) constraint sk_usuari_login unique, 
+    login_usuari varchar2(60) constraint usuari_pk primary key,
+    email_usuari varchar2(60) constraint sk_usuari_email unique, 
     contrasenya_usuari varchar2(60) constraint nn_usu_contra not null,
     foto_usuari BLOB
 );
@@ -40,6 +40,7 @@ create table RUTA(
     desn_pos_ruta decimal CONSTRAINT nn_desn_pos_ruta not null,
     desn_neg_ruta decimal CONSTRAINT nn_desn_neg_ruta not null,
     dificultat_ruta number constraint nn_dif_ruta not null,
+    mom_temp_ruta timestamp default SYSTIMESTAMP,
     num_com_ruta number default 0,
     sum_val_ruta number default 0,
     fet_com_ruta number default 0,
@@ -80,7 +81,7 @@ create table COMENTARI(
     constraint ck_valor_info_comen check (valor_info_comen in (1,2,3,4,5)),
     v_pais_comen number check (v_pais_comen in (1,2,3,4,5,null)),
     v_seg_comen number check (v_seg_comen in (1,2,3,4,5,null)),
-    mom_temp_comen date CONSTRAINT nn_mom_temp_com not null,
+    mom_temp_comen timestamp default SYSTIMESTAMP,
     id_usu_comen varchar2(60) constraint fk_usu_comen REFERENCES USUARI,
     id_ruta_comen number constraint fk_ruta_comen REFERENCES RUTA
 );
@@ -93,7 +94,7 @@ create table COMPANYS(
 
 create table FETES(
     id_usu_fetes varchar2(60) constraint fk_usu_fetes REFERENCES USUARI,
-    mom_temp_fetes date not null,
+    mom_temp_fetes timestamp default SYSTIMESTAMP,
     id_ruta_fetes NUMBER constraint fk_ruta_fetes REFERENCES RUTA,
     constraint pk_fetes primary key (id_usu_fetes,mom_temp_fetes)
 );
