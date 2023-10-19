@@ -38,7 +38,7 @@ public interface IGestorBDWikiloc {
     
     void actualitzarPunt(Punt punt) throws IGestorBDWikilocException;
     
-    HashMap<Integer,Punt> obtenirPunts(int ruta) throws IGestorBDWikilocException;
+    HashMap<Integer,Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException;
     
-    
+    boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
 }
