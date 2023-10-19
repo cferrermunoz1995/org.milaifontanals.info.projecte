@@ -158,6 +158,11 @@ public class Ruta {
         }
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Ruta{" + "id=" + id + ", punts=" + punts + ", titol=" + titol + ", description=" + description + ", text=" + text + ", distancia=" + distancia + ", duracio=" + duracio + ", desnivell_positiu=" + desnivell_positiu + ", desnivell_negatiu=" + desnivell_negatiu + ", nota_mitja_valoracio=" + nota_mitja_valoracio + ", dificultat=" + dificultat + ", numPunts=" + numPunts + '}';
+    }
     
     
     

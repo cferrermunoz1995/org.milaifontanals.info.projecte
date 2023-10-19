@@ -120,6 +120,11 @@ public class Punt {
     public Tipus getTipus(){
         return tipus;
     }
+
+    @Override
+    public String toString() {
+        return "Punt{" + "id=" + id + ", ruta=" + ruta + ", nom=" + nom + ", desc=" + desc + ", foto=" + foto + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + ", tipus=" + tipus + '}';
+    }
     
     
     

@@ -72,6 +72,12 @@ public class Usuari {
     public void setFoto(Blob foto) {
         this.foto = foto;
     }
+
+    @Override
+    public String toString() {
+        return "Usuari{" + "email=" + email + ", login=" + login + ", contrasenya=" + contrasenya + ", foto=" + foto + '}';
+    }
+    
     
     
 }

@@ -44,8 +44,15 @@ public class Tipus {
     }
 
     public void setIcona(Blob icona) {
-        if (icona == null)
-            throw new WikilocException("Error en crear Tipus. L'icona no pot ser nul·la");
+//        if (icona == null)
+//            throw new WikilocException("Error en crear Tipus. L'icona no pot ser nul·la");
         this.icona = icona;
     }
+
+    @Override
+    public String toString() {
+        return "Tipus{" + "id=" + id + ", nom=" + nom + ", icona=" + icona + '}';
+    }
+    
+    
 }
