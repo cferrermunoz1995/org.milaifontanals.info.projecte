@@ -74,7 +74,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
      *
      * @throws IGestorBDWikilocException
      */
-    private ConnexioGeneral(String nomFitxerPropietats) throws IGestorBDWikilocException {
+    public ConnexioGeneral(String nomFitxerPropietats) throws IGestorBDWikilocException {
         try {
             Properties props = new Properties();
             props.load(new FileInputStream(nomFitxerPropietats));
@@ -83,6 +83,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
             for (int i = 0; i < claus.length; i++) {
                 valors[i] = props.getProperty(claus[i]);
                 if (valors[i] == null || valors[i].isEmpty()) {
+                    System.out.println(valors[i]);
                     throw new IGestorBDWikilocException("L'arxiu " + nomFitxerPropietats + " no troba la clau " + claus[i]);
                 }
             }
