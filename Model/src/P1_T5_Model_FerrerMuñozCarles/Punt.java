@@ -113,8 +113,12 @@ public class Punt {
         this.altitude = altitude;
     }
 
-    private void setTipus(Tipus tipus) {
+    public void setTipus(Tipus tipus) {
         this.tipus = tipus;
+    }
+    
+    public Tipus getTipus(){
+        return tipus;
     }
     
     

@@ -7,6 +7,8 @@ package P1_T5_InterficiePersistencia_FerrerMuñozCarles;
 import java.util.List;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import P1_T5_Model_FerrerMuñozCarles.Tipus;
+import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import java.util.HashMap;
 import oracle.sql.DATE;
 
@@ -22,23 +24,25 @@ public interface IGestorBDWikiloc {
     
     List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException;
     
-    void actualitzarRuta(Ruta ruta) throws  IGestorBDWikilocException;
+    boolean actualitzarRuta(Ruta ruta) throws  IGestorBDWikilocException;
     
-    void afegirRuta(Ruta ruta) throws IGestorBDWikilocException;
+    boolean afegirRuta(Ruta ruta, Usuari usuari) throws IGestorBDWikilocException;
     
-    void eliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
+    boolean eliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
     
     void validateChanges() throws IGestorBDWikilocException;
     
     void undoChanges() throws IGestorBDWikilocException;
     
-    void crearPunt(Punt punt) throws IGestorBDWikilocException;
+    boolean afegirPunt(Punt punt) throws IGestorBDWikilocException;
     
-    void eliminarPunt(Punt punt) throws IGestorBDWikilocException;
+    boolean eliminarPunt(Punt punt) throws IGestorBDWikilocException;
     
-    void actualitzarPunt(Punt punt) throws IGestorBDWikilocException;
+    boolean actualitzarPunt(Punt punt) throws IGestorBDWikilocException;
     
     HashMap<Integer,Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException;
     
     boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
+    
+    List<Tipus> getListTipus() throws IGestorBDWikilocException;
 }

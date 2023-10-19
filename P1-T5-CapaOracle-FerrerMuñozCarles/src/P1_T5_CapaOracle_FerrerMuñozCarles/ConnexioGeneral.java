@@ -22,6 +22,8 @@ import java.sql.Savepoint;
 import oracle.sql.DATE;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
+import P1_T5_Model_FerrerMuñozCarles.Tipus;
+import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import java.util.HashMap;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -51,6 +53,11 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     private PreparedStatement psInsPunt;
     private PreparedStatement psPossibleElimRuta;
     private PreparedStatement psContrasenya;
+    private PreparedStatement psDelPunt;
+    private PreparedStatement psUpdPunt;
+    private PreparedStatement psInsRuta;
+    private PreparedStatement psUpdRuta;
+    private PreparedStatement psSelPunts;
     
     private ConnexioGeneral() throws WikilocException {
 //        this("Oracle.properties");
@@ -139,7 +146,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
         String sql = "SELECT ruta.id_ruta, ruta.titol_ruta, ruta.distancia_ruta, ruta.descrip_ruta, ruta.id_usuari_ruta, count(punt.nom_punt) as count FROM ruta INNER JOIN punt";
         sql += "ON  ruta.id_ruta = punt.id_ruta_punt ";
         sql += "where \n";
-        sql += "ruta.id_usuari_ruta like 'cferrer1' group by ruta.id_ruta, ruta.titol_ruta, ruta.descrip_ruta, ruta.distancia_ruta, ruta.id_usuari_ruta";
+        sql += "ruta.id_usuari_ruta like ? group by ruta.id_ruta, ruta.titol_ruta, ruta.descrip_ruta, ruta.distancia_ruta, ruta.id_usuari_ruta";
         String sql2 = "select TEXT_LONG_RUTA from ruta where id_ruta like ?";
         try {
             ps = conn.prepareStatement(sql);
@@ -159,7 +166,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
 //                text_long_ruta = rs2.getClob("TEXT_LONG_RUTA");
                 String titol_ruta = rs.getString("titol_ruta");
                 double distancia_ruta = rs.getDouble("ruta.distancia_ruta");
-                rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, ));
+//                rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, ));
             }
         } catch (SQLException ex) {
             throw new IGestorBDWikilocException("Error en iniciar sessió");
@@ -168,17 +175,58 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     }
 
     @Override
-    public void actualitzarRuta(Ruta ruta) throws IGestorBDWikilocException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean actualitzarRuta(Ruta ruta) throws IGestorBDWikilocException {
+        if (psUpdRuta == null){
+            try {
+                psUpdRuta = conn.prepareStatement("upadte RUTA set titol_ruta =?, descrip_ruta=?, TEXT_LONG_RUTA=?, DISTANCIA_RUTA=?, TEMPS_RUTA=?, DESN_POS_RUTA=?, DESN_NEG_RUTA=?, DIFICULTAT_RUTA=? where id_ruta = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar sentència psUpdRuta");
+            }
+        }
+        try {
+            psUpdRuta.setString(1, ruta.getTitol());
+            psUpdRuta.setString(2, ruta.getDescription());
+            psUpdRuta.setString(3,ruta.getText());
+            psUpdRuta.setDouble(4, ruta.getDistancia());
+            psUpdRuta.setDouble(5, ruta.getDuracio());
+            psUpdRuta.setDouble(6, ruta.getDesnivell_positiu());
+            psUpdRuta.setDouble(7, ruta.getDesnivell_negatiu());
+            psUpdRuta.setInt(8, ruta.getDificultat());
+            psUpdRuta.setInt(9,ruta.getId());
+            return psUpdRuta.executeUpdate()==1;
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en inserir ruta: "+ruta.getTitol());
+        }
     }
 
     @Override
-    public void afegirRuta(Ruta ruta) throws IGestorBDWikilocException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean afegirRuta(Ruta ruta, Usuari user) throws IGestorBDWikilocException {
+        if (psInsRuta == null){
+            try {
+                psInsRuta = conn.prepareStatement("insert into RUTA (id_ruta, titol_ruta, descrip_ruta, text_long_ruta, distancia_ruta, temps_ruta, desn_pos_ruta, desn_neg_ruta, dificultat_ruta, id_usuari_ruta) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar sentència psInsRuta");
+            }
+        }
+        try {
+            psInsRuta.setString(1, ruta.getTitol());
+            psInsRuta.setString(2,ruta.getDescription());
+            psInsRuta.setString(3, ruta.getText());
+            psInsRuta.setDouble(4, ruta.getDistancia());
+            psInsRuta.setDouble(5, ruta.getDuracio());
+            psInsRuta.setDouble(6, ruta.getDesnivell_positiu());
+            psInsRuta.setDouble(7, ruta.getDesnivell_negatiu());
+            psInsRuta.setInt(8, ruta.getDificultat());
+            psInsRuta.setString(9,user.getLogin());
+            //TODO
+            return psInsRuta.executeUpdate()==1;
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en inserir Ruta: "+ruta.getTitol());
+        }
     }
 
     @Override
-    public void eliminarRuta(Ruta ruta) throws IGestorBDWikilocException {
+    public boolean eliminarRuta(Ruta ruta) throws IGestorBDWikilocException {
         if (psDelRuta == null){
             try {
                 psDelRuta = conn.prepareStatement("Delete from ruta where id_ruta = ?");
@@ -190,7 +238,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
         try {
             sp = conn.setSavepoint();
             psDelRuta.setInt(1,ruta.getId());
-            psDelRuta.executeUpdate();
+            return psDelRuta.executeUpdate()==1;
         } catch (SQLException ex) {
             if (sp != null) {
                 try {
@@ -203,7 +251,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     }
 
     @Override
-    public void crearPunt(Punt punt) throws IGestorBDWikilocException {
+    public boolean afegirPunt(Punt punt) throws IGestorBDWikilocException {
         if (psInsPunt == null){
             try {
                 psDelRuta = conn.prepareStatement("insert into punt (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values (null,?,?,?,null,?,?,?,?)");
@@ -217,24 +265,82 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
             psInsPunt.setString(3,punt.getDesc());
 //            psInsPunt.setBlob(4, punt.getFoto()); //canviar valor al ps i valor als següents sets
             psInsPunt.setDouble(4, punt.getLatitude());
+            psInsPunt.setDouble(5, punt.getLongitude());
+            psInsPunt.setInt(6, punt.getTipus().getId());
+            psInsPunt.setDouble(7, punt.getAltitude());
+            return psInsPunt.executeUpdate()==1;
         } catch (SQLException ex) {
             throw new IGestorBDWikilocException("Error en intentar inserir punt: "+punt.getNom());
         }
     }
 
     @Override
-    public void eliminarPunt(Punt punt) throws IGestorBDWikilocException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarPunt(Punt punt) throws IGestorBDWikilocException {
+        if (psDelPunt == null){
+            try {
+                psContrasenya = conn.prepareStatement("delete from punt where id_ruta_punt = ? and num_punt = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en iniciar psDelPunt");
+            } 
+        }
+        Savepoint sp = null;
+        try {
+            sp = conn.setSavepoint();
+            psDelPunt.setInt(1, punt.getRuta().getId());
+            psDelPunt.setInt(2, punt.getId());
+            return psDelPunt.executeUpdate()==1;
+        } catch (SQLException ex) {
+            if (sp != null) {
+                try {
+                    conn.rollback(sp);
+                } catch (SQLException ex1) {
+                }
+            }
+            throw new IGestorBDWikilocException("Error en eliminar punt: "+punt.getNom());
+        }
     }
 
     @Override
-    public void actualitzarPunt(Punt punt) throws IGestorBDWikilocException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean actualitzarPunt(Punt punt) throws IGestorBDWikilocException {
+        if (psUpdPunt == null){
+            try {
+                psUpdPunt = conn.prepareStatement("UPDATE punt SET nom_punt = ?, desc_punt = ?, lat_punt = ?, lon_punt=?, alt_punt=?, TIPUS_PUNT=? WHERE id_ruta_punt = ? and num_punt = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en crear psUpdPunt");
+            } 
+        }
+        try {
+            psUpdPunt.setString(1, punt.getNom());
+            psUpdPunt.setString(2, punt.getDesc());
+            psUpdPunt.setDouble(3, punt.getLatitude());
+            psUpdPunt.setDouble(4, punt.getLongitude());
+            psUpdPunt.setDouble(5, punt.getAltitude());
+            psUpdPunt.setInt(6, punt.getTipus().getId());
+            psUpdPunt.setInt(7, punt.getId());
+            psUpdPunt.setInt(8, punt.getRuta().getId());
+            return psUpdPunt.executeUpdate()==1;
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en eliminar punt: "+punt.getNom());
+        }
     }
 
     @Override
     public HashMap<Integer,Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        HashMap<Integer,Punt> punts = new HashMap<>();
+        if (psSelPunts == null){
+            try {
+                psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en crear psSelPunts");
+            }
+        }
+        try {
+            psSelPunts.setInt(1, ruta.getId());
+            ResultSet rs = psSelPunts.executeQuery();
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en conseguir punts de la ruta: "+ruta.getTitol());
+        }
+        return punts;
     }
 
     @Override
@@ -256,6 +362,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
         }
     }
     
+    @Override
     public boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException{
         if (psPossibleElimRuta == null) {
             try {
@@ -271,6 +378,24 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
         } catch (SQLException ex) {
             throw new IGestorBDWikilocException("Error en saber si la ruta es pot eliminar");
         }
+    }
+    
+    @Override
+    public List<Tipus> getListTipus(){
+        Statement q = null;
+        ArrayList<Tipus> tipus = new ArrayList<>();
+        try {
+            q = conn.createStatement();
+            ResultSet rs = q.executeQuery("select * from tipus");
+            while(rs.next()){
+                tipus.add(new Tipus(rs.getInt("ID_TIPUS"), rs.getString("NOM_TIPUS"),null));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            throw new IGestorBDWikilocException("Error en recuperar tipus de punt");
+        }
+        
+        return tipus;
     }
     
     

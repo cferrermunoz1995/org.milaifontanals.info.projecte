@@ -18,7 +18,7 @@ public class Ruta {
     private HashMap<Integer,Punt> punts;
     private String titol;
     private String description;
-    private Clob text;
+    private String text;
     private double distancia;
     private double duracio;
     private double desnivell_positiu;
@@ -29,7 +29,7 @@ public class Ruta {
 
     
 
-    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, Clob text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description) {
+    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description) {
         setId(id);
         setPunts(punts);
         setTitol(titol);
@@ -71,17 +71,12 @@ public class Ruta {
         this.titol = titol;
     }
 
-    public Clob getText() {
+    public String getText() {
         return text;
     }
 
-    public void setText(Clob text) {
-        long zero = 0;
-        try {
-            if (text == null || text.length() ==  zero){
-                throw new WikilocException("Error en crear Ruta. Text no vàlid");
-            }
-        } catch (SQLException ex) {
+    public void setText(String text) {
+        if (text == null || text.length() == 0){
             throw new WikilocException("Error en crear Ruta. Text no vàlid");
         }
         this.text = text;
