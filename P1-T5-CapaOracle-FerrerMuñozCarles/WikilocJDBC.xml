@@ -3,6 +3,6 @@
 <properties>
     <comment>Propietats per connectar via JDBC</comment>
     <entry key="url">jdbc:oracle:thin:@localhost:1521/XEPDB1</entry>
-    <entry key="user">empresa</entry>
-    <entry key="password">empresa</entry>
+    <entry key="user">p1</entry>
+    <entry key="password">p1</entry>
 </properties>

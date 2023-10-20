@@ -77,7 +77,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
     public ConnexioGeneral(String nomFitxerPropietats) throws IGestorBDWikilocException {
         try {
             Properties props = new Properties();
-            props.load(new FileInputStream(nomFitxerPropietats));
+            props.loadFromXML(new FileInputStream(nomFitxerPropietats));
             String[] claus = {"url", "user", "password"};
             String[] valors = new String[3];
             for (int i = 0; i < claus.length; i++) {
@@ -89,6 +89,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
             }
             conn = DriverManager.getConnection(valors[0], valors[1], valors[2]);
             conn.setAutoCommit(false);
+            System.out.println("Sessió iniciada");
         } catch (IOException ex) {
             throw new IGestorBDWikilocException("Problemes en recuperar l'arxiu de configuració " + nomFitxerPropietats + "\n" + ex.getMessage());
         } catch (SQLException ex) {
@@ -393,9 +394,10 @@ public class ConnexioGeneral implements IGestorBDWikiloc{
             }
             rs.close();
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new IGestorBDWikilocException("Error en recuperar tipus de punt");
+            
         }
-        
         return tipus;
     }
     

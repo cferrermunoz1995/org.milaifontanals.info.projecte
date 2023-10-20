@@ -30,9 +30,15 @@ public class Proves {
             System.out.println("Avortem programa");
             return;
         }
-        mostrarRutes(new Usuari("cferrer1","cferrer1","cferrer1"));
-        mostratTipus();
+        //mostrarRutes(new Usuari("cferrer1","cferrer1","cferrer1"));
+        mostrarTipus();
         System.out.println("");
+        if (gBD.comprovarContrasenya("cferrer1", "cferrer1")){
+            System.out.println("He entrat");
+        } else {
+            System.out.println("xd");
+            
+        }
         //Prova afegir ruta
         //Prova afegir Punt
         //Prova Eliminar Punt
@@ -55,14 +61,14 @@ public class Proves {
         }
     }
 
-    private static void mostratTipus() {
+    private static void mostrarTipus() {
         try {
             System.out.println("Recuperació de Rutes");
             List<Tipus> tipus = gBD.getListTipus();
             if (tipus.isEmpty()){
                 System.out.println("No hi ha tipus");
             } else {
-                System.out.println("Liista de tipus:");
+                System.out.println("Llista de tipus:");
                 for (Tipus t : tipus){
                     System.out.println(t);
                 }
