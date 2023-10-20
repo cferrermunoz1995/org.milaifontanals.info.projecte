@@ -32,8 +32,8 @@ public class Proves {
         }
         List<Tipus> tipus = gBD.getListTipus();
         Usuari user = new Usuari("cferrer1","cferrer1","cferrer1");
-        Ruta r1 = new Ruta(1,null,"Títol","Text", 10, 10,10,10,1,5,4,"Descripció");
-        gBD.validateChanges();
+        Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,5,4,"Descripció");
+        
         Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
         //mostrarRutes(new Usuari("cferrer1","cferrer1","cferrer1"));
         mostrarTipus(tipus);
@@ -48,33 +48,40 @@ public class Proves {
         System.out.println("Prova afegir ruta");
         if (gBD.afegirRuta(r1, user)){
             System.out.println("Ruta afegida");
+            System.out.println(r1);
         } else {
             System.out.println("Ruta no afegida");
         }
+        gBD.validateChanges();
         //Prova afegir Punt
         if (gBD.afegirPunt(p1)){
             System.out.println("Punt afegit");
         } else {
             System.out.println("Punt no afegit");
         }
+        gBD.validateChanges();
         //Prova Eliminar Punt
         if (gBD.eliminarPunt(p1)){
             System.out.println("Punt eliminat");
         } else {
             System.out.println("Punt no eliminat");
         }
+        gBD.validateChanges();
         //Prova podem eliminar ruta, útil en el cas de que estiguem mirant si la ruta té comentaris
+        System.out.println("Prova podemEliminarRuta");
         if (gBD.podemEliminarRuta(r1)){
             System.out.println("Ruta possible eliminar");
         } else {
             System.out.println("Ruta no possible eliminar");
         }
+        gBD.validateChanges();
         //Prova eliminar Ruta
         if (gBD.eliminarRuta(r1)){
             System.out.println("Ruta eliminada");
         } else {
             System.out.println("Ruta no eliminada");
         }
+        gBD.validateChanges();
     }
 
     private static void mostrarRutes(Usuari usuari) {
