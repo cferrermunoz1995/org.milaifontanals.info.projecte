@@ -5,6 +5,7 @@
 package Proves;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
@@ -19,7 +20,6 @@ public class Proves {
     private static ConnexioGeneral gBD;
     
     public static void main(String[] args) {
-        Ruta r1 = new Ruta(1,null,"Títol","Text", 10, 10,10,10,1,5,4,"Descripció");
         try {
             System.out.println("Intent de creació de la capa");
             gBD = new ConnexioGeneral("WikilocJDBC.xml");
@@ -30,8 +30,13 @@ public class Proves {
             System.out.println("Avortem programa");
             return;
         }
+        List<Tipus> tipus = gBD.getListTipus();
+        Usuari user = new Usuari("cferrer1","cferrer1","cferrer1");
+        Ruta r1 = new Ruta(1,null,"Títol","Text", 10, 10,10,10,1,5,4,"Descripció");
+        gBD.validateChanges();
+        Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
         //mostrarRutes(new Usuari("cferrer1","cferrer1","cferrer1"));
-        mostrarTipus();
+        mostrarTipus(tipus);
         System.out.println("");
         if (gBD.comprovarContrasenya("cferrer1", "cferrer1")){
             System.out.println("He entrat");
@@ -40,8 +45,36 @@ public class Proves {
             
         }
         //Prova afegir ruta
+        System.out.println("Prova afegir ruta");
+        if (gBD.afegirRuta(r1, user)){
+            System.out.println("Ruta afegida");
+        } else {
+            System.out.println("Ruta no afegida");
+        }
         //Prova afegir Punt
+        if (gBD.afegirPunt(p1)){
+            System.out.println("Punt afegit");
+        } else {
+            System.out.println("Punt no afegit");
+        }
         //Prova Eliminar Punt
+        if (gBD.eliminarPunt(p1)){
+            System.out.println("Punt eliminat");
+        } else {
+            System.out.println("Punt no eliminat");
+        }
+        //Prova podem eliminar ruta, útil en el cas de que estiguem mirant si la ruta té comentaris
+        if (gBD.podemEliminarRuta(r1)){
+            System.out.println("Ruta possible eliminar");
+        } else {
+            System.out.println("Ruta no possible eliminar");
+        }
+        //Prova eliminar Ruta
+        if (gBD.eliminarRuta(r1)){
+            System.out.println("Ruta eliminada");
+        } else {
+            System.out.println("Ruta no eliminada");
+        }
     }
 
     private static void mostrarRutes(Usuari usuari) {
@@ -61,10 +94,9 @@ public class Proves {
         }
     }
 
-    private static void mostrarTipus() {
+    private static void mostrarTipus(List<Tipus> tipus) {
         try {
             System.out.println("Recuperació de Rutes");
-            List<Tipus> tipus = gBD.getListTipus();
             if (tipus.isEmpty()){
                 System.out.println("No hi ha tipus");
             } else {
