@@ -183,7 +183,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     public boolean actualitzarRuta(Ruta ruta) throws IGestorBDWikilocException {
         if (psUpdRuta == null) {
             try {
-                psUpdRuta = conn.prepareStatement("upadte RUTA set titol_ruta =?, descrip_ruta=?, TEXT_LONG_RUTA=?, DISTANCIA_RUTA=?, TEMPS_RUTA=?, DESN_POS_RUTA=?, DESN_NEG_RUTA=?, DIFICULTAT_RUTA=? where id_ruta = ?");
+                psUpdRuta = conn.prepareStatement("update RUTA set titol_ruta =?, descrip_ruta=?, TEXT_LONG_RUTA=?, DISTANCIA_RUTA=?, TEMPS_RUTA=?, DESN_POS_RUTA=?, DESN_NEG_RUTA=?, DIFICULTAT_RUTA=? where id_ruta = ?");
             } catch (SQLException ex) {
                 throw new IGestorBDWikilocException("Error en preparar sentència psUpdRuta");
             }

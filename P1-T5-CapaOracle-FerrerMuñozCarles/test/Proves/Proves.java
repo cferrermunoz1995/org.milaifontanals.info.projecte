@@ -32,25 +32,31 @@ public class Proves {
         }
         List<Tipus> tipus = gBD.getListTipus();
         Usuari user = new Usuari("cferrer1","cferrer1","cferrer1");
-        Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,5,4,"Descripció");
+        Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,0,4,"Descripció");
         
         Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
-        //mostrarRutes(new Usuari("cferrer1","cferrer1","cferrer1"));
+        
         mostrarTipus(tipus);
-        System.out.println("");
         if (gBD.comprovarContrasenya("cferrer1", "cferrer1")){
             System.out.println("He entrat");
         } else {
             System.out.println("xd");
-            
         }
         //Prova afegir ruta
         System.out.println("Prova afegir ruta");
         if (gBD.afegirRuta(r1, user)){
-            System.out.println("Ruta afegida");
-            System.out.println(r1);
+            System.out.println("Ruta afegida: "+r1);
         } else {
             System.out.println("Ruta no afegida");
+        }
+        gBD.validateChanges();
+        //Prova update ruta canviem el text
+        r1.setText("Prova update ruta");
+        r1.setTitol("Títol update");
+        if (gBD.actualitzarRuta(r1)){
+            System.out.println("Ruta update: "+r1);
+        } else {
+            System.out.println("Punt no afegit");
         }
         gBD.validateChanges();
         //Prova afegir Punt
@@ -70,9 +76,9 @@ public class Proves {
         //Prova podem eliminar ruta, útil en el cas de que estiguem mirant si la ruta té comentaris
         System.out.println("Prova podemEliminarRuta");
         if (gBD.podemEliminarRuta(r1)){
-            System.out.println("Ruta possible eliminar");
-        } else {
             System.out.println("Ruta no possible eliminar");
+        } else {
+            System.out.println("Ruta possible eliminar");
         }
         gBD.validateChanges();
         //Prova eliminar Ruta
@@ -82,12 +88,13 @@ public class Proves {
             System.out.println("Ruta no eliminada");
         }
         gBD.validateChanges();
+        mostrarRutes(user);
     }
 
     private static void mostrarRutes(Usuari usuari) {
         try {
             System.out.println("Recuperació de Rutes");
-            List<Ruta> rutes = gBD.obtenirLlistaRuta(usuari.getLogin(), null, null, "");
+            List<Ruta> rutes = gBD.obtenirLlistaRuta(usuari.getLogin(), null, null, null);
             if (rutes.isEmpty()){
                 System.out.println("No hi ha rutes");
             } else {
