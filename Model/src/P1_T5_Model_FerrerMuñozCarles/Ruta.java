@@ -4,18 +4,20 @@
  */
 package P1_T5_Model_FerrerMuñozCarles;
 
-import java.util.HashMap;
+
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Timestamp;
 /**
  *
  * @author isard
  */
 public class Ruta {
     private int id;//obligatori
-    private HashMap<Integer,Punt> punts;
+    private List<Punt> punts;
     private String titol;
     private String description;
     private String text;
@@ -26,10 +28,12 @@ public class Ruta {
     private double nota_mitja_valoracio;
     private int dificultat;
     private int numPunts;
+    private String usuari;
+    private Timestamp data_creacio;
 
     
 
-    public Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description) {
+    public Ruta(int id, List<Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description, String usuari, Timestamp data_creacio) {
         setId(id);
         setPunts(punts);
         setTitol(titol);
@@ -42,6 +46,8 @@ public class Ruta {
         setNumPunts(numPunts);
         setNota_mitja_valoracio(nota_mitja_valoracio);
         setDescription(description);
+        setUsuari(usuari);
+        setData_creacio(data_creacio);
     }
 
     public int getId() {
@@ -52,11 +58,11 @@ public class Ruta {
         this.id = id;
     }
 
-    public HashMap<Integer, Punt> getPunts() {
+    public List<Punt> getPunts() {
         return punts;
     }
 
-    public void setPunts(HashMap<Integer, Punt> punts) {
+    public void setPunts(List<Punt> punts) {
         this.punts = punts;
     }
 
@@ -158,6 +164,24 @@ public class Ruta {
         }
         this.description = description;
     }
+
+    public String getUsuari() {
+        return usuari;
+    }
+
+    public void setUsuari(String usuari) {
+        this.usuari = usuari;
+    }
+
+    public Timestamp getData_creacio() {
+        return data_creacio;
+    }
+
+    public void setData_creacio(Timestamp data_creacio) {
+        this.data_creacio = data_creacio;
+    }
+    
+    
 
     @Override
     public String toString() {

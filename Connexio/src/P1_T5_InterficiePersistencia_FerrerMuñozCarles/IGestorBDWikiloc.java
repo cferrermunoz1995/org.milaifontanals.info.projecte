@@ -40,7 +40,7 @@ public interface IGestorBDWikiloc {
     
     boolean actualitzarPunt(Punt punt) throws IGestorBDWikilocException;
     
-    HashMap<Integer,Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException;
+    List<Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException;
     
     boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
     

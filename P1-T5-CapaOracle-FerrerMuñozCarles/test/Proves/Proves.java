@@ -10,6 +10,8 @@ import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public class Proves {
         }
         List<Tipus> tipus = gBD.getListTipus();
         Usuari user = new Usuari("cferrer1","cferrer1","cferrer1");
-        Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,0,4,"Descripció");
+        Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,0,4,"Descripció", "cferrer1", new Timestamp(System.currentTimeMillis()));
         
         Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
         
@@ -66,6 +68,21 @@ public class Proves {
             System.out.println("Punt no afegit");
         }
         gBD.validateChanges();
+        //Prova actualitzar Punt
+        p1.setDesc("Punt update desc");
+        p1.setNom("Nom update punt");
+        if (gBD.actualitzarPunt(p1)){
+            System.out.println("Punt actualitzat");
+        } else {
+            System.out.println("Punt no actualitzat");
+        }
+        System.out.println(p1);
+        gBD.validateChanges();
+        System.out.println("Punts");
+        List<Punt> punts = gBD.obtenirPunts(r1);
+        for (int i=0; i<punts.size();i++){
+            System.out.println(punts.get(i));
+        }
         //Prova Eliminar Punt
         if (gBD.eliminarPunt(p1)){
             System.out.println("Punt eliminat");
@@ -88,6 +105,7 @@ public class Proves {
             System.out.println("Ruta no eliminada");
         }
         gBD.validateChanges();
+        
         mostrarRutes(user);
     }
 

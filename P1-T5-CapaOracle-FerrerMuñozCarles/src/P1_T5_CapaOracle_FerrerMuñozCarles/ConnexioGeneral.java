@@ -24,6 +24,7 @@ import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -60,6 +61,9 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     private PreparedStatement psInsRuta;
     private PreparedStatement psUpdRuta;
     private PreparedStatement psSelPunts;
+    private PreparedStatement psGetRuta;
+    private PreparedStatement psGetTipus;
+    private PreparedStatement psGetRutesFilter;
 
     private ConnexioGeneral() throws WikilocException {
 //        this("Oracle.properties");
@@ -145,38 +149,85 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     @Override
     public List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException {
         List<Ruta> rutes = new ArrayList<>();
-        PreparedStatement ps = null;
         PreparedStatement ps2 = null;
-        String sql = "SELECT ruta.id_ruta, ruta.titol_ruta, ruta.distancia_ruta, ruta.descrip_ruta, ruta.id_usuari_ruta, count(punt.nom_punt) as count FROM ruta INNER JOIN punt";
-        sql += "ON  ruta.id_ruta = punt.id_ruta_punt ";
-        sql += "where \n";
-        sql += "ruta.id_usuari_ruta like ? group by ruta.id_ruta, ruta.titol_ruta, ruta.descrip_ruta, ruta.distancia_ruta, ruta.id_usuari_ruta";
-        String sql2 = "select TEXT_LONG_RUTA from ruta where id_ruta like ?";
+        String sql = "SELECT \n"
+                + "    ruta.id_ruta, \n"
+                + "    ruta.titol_ruta, \n"
+                + "    ruta.distancia_ruta,\n"
+                + "    ruta.id_usuari_ruta,\n"
+                + "    ruta.descrip_ruta,\n"
+                + "    ruta.temps_ruta,\n"
+                + "    ruta.desn_neg_ruta,\n"
+                + "    ruta.desn_pos_ruta,\n"
+                + "    ruta.dificultat_ruta,\n"
+                + "    ruta.mom_temp_ruta,\n"
+                + "    ruta.sum_val_ruta,\n"
+                + "    ruta.num_com_ruta,\n"
+                + "    count(punt.nom_punt) as count\n"
+                + "FROM \n"
+                + "    ruta\n"
+                + "INNER JOIN \n"
+                + "    punt\n"
+                + "ON \n"
+                + "    ruta.id_ruta = punt.id_ruta_punt\n"
+                + "where \n"
+                + "    ruta.id_usuari_ruta like ?\n"
+                + "group by ruta.id_ruta, \n"
+                + "    ruta.titol_ruta,\n"
+                + "    ruta.temps_ruta,\n"
+                + "    ruta.descrip_ruta,\n"
+                + "    ruta.distancia_ruta,\n"
+                + "    ruta.desn_neg_ruta,\n"
+                + "    ruta.desn_pos_ruta,\n"
+                + "    ruta.sum_val_ruta,\n"
+                + "    ruta.num_com_ruta,\n"
+                + "    ruta.dificultat_ruta,\n"
+                + "    ruta.mom_temp_ruta,\n"
+                + "    ruta.id_usuari_ruta";
+        String sql2 = "select TEXT_LONG_RUTA from ruta where id_ruta = ?";
+        if (psGetRutesFilter == null){
+            try {
+                psGetRutesFilter = conn.prepareStatement(sql);
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar psGetRutesFilter");
+            }
+        }
         try {
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, usuari);
-            ResultSet rs = ps.executeQuery();
+            psGetRutesFilter.setString(1, usuari);
+            ResultSet rs = psGetRutesFilter.executeQuery();
             while (rs.next()) {
                 //Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, 
                 //double desnivell_negatiu, int dificultat, int numPunts, double nota_mitja_valoracio, String description)
-                int sum_val_ruta = rs.getInt("ruta.sum_val_ruta");
-                int num_com_ruta = rs.getInt("ruta.num_com_ruta");
-                int id = rs.getInt("ruta.id_ruta");
+                int sum_val_ruta = rs.getInt("sum_val_ruta");
+                int num_com_ruta = rs.getInt("num_com_ruta");
+                int id = rs.getInt("id_ruta");
                 ps2 = conn.prepareStatement(sql2);
                 ps2.setInt(1, id);
-                ResultSet rs2 = ps.executeQuery();
+                ResultSet rs2 = ps2.executeQuery();
                 rs2.next();
-                String text_long_ruta;
-//                text_long_ruta = rs2.getClob("TEXT_LONG_RUTA");
+                String text_long_ruta = rs2.getString("TEXT_LONG_RUTA");
+                rs2.close();
                 String titol_ruta = rs.getString("titol_ruta");
-                double distancia_ruta = rs.getDouble("ruta.distancia_ruta");
-//                rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, ));
+                double distancia_ruta = rs.getDouble("distancia_ruta");
+                double duracio = rs.getDouble("temps_ruta");
+                double des_pos = rs.getDouble("desn_pos_ruta");
+                double des_neg = rs.getDouble("desn_neg_ruta");
+                int dificultat = rs.getInt("dificultat_ruta");
+                int numpunts = rs.getInt("count");
+                String descrip = rs.getString("descrip_ruta");
+                Timestamp ts = rs.getTimestamp("mom_temp_ruta");
+                if (num_com_ruta>0){
+                    rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, duracio, des_pos, des_neg, dificultat, numpunts, sum_val_ruta / num_com_ruta, descrip, usuari, ts));
+                } else {
+                    rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, duracio, des_pos, des_neg, dificultat, numpunts, 0, descrip, usuari, ts));
+                }
+                
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new IGestorBDWikilocException("Error en iniciar sessió");
         }
-        return null;
+        return rutes;
     }
 
     @Override
@@ -211,7 +262,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             try {
                 psInsRuta = conn.prepareStatement("insert into RUTA (id_ruta, titol_ruta, descrip_ruta, text_long_ruta, distancia_ruta, "
                         + "temps_ruta, desn_pos_ruta, desn_neg_ruta, dificultat_ruta, id_usuari_ruta) "
-                        + "values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new String[] {"id_ruta"});
+                        + "values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new String[]{"id_ruta"});
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new IGestorBDWikilocException("Error en preparar sentència psInsRuta");
@@ -237,7 +288,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             } else {
                 System.out.println("caca");
             }
-            
+
             return res;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -290,7 +341,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psInsPunt.setDouble(5, punt.getLongitude());
             psInsPunt.setInt(6, punt.getTipus().getId());
             psInsPunt.setDouble(7, punt.getAltitude());
-            boolean res =psInsPunt.executeUpdate() == 1;
+            boolean res = psInsPunt.executeUpdate() == 1;
             ResultSet generatedKeys = psInsPunt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int generatedId = generatedKeys.getInt(1);
@@ -361,8 +412,8 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     }
 
     @Override
-    public HashMap<Integer, Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException {
-        HashMap<Integer, Punt> punts = new HashMap<>();
+    public List<Punt> obtenirPunts(Ruta ruta) throws IGestorBDWikilocException {
+        List<Punt> punts = new ArrayList<>();
         if (psSelPunts == null) {
             try {
                 psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ?");
@@ -374,6 +425,19 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         try {
             psSelPunts.setInt(1, ruta.getId());
             ResultSet rs = psSelPunts.executeQuery();
+            while (rs.next()) {
+                int num_punt = rs.getInt("num_punt");
+                int id_ruta_punt = rs.getInt("id_ruta_punt");
+                String nom_punt = rs.getString("nom_punt");
+                String desc_punt = rs.getString("desc_punt");
+                double lat_punt = rs.getDouble("lat_punt");
+                double lon_punt = rs.getDouble("lon_punt");
+                double alt_punt = rs.getDouble("alt_punt");
+                int tipus = rs.getInt("tipus_punt");
+                Punt p = new Punt(num_punt, this.getRutaBD(ruta.getId()), nom_punt, desc_punt, null, lat_punt, lon_punt, alt_punt, this.getTipusBD(tipus));
+                punts.add(p);
+            }
+            rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new IGestorBDWikilocException("Error en conseguir punts de la ruta: " + ruta.getTitol());
@@ -441,4 +505,67 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         return tipus;
     }
 
+    private Ruta getRutaBD(int id_ruta) {
+        Ruta r = null;
+        if (psGetRuta == null) {
+            try {
+                psGetRuta = conn.prepareStatement("select * from ruta where id_ruta = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar psGetRuta");
+            }
+        }
+        try {
+            psGetRuta.setInt(1, id_ruta);
+            ResultSet rs = psGetRuta.executeQuery();
+            while (rs.next()) {
+                String titol = rs.getString("titol_ruta");
+                String text = rs.getString("text_long_ruta");
+                String desc = rs.getString("descrip_ruta");
+                double dist_ruta = rs.getDouble("distancia_ruta");
+                double temps_rtua = rs.getDouble("temps_ruta");
+                double des_pos = rs.getDouble("desn_pos_ruta");
+                double des_neg = rs.getDouble("desn_neg_ruta");
+                int dificultat = rs.getInt("dificultat_ruta");
+                Timestamp mom_temp = rs.getTimestamp("mom_temp_ruta");
+                String usuari = rs.getString("id_usuari_ruta");
+                int num_com_ruta = rs.getInt("num_com_ruta");
+                int sum_val_ruta = rs.getInt("sum_val_ruta");
+                if (num_com_ruta>0){
+                    r = new Ruta(id_ruta, null, titol, text, dist_ruta, temps_rtua, des_pos, des_neg, dificultat, 0, sum_val_ruta / num_com_ruta, desc, usuari, mom_temp);
+                } else {
+                    r = new Ruta(id_ruta, null, titol, text, dist_ruta, temps_rtua, des_pos, des_neg, dificultat, 0, 0, desc, usuari, mom_temp);
+                }
+            }
+                
+            rs.close();
+            return r;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new IGestorBDWikilocException("Error en recuperar ruta: " + id_ruta);
+        }
+    }
+
+    private Tipus getTipusBD(int id_tipus) {
+        Tipus t = null;
+        if (psGetTipus == null) {
+            try {
+                psGetTipus = conn.prepareStatement("select * from tipus where id_tipus = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar psGetTipus");
+            }
+        }
+        try {
+            psGetTipus.setInt(1, id_tipus);
+            ResultSet rs = psGetTipus.executeQuery();
+            while (rs.next()) {
+                String nom_tipus = rs.getString("nom_tipus");
+                t = new Tipus(id_tipus, nom_tipus, null);
+            }
+            rs.close();
+            return t;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new IGestorBDWikilocException("Error en recuperar tipus: " + id_tipus);
+        }
+    }
 }
