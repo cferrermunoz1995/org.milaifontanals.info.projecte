@@ -10,7 +10,7 @@ import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import java.util.HashMap;
-import oracle.sql.DATE;
+import java.sql.Timestamp;
 
 /**
  *
@@ -22,7 +22,7 @@ public interface IGestorBDWikiloc {
     
     boolean comprovarContrasenya(String login, String contrasenya);
     
-    List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException;
+    List<Ruta> obtenirLlistaRuta(String usuari, Timestamp date_inici, Timestamp data_final, String nom) throws IGestorBDWikilocException;
     
     boolean actualitzarRuta(Ruta ruta) throws  IGestorBDWikilocException;
     
@@ -45,4 +45,8 @@ public interface IGestorBDWikiloc {
     boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
     
     List<Tipus> getListTipus() throws IGestorBDWikilocException;
+    
+    Tipus getTipusBD(int id_tipus) throws IGestorBDWikilocException;
+    
+    Ruta getRutaBD(int id_ruta) throws IGestorBDWikilocException;
 }

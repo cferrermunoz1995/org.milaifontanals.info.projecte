@@ -16,21 +16,15 @@ import java.util.Properties;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.util.List;
 import java.sql.ResultSet;
-import oracle.sql.BLOB;
-import oracle.sql.CLOB;
 import java.sql.Savepoint;
-import oracle.sql.DATE;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -146,8 +140,8 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
-    @Override
-    public List<Ruta> obtenirLlistaRuta(String usuari, DATE date_inici, DATE data_final, String nom) throws IGestorBDWikilocException {
+
+    public List<Ruta> obtenirLlistaRuta(String usuari, Timestamp date_inici, Timestamp data_final, String nom) throws IGestorBDWikilocException {
         List<Ruta> rutes = new ArrayList<>();
         PreparedStatement ps2 = null;
         String sql = "SELECT \n"
@@ -505,7 +499,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         return tipus;
     }
 
-    private Ruta getRutaBD(int id_ruta) {
+    public Ruta getRutaBD(int id_ruta) {
         Ruta r = null;
         if (psGetRuta == null) {
             try {
@@ -545,7 +539,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
-    private Tipus getTipusBD(int id_tipus) {
+    public Tipus getTipusBD(int id_tipus) {
         Tipus t = null;
         if (psGetTipus == null) {
             try {
