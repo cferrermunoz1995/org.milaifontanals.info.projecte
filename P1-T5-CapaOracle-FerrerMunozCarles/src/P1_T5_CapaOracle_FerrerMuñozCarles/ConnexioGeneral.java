@@ -165,7 +165,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
                 + "ON \n"
                 + "    ruta.id_ruta = punt.id_ruta_punt\n"
                 + "where \n"
-                + "    ruta.id_usuari_ruta like ?\n"
+                + "    ruta.id_usuari_ruta like ?\n"//falta timestamps i nom
                 + "group by ruta.id_ruta, \n"
                 + "    ruta.titol_ruta,\n"
                 + "    ruta.temps_ruta,\n"
