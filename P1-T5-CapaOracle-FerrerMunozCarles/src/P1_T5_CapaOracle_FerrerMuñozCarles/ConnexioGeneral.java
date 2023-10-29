@@ -21,10 +21,13 @@ import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
+import com.sun.source.tree.BreakTree;
 import java.sql.Timestamp;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,20 +61,23 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     private PreparedStatement psGetRuta;
     private PreparedStatement psGetTipus;
     private PreparedStatement psGetRutesFilter;
+    private PreparedStatement psChangePunts;
+    private PreparedStatement psChangePuntsMax;
 
     private ConnexioGeneral() throws WikilocException {
-//        this("Oracle.properties");
+        this("WikilocJDBC.xml");
     }
 
     /**
-     * Estableix la connexió amb la BD. Les dades que necessita (url, usuari i
-     * contrasenya) es llegiran d'un fitxer de configuració anomenat
-     * empresaJDBC.xml" que cercarà a l'arrel de l'aplicació i que ha de
-     * contenir les següents claus: url, user, password
+     * Estableix la connexió amb la BD.Les dades que necessita (url, usuari i
+ contrasenya) es llegiran d'un fitxer de configuració anomenat
+ empresaJDBC.xml" que cercarà a l'arrel de l'aplicació i que ha de
+ contenir les següents claus: url, user, password
+
+ En cas que l'aplicació s'executés en Java anterior a 1.6, caldria també
+ passar el nom de la classe JDBC que permet la connexió amb el SGBDR.
      *
-     * En cas que l'aplicació s'executés en Java anterior a 1.6, caldria també
-     * passar el nom de la classe JDBC que permet la connexió amb el SGBDR.
-     *
+     * @param nomFitxerPropietats
      * @throws IGestorBDWikilocException
      */
     public ConnexioGeneral(String nomFitxerPropietats) throws IGestorBDWikilocException {
@@ -109,6 +115,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
      *
      * @throws IGestorBDWikilocException
      */
+    @Override
     public void close() throws IGestorBDWikilocException {
         if (conn != null) {
             try {
@@ -124,6 +131,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
+    @Override
     public void validateChanges() throws IGestorBDWikilocException {
         try {
             conn.commit();
@@ -132,6 +140,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
+    @Override
     public void undoChanges() throws IGestorBDWikilocException {
         try {
             conn.commit();
@@ -141,6 +150,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     }
 
 
+    @Override
     public List<Ruta> obtenirLlistaRuta(String usuari, Timestamp data_inici, Timestamp data_final, String nom) throws IGestorBDWikilocException {
         List<Ruta> rutes = new ArrayList<>();
         PreparedStatement ps2 = null;
@@ -507,6 +517,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         return tipus;
     }
 
+    @Override
     public Ruta getRutaBD(int id_ruta) {
         Ruta r = null;
         if (psGetRuta == null) {
@@ -547,6 +558,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
+    @Override
     public Tipus getTipusBD(int id_tipus) {
         Tipus t = null;
         if (psGetTipus == null) {
@@ -568,6 +580,63 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new IGestorBDWikilocException("Error en recuperar tipus: " + id_tipus);
+        }
+    }
+    
+    @Override
+    public void canviarOrdrePunts(Punt p1, Punt p2) {
+        if (!p1.getRuta().equals(p2.getRuta())){
+            throw new IGestorBDWikilocException("Els punts han de ser de la mateixa ruta");
+        }
+        if (psChangePuntsMax == null){
+            try {
+                psChangePuntsMax = conn.prepareStatement("select num_punt from punt where id_ruta_punt = ? order by num_punt desc fetch first 1 row only");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar psChangePuntsMax");
+            }
+        }
+        if (psChangePunts == null){
+            try {
+                psChangePunts = conn.prepareStatement("update punt set num_punt = ? where id_ruta_punt = ? and num_punt = ?");
+            } catch (SQLException ex) {
+                throw new IGestorBDWikilocException("Error en preparar psChangePunts");
+            }
+        }
+        Savepoint sp = null;
+        try {
+            sp = conn.setSavepoint();
+            psChangePuntsMax.setInt(1, p1.getRuta().getId());
+            ResultSet rs = psChangePuntsMax.executeQuery();
+            rs.next();
+            int max = rs.getInt("num_punt")+1;
+            System.out.println(max);
+            psChangePunts.setInt(1, max);
+            psChangePunts.setInt(2, p1.getRuta().getId());
+            psChangePunts.setInt(3, p1.getId());
+            if (psChangePunts.executeUpdate() != 1){
+                conn.rollback(sp);
+            }
+            psChangePunts.setInt(1, p1.getId());
+            psChangePunts.setInt(2, p1.getRuta().getId());
+            psChangePunts.setInt(3, p2.getId());
+            if (psChangePunts.executeUpdate() != 1){
+                conn.rollback(sp);
+            }
+            psChangePunts.setInt(1, p2.getId());
+            psChangePunts.setInt(2, p1.getRuta().getId());
+            psChangePunts.setInt(3, max);
+            if (psChangePunts.executeUpdate() != 1){
+                conn.rollback(sp);
+            }
+        } catch (SQLException ex) {
+            if (sp != null) {
+                try {
+                    conn.rollback(sp);
+                } catch (SQLException ex1) {
+                }
+            }
+            ex.printStackTrace();
+            throw new IGestorBDWikilocException("Error en eliminar la ruta de codi indicat", ex);
         }
     }
 }

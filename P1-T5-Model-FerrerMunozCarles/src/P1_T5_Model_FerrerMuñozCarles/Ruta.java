@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Timestamp;
+import java.util.Objects;
 /**
  *
  * @author isard
@@ -179,6 +180,28 @@ public class Ruta {
 
     public void setData_creacio(Timestamp data_creacio) {
         this.data_creacio = data_creacio;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ruta other = (Ruta) obj;
+        return Objects.equals(this.id, other.id);
     }
     
     

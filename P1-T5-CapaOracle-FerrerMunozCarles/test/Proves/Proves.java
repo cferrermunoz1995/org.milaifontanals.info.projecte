@@ -37,6 +37,7 @@ public class Proves {
         Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,0,4,"Descripció", "cferrer1", new Timestamp(System.currentTimeMillis()));
         
         Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
+        Punt p2 = new Punt(18,r1,"punt prova 2", "descripció prova 2", null, 52,45,45,tipus.get(0));
         
         mostrarTipus(tipus);
         if (gBD.comprovarContrasenya("cferrer1", "cferrer1")){
@@ -67,6 +68,11 @@ public class Proves {
         } else {
             System.out.println("Punt no afegit");
         }
+        if (gBD.afegirPunt(p2)){
+            System.out.println("Punt afegit");
+        } else {
+            System.out.println("Punt no afegit");
+        }
         gBD.validateChanges();
         //Prova actualitzar Punt
         p1.setDesc("Punt update desc");
@@ -83,11 +89,17 @@ public class Proves {
         for (int i=0; i<punts.size();i++){
             System.out.println(punts.get(i));
         }
+        gBD.canviarOrdrePunts(punts.get(0), punts.get(1));
         //Prova Eliminar Punt
         if (gBD.eliminarPunt(p1)){
-            System.out.println("Punt eliminat");
+            System.out.println("Punt eliminat"+p1.getNom());
         } else {
-            System.out.println("Punt no eliminat");
+            System.out.println("Punt no eliminat"+p1.getNom());
+        }
+        if (gBD.eliminarPunt(p2)){
+            System.out.println("Punt eliminat "+p2.getNom());
+        } else {
+            System.out.println("Punt no eliminat"+p2.getNom());
         }
         gBD.validateChanges();
         //Prova podem eliminar ruta, útil en el cas de que estiguem mirant si la ruta té comentaris
