@@ -112,11 +112,11 @@ public class Proves {
     private static void mostrarRutes(Usuari usuari) {
         try {
             System.out.println("Recuperació de Rutes");
-            List<Ruta> rutes = gBD.obtenirLlistaRuta(usuari.getLogin(), null, null, null);
+            List<Ruta> rutes = gBD.obtenirLlistaRuta(usuari.getLogin(), null, null, "");
             if (rutes.isEmpty()){
                 System.out.println("No hi ha rutes");
             } else {
-                System.out.println("Liista de Rutes:");
+                System.out.println("Llista de Rutes:");
                 for (Ruta r : rutes){
                     System.out.println(r);
                 }

@@ -141,7 +141,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     }
 
 
-    public List<Ruta> obtenirLlistaRuta(String usuari, Timestamp date_inici, Timestamp data_final, String nom) throws IGestorBDWikilocException {
+    public List<Ruta> obtenirLlistaRuta(String usuari, Timestamp data_inici, Timestamp data_final, String nom) throws IGestorBDWikilocException {
         List<Ruta> rutes = new ArrayList<>();
         PreparedStatement ps2 = null;
         String sql = "SELECT \n"
@@ -165,7 +165,10 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
                 + "ON \n"
                 + "    ruta.id_ruta = punt.id_ruta_punt\n"
                 + "where \n"
-                + "    ruta.id_usuari_ruta like ?\n"//falta timestamps i nom
+                + "    ruta.id_usuari_ruta like ?\n"
+                +" and  titol_ruta like ?\n"
+                +" and (? is null or ? > ruta.mom_temp_ruta)\n"
+                +" and (? is null or ? < ruta.mom_temp_ruta)\n"
                 + "group by ruta.id_ruta, \n"
                 + "    ruta.titol_ruta,\n"
                 + "    ruta.temps_ruta,\n"
@@ -188,6 +191,11 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
         try {
             psGetRutesFilter.setString(1, usuari);
+            psGetRutesFilter.setString(2, nom+"%");
+            psGetRutesFilter.setTimestamp(3, data_inici);
+            psGetRutesFilter.setTimestamp(4, data_inici);
+            psGetRutesFilter.setTimestamp(5, data_final);
+            psGetRutesFilter.setTimestamp(6, data_final);
             ResultSet rs = psGetRutesFilter.executeQuery();
             while (rs.next()) {
                 //Ruta(int id, HashMap<Integer, Punt> punts, String titol, String text, double distancia, double duracio, double desnivell_positiu, 
