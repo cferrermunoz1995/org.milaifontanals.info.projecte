@@ -50,5 +50,5 @@ public interface IGestorBDWikiloc {
     
     Ruta getRutaBD(int id_ruta) throws IGestorBDWikilocException;
     
-    void canviarOrdrePunts(Punt p1, Punt p2) throws IGestorBDWikilocException;
+    boolean canviarOrdrePunts(Punt p1, Punt p2) throws IGestorBDWikilocException;
 }

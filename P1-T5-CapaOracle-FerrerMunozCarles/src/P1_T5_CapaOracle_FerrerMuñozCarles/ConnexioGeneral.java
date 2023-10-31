@@ -64,7 +64,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     private PreparedStatement psChangePunts;
     private PreparedStatement psChangePuntsMax;
 
-    private ConnexioGeneral() throws WikilocException {
+    public ConnexioGeneral() throws WikilocException {
         this("WikilocJDBC.xml");
     }
 
@@ -101,13 +101,6 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         } catch (SQLException ex) {
             throw new IGestorBDWikilocException("No es pot establir la connexió.\n" + ex.getMessage());
         }
-    }
-
-    public static Connection getConnection() throws IGestorBDWikilocException {
-        if (conn == null) {
-            new ConnexioGeneral();
-        }
-        return conn;
     }
 
     /**
@@ -584,7 +577,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     }
     
     @Override
-    public void canviarOrdrePunts(Punt p1, Punt p2) {
+    public boolean canviarOrdrePunts(Punt p1, Punt p2) {
         if (!p1.getRuta().equals(p2.getRuta())){
             throw new IGestorBDWikilocException("Els punts han de ser de la mateixa ruta");
         }
@@ -615,19 +608,23 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psChangePunts.setInt(3, p1.getId());
             if (psChangePunts.executeUpdate() != 1){
                 conn.rollback(sp);
+                return false;
             }
             psChangePunts.setInt(1, p1.getId());
             psChangePunts.setInt(2, p1.getRuta().getId());
             psChangePunts.setInt(3, p2.getId());
             if (psChangePunts.executeUpdate() != 1){
                 conn.rollback(sp);
+                return false;
             }
             psChangePunts.setInt(1, p2.getId());
             psChangePunts.setInt(2, p1.getRuta().getId());
             psChangePunts.setInt(3, max);
             if (psChangePunts.executeUpdate() != 1){
                 conn.rollback(sp);
+                return false;
             }
+            return true;
         } catch (SQLException ex) {
             if (sp != null) {
                 try {

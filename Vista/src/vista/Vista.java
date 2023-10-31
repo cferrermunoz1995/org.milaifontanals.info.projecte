@@ -9,13 +9,14 @@ import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.TextArea;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
  *
  * @author isard
  */
-public class Vista {
+public class Vista extends JFrame{
     private IGestorBDWikiloc gBD = null;
     private static String nomClassePersistencia = null;
     private TextArea txtInfo;
@@ -34,20 +35,17 @@ public class Vista {
     }
 
     private void go() {
-        JFrame f = new JFrame("Wikiloc");
         try {
-            System.out.println("Intentant establir connexió...");
             gBD = (IGestorBDWikiloc) Class.forName(nomClassePersistencia).newInstance();
-            System.out.println("Connexió establerta");
+            JFrame frame = new Login();
+            frame.setVisible(true);
+            
+            
         } catch (Exception ex){
-            ex.printStackTrace();
-            System.out.println("Error. "+ex);
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error en connectar-se a la base de dades", "Error", 1);
+            System.exit(WIDTH);
         }
-    }
-    
-    private void netejaForm() {
-        codi.setText("");
-        desc.setText("");
     }
     
     private String infoError(Throwable ex) {
