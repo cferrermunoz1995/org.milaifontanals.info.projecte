@@ -42,7 +42,6 @@ public class Vista {
         } catch (Exception ex){
             ex.printStackTrace();
             System.out.println("Error. "+ex);
-//            txtInfo.setText(infoError(ex) + "Finalitzi l'aplicació...");
         }
     }
     
