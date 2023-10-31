@@ -17,11 +17,8 @@ import javax.swing.JTextField;
  * @author isard
  */
 public class Vista extends JFrame{
-    private IGestorBDWikiloc gBD = null;
+    private ConnexioGeneral gBD = null;
     private static String nomClassePersistencia = null;
-    private TextArea txtInfo;
-    private JTextField codi;
-    private JTextField desc;
     
     public static void main(String[] args) {
         if (args.length == 0){
@@ -36,8 +33,8 @@ public class Vista extends JFrame{
 
     private void go() {
         try {
-            gBD = (IGestorBDWikiloc) Class.forName(nomClassePersistencia).newInstance();
-            JFrame frame = new Login();
+            gBD = (ConnexioGeneral) Class.forName(nomClassePersistencia).newInstance();
+            JFrame frame = new Login(gBD);
             frame.setVisible(true);
             
             

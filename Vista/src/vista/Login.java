@@ -4,6 +4,8 @@
  */
 package vista;
 
+import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -13,12 +15,15 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+    private ConnexioGeneral gBD = null;
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Login(ConnexioGeneral gbd) {
         initComponents();
         setLocationRelativeTo(null);
+        setExtendedState(MAXIMIZED_BOTH);
+        this.gBD = gbd;
     }
 
     /**
@@ -140,7 +145,14 @@ public class Login extends javax.swing.JFrame {
         if (user.isEmpty() || password.isEmpty()){
             JOptionPane.showMessageDialog(this, "L'usuari i contrasenya són obligatoris", "Error", 1);
         } else {
-            
+            if (gBD.comprovarContrasenya(user, password)){
+                Rutes rutes = new Rutes(gBD, user);
+                rutes.setVisible(true);
+                this.dispose();
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuari o contrasenya erronis", "Error", 1);
+            }
         }
         
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -175,7 +187,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login(null).setVisible(true);
             }
         });
     }

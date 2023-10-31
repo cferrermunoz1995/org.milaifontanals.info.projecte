@@ -221,7 +221,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
                 int numpunts = rs.getInt("count");
                 String descrip = rs.getString("descrip_ruta");
                 Timestamp ts = rs.getTimestamp("mom_temp_ruta");
-                if (num_com_ruta>0){
+                if (num_com_ruta!=0){
                     rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, duracio, des_pos, des_neg, dificultat, numpunts, sum_val_ruta / num_com_ruta, descrip, usuari, ts));
                 } else {
                     rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, duracio, des_pos, des_neg, dificultat, numpunts, 0, descrip, usuari, ts));
