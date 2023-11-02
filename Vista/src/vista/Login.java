@@ -19,6 +19,10 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    public Login(){
+        
+    }
+    
     public Login(ConnexioGeneral gbd) {
         initComponents();
         setLocationRelativeTo(null);
@@ -115,6 +119,12 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(17, 128, 0, 110);
         getContentPane().add(jLabel3, gridBagConstraints);
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                enterPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -157,6 +167,13 @@ public class Login extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    private void enterPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            btnLoginActionPerformed(null);
+        }
+    }//GEN-LAST:event_enterPressed
+
     /**
      * @param args the command line arguments
      */
@@ -187,7 +204,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login(null).setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }
