@@ -123,7 +123,7 @@ begin
     else 
         if
             :new.dific_comen is null or :new.v_pais_comen is null or :new.v_seg_comen is null then
-                raise_application_error(-20000, 'No es pot fer una ruta sense valorar-la');
+                raise_application_error(-20000, 'No es pot fer un comentari de ruta sense valorar-la');
         end if;
     end if;
 end;
