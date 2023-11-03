@@ -95,7 +95,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             }
             conn = DriverManager.getConnection(valors[0], valors[1], valors[2]);
             conn.setAutoCommit(false);
-            System.out.println("Sessió iniciada");
+//            System.out.println("Sessió iniciada");
         } catch (IOException ex) {
             throw new IGestorBDWikilocException("Problemes en recuperar l'arxiu de configuració " + nomFitxerPropietats + "\n" + ex.getMessage());
         } catch (SQLException ex) {

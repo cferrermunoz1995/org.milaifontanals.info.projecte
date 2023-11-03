@@ -22,11 +22,10 @@ public class Vista extends JFrame{
     
     public static void main(String[] args) {
         if (args.length == 0){
-            System.out.println("Cal passar el nom de la classe que dona la persistència com a primer argument");
             System.exit(0);
         }
         nomClassePersistencia = args[0];
-        System.out.println(nomClassePersistencia);
+//        System.out.println(nomClassePersistencia);
         Vista vista = new Vista();
         vista.go();
     }
@@ -37,9 +36,7 @@ public class Vista extends JFrame{
             JFrame frame = new Login(gBD);
             frame.setVisible(true);
             
-            
         } catch (Exception ex){
-            System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Error en connectar-se a la base de dades", "Error", 1);
             System.exit(WIDTH);
         }

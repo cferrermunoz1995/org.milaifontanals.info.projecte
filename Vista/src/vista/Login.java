@@ -5,7 +5,10 @@
 package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
-import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
+import java.awt.event.KeyEvent;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -13,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author isard
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends JFrame {
 
     private ConnexioGeneral gBD = null;
     /**
@@ -40,6 +43,8 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         btnLogin = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -48,6 +53,8 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+
+        jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WikilocLight");
@@ -122,7 +129,7 @@ public class Login extends javax.swing.JFrame {
 
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                enterPressed(evt);
+                Enter(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,12 +152,33 @@ public class Login extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
+        txtUser.setText("");
+        txtPassword.setText("");
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         String user = txtUser.getText();
-        String password = txtPassword.getText();
+        char[] Password = txtPassword.getPassword();
+        String password = String.copyValueOf(Password);
+        
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuffer hexString = new StringBuffer();
+            
+            for (int i=0; i<hash.length; i++){
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length()==1)hexString.append('0');
+                hexString.append(hex);
+            }
+            
+            System.out.println("Password: "+password+", hash: "+hexString);
+        } catch (NoSuchAlgorithmException ex) {
+            JOptionPane.showMessageDialog(this, "Error en encriptar contrasenya", "Error", 1);
+        }
+        
         
         if (user.isEmpty() || password.isEmpty()){
             JOptionPane.showMessageDialog(this, "L'usuari i contrasenya són obligatoris", "Error", 1);
@@ -162,17 +190,19 @@ public class Login extends javax.swing.JFrame {
                 
             } else {
                 JOptionPane.showMessageDialog(this, "Usuari o contrasenya erronis", "Error", 1);
+                txtUser.setText("");
+                txtPassword.setText("");
             }
         }
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void enterPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPressed
+    private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
         // TODO add your handling code here:
-        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
             btnLoginActionPerformed(null);
         }
-    }//GEN-LAST:event_enterPressed
+    }//GEN-LAST:event_Enter
 
     /**
      * @param args the command line arguments
@@ -213,9 +243,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnLogin;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
