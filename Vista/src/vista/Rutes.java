@@ -147,6 +147,11 @@ public class Rutes extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Accions"));
 
         btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
         btnEditar.setEnabled(false);
@@ -281,6 +286,12 @@ public class Rutes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+        InfoRuta ir = new InfoRuta(gBD,null);
+        ir.setVisible(true);
+    }//GEN-LAST:event_btnCrearActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -358,7 +369,7 @@ public class Rutes extends javax.swing.JFrame {
                 if (lse.getFirstIndex()!=-1){
                     btnEditar.setEnabled(true);
                     btnImprimir.setEnabled(true);
-                    btnEliminar.setEnabled(true);
+                    btnEliminar.setEnabled(gBD.podemEliminarRuta(rutes.get(lse.getFirstIndex())));
                 }
             }
         });
