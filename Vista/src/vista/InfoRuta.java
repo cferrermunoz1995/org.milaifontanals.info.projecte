@@ -36,16 +36,18 @@ public class InfoRuta extends JFrame {
         initComponents();
     }
     
-    public InfoRuta(ConnexioGeneral gbd, Ruta rut){
+    public InfoRuta(ConnexioGeneral gbd, Ruta rut, char option){
         initComponents();
         gBD = gbd;
         ruta = rut;
+        initColumns();
         if (ruta!=null){
             punts = gBD.obtenirPunts(ruta);
             initTable();
+            initTexts(option);
+            initSlider();
         }
-        initTexts();
-        initSlider();
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -56,6 +58,7 @@ public class InfoRuta extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
         txtNom = new javax.swing.JTextField();
@@ -83,7 +86,6 @@ public class InfoRuta extends JFrame {
         btnCancel = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Informació ruta");
 
         jLabel1.setText("Nom:");
@@ -105,6 +107,7 @@ public class InfoRuta extends JFrame {
         jLabel7.setText("Desnviell negatiu:");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Punts"));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,56 +127,70 @@ public class InfoRuta extends JFrame {
         });
         jScrollPane2.setViewportView(jTable1);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 811;
+        gridBagConstraints.ipady = 318;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(24, 11, 0, 11);
+        jPanel1.add(jScrollPane2, gridBagConstraints);
+
         btnAfegir.setText("Afegir");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 94, 20, 0);
+        jPanel1.add(btnAfegir, gridBagConstraints);
 
         btnEditar.setText("Editar");
         btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 110, 20, 0);
+        jPanel1.add(btnEditar, gridBagConstraints);
 
         btnImprimir.setText("Imprimir");
         btnImprimir.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 142, 20, 0);
+        jPanel1.add(btnImprimir, gridBagConstraints);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.setEnabled(false);
         btnEliminar.setInheritsPopupMenu(true);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(btnAfegir)
-                .addGap(110, 110, 110)
-                .addComponent(btnEditar)
-                .addGap(142, 142, 142)
-                .addComponent(btnImprimir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminar)
-                .addGap(83, 83, 83))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAfegir)
-                    .addComponent(btnEditar)
-                    .addComponent(btnImprimir)
-                    .addComponent(btnEliminar))
-                .addGap(48, 48, 48))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 122, 20, 0);
+        jPanel1.add(btnEliminar, gridBagConstraints);
 
         sliderDificultat.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dificultat", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         btnCancel.setText("Guardar");
 
         btnGuardar.setText("Cancel·lar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,9 +207,9 @@ public class InfoRuta extends JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDesnPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtDistancia, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addComponent(txtDesnPos))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -227,7 +244,7 @@ public class InfoRuta extends JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(sliderDificultat, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
         );
@@ -286,6 +303,20 @@ public class InfoRuta extends JFrame {
         btnEliminar.setEnabled(active);
         btnEditar.setEnabled(active);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow()!=-1){
+            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()), 'w');
+            ip.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -351,6 +382,65 @@ public class InfoRuta extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initTable() {
+        
+        for (Punt p : punts){
+            tInfoRuta.addRow(new Object[]{p.getId(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+        }
+        jTable1.addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    InfoPunt ip = new InfoPunt(gBD, punts.get(row), 'r');
+                    ip.setVisible(true);
+                    
+                }
+            }
+        });
+        
+    }
+
+    private void initSlider() {
+        sliderDificultat.setMajorTickSpacing(1);
+        sliderDificultat.setMinorTickSpacing(1);
+        sliderDificultat.setPaintTicks(true);
+        sliderDificultat.setPaintLabels(true);
+    }
+
+    private void initTexts(char option) {
+        txtDescripció.setText(ruta.getDescription());
+        txtNom.setText(ruta.getTitol());
+        textAreaText.setText(ruta.getText());
+        txtDistancia.setText(ruta.getDistancia()+"");
+        txtTemps.setText(ruta.getDuracio()+"");
+        txtDesnNeg.setText(ruta.getDesnivell_negatiu()+"");
+        txtDesnPos.setText(ruta.getDesnivell_positiu()+"");
+        sliderDificultat.setExtent(ruta.getDificultat());
+        switch (option){
+            case 'r':
+                initTextsBool(false);
+                break;
+            case 'w':
+                initTextsBool(true);
+                break;
+        }
+    }
+
+    private void initTextsBool(boolean b) {
+        txtNom.setEnabled(b);
+        txtDescripció.setEnabled(b);
+        textAreaText.setEnabled(b);
+        txtTemps.setEnabled(b);
+        txtDesnNeg.setEnabled(b);
+        txtDesnPos.setEnabled(b);
+        txtDistancia.setEnabled(b);
+        sliderDificultat.setEnabled(b);
+        
+    }
+
+    private void initColumns() {
         tInfoRuta =new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -368,35 +458,5 @@ public class InfoRuta extends JFrame {
         tInfoRuta.addColumn("Latitud");
         tInfoRuta.addColumn("Longitud");
         tInfoRuta.addColumn("Altitud");
-        for (Punt p : punts){
-            tInfoRuta.addRow(new Object[]{p.getId(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
-        }
-        jTable1.addMouseListener(new MouseAdapter(){
-            public void mousePressed(MouseEvent mouseEvent) {
-                JTable table =(JTable) mouseEvent.getSource();
-                Point point = mouseEvent.getPoint();
-                int row = table.rowAtPoint(point);
-                
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    InfoPunt ip = new InfoPunt(gBD, punts.get(row));
-                    ip.setVisible(true);
-                    
-                }
-            }
-        });
-        
-    }
-
-    private void initSlider() {
-        sliderDificultat.setMajorTickSpacing(1);
-        sliderDificultat.setMinorTickSpacing(1);
-        sliderDificultat.setPaintTicks(true);
-        sliderDificultat.setPaintLabels(true);
-    }
-
-    private void initTexts() {
-        if (ruta == null){
-            System.out.println("Null");
-        }
     }
 }

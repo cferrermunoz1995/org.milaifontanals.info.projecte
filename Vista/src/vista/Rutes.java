@@ -160,6 +160,11 @@ public class Rutes extends javax.swing.JFrame {
 
         btnEditar.setText("Editar");
         btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnImprimir.setText("Imprimir");
         btnImprimir.setEnabled(false);
@@ -277,7 +282,7 @@ public class Rutes extends javax.swing.JFrame {
         // TODO add your handling code here:
         Login login = new Login(gBD);
         login.setVisible(true);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_btnSessionActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
@@ -293,8 +298,9 @@ public class Rutes extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-        InfoRuta ir = new InfoRuta(gBD,null);
+        InfoRuta ir = new InfoRuta(gBD,null,'c');
         ir.setVisible(true);
+        //this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -303,9 +309,20 @@ public class Rutes extends javax.swing.JFrame {
         
         Boolean active = row !=-1;
         btnImprimir.setEnabled(active);
-        btnEliminar.setEnabled(active);
         btnEditar.setEnabled(active);
+        if (row!=-1){
+            btnEliminar.setEnabled(gBD.podemEliminarRuta(rutes.get(row)));
+        } else {
+            btnEliminar.setEnabled(false);
+        }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        InfoRuta ir = new InfoRuta(gBD,null,'w');
+        ir.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,7 +411,7 @@ public class Rutes extends javax.swing.JFrame {
                 int row = table.rowAtPoint(point);
                 
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    InfoRuta ir = new InfoRuta(gBD, rutes.get(row));
+                    InfoRuta ir = new InfoRuta(gBD, rutes.get(row), 'r');
                     ir.setVisible(true);
                     
                 }

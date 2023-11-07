@@ -6,6 +6,9 @@ package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
+import P1_T5_Model_FerrerMuñozCarles.Tipus;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -15,7 +18,8 @@ import javax.swing.JFrame;
 public class InfoPunt extends JFrame {
 
     private ConnexioGeneral gBD = null;
-    private Punt jPunt;
+    private Punt mPunt;
+    private List<Tipus> mTipus = new ArrayList();
     /**
      * Creates new form InfoPunt
      */
@@ -23,10 +27,15 @@ public class InfoPunt extends JFrame {
         initComponents();
     }
     
-    public InfoPunt(ConnexioGeneral gbd, Punt mPunt){
+    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, char option){
         initComponents();
         gBD = gbd;
-        jPunt = mPunt;
+        mTipus = gBD.getListTipus();
+        mPunt = jPunt;
+        initCbo();
+        if (mPunt != null){
+            initTexts(option);
+        }
     }
 
     /**
@@ -38,17 +47,131 @@ public class InfoPunt extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        cboTipus = new javax.swing.JComboBox<>();
+        txtNum = new javax.swing.JTextField();
+        txtNom = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaDesc = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtLatitud = new javax.swing.JTextField();
+        txtLongitud = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtAltitut = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+
+        jLabel1.setText("Número:");
+
+        jLabel2.setText("Nom:");
+
+        jLabel3.setText("Descripció:");
+
+        jLabel4.setText("Tipus:");
+
+        cboTipus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona un element"}));
+
+        textAreaDesc.setColumns(20);
+        textAreaDesc.setRows(5);
+        jScrollPane1.setViewportView(textAreaDesc);
+
+        jLabel5.setText("Latitud:");
+
+        jLabel6.setText("Longitut:");
+
+        jLabel7.setText("Altitut:");
+
+        btnGuardar.setText("Guardar");
+
+        btnCancel.setText("Cancel·lar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtLatitud, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(txtLongitud))
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAltitut))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtNum)
+                                        .addComponent(txtNom, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cboTipus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnCancel)
+                                .addGap(61, 61, 61)
+                                .addComponent(btnGuardar)
+                                .addGap(112, 112, 112)))))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(cboTipus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtAltitut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancel))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -90,5 +213,53 @@ public class InfoPunt extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cboTipus;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea textAreaDesc;
+    private javax.swing.JTextField txtAltitut;
+    private javax.swing.JTextField txtLatitud;
+    private javax.swing.JTextField txtLongitud;
+    private javax.swing.JTextField txtNom;
+    private javax.swing.JTextField txtNum;
     // End of variables declaration//GEN-END:variables
+
+    private void initCbo() {
+        for (Tipus t : mTipus){
+            cboTipus.addItem(t.getNom());
+        }
+    }
+
+    private void initTexts(char option) {
+        txtNum.setText(mPunt.getId()+"");
+        txtNom.setText(mPunt.getNom());
+        txtAltitut.setText(mPunt.getAltitude()+"");
+        txtLongitud.setText(mPunt.getLongitude()+"");
+        txtLatitud.setText(mPunt.getLatitude()+"");
+        cboTipus.setSelectedIndex(mPunt.getTipus().getId());
+        textAreaDesc.setText(mPunt.getDesc());
+        if (option=='r'){
+            initTextsBool(false);
+        } else {
+            initTextsBool(true);
+        }
+    }
+
+    private void initTextsBool(boolean b) {
+        txtNum.setEnabled(b);
+        txtNom.setEnabled(b);
+        txtAltitut.setEnabled(b);
+        txtLongitud.setEnabled(b);
+        txtLatitud.setEnabled(b);
+        cboTipus.setEnabled(b);
+        textAreaDesc.setEnabled(b);
+    }
 }
