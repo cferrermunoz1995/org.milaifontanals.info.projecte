@@ -53,7 +53,7 @@ create table RUTA(
     CONSTRAINT ck_temps_ruta check (temps_ruta > 0),
     CONSTRAINT ck_desn_neg_ruta check (desn_neg_ruta > 0),
     CONSTRAINT ck_desn_pos_ruta check (desn_pos_ruta > 0),
-    constraint ck_dif_ruta check (dificultat_ruta in (0,1,2,3,4,5))
+    constraint ck_dif_ruta check (dificultat_ruta in (1,2,3,4,5))
 );
 
 create table PUNT(

@@ -117,6 +117,11 @@ public class InfoRuta extends JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         btnAfegir.setText("Afegir");
@@ -249,11 +254,9 @@ public class InfoRuta extends JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(txtDistancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtTemps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtTemps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -273,6 +276,16 @@ public class InfoRuta extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        Boolean active = row !=-1;
+        btnImprimir.setEnabled(active);
+        btnEliminar.setEnabled(active);
+        btnEditar.setEnabled(active);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -348,19 +361,6 @@ public class InfoRuta extends JFrame {
         
         jTable1.setModel(tInfoRuta);
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent  lse) {
-                btnEditar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnImprimir.setEnabled(false);
-                if (lse.getFirstIndex()!=-1){
-                    btnEditar.setEnabled(true);
-                    btnImprimir.setEnabled(true);
-                    btnEliminar.setEnabled(true);
-                }
-            }
-        });
         
         tInfoRuta.addColumn("Número");
         tInfoRuta.addColumn("Nom");

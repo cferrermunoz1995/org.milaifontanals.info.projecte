@@ -119,6 +119,11 @@ public class Rutes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -292,6 +297,16 @@ public class Rutes extends javax.swing.JFrame {
         ir.setVisible(true);
     }//GEN-LAST:event_btnCrearActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        Boolean active = row !=-1;
+        btnImprimir.setEnabled(active);
+        btnEliminar.setEnabled(active);
+        btnEditar.setEnabled(active);
+    }//GEN-LAST:event_jTable1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -361,18 +376,7 @@ public class Rutes extends javax.swing.JFrame {
         jTable1.setModel(tRutes);
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent  lse) {
-                btnEditar.setEnabled(false);
-                btnEliminar.setEnabled(false);
-                btnImprimir.setEnabled(false);
-                if (lse.getFirstIndex()!=-1){
-                    btnEditar.setEnabled(true);
-                    btnImprimir.setEnabled(true);
-                    btnEliminar.setEnabled(gBD.podemEliminarRuta(rutes.get(lse.getFirstIndex())));
-                }
-            }
-        });
+        
         tRutes.addColumn("Nom");
         tRutes.addColumn("Data creació");
         tRutes.addColumn("Número de punts");

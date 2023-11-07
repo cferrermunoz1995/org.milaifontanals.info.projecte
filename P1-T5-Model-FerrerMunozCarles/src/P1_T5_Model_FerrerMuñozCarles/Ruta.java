@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Objects;
 /**
  *
  * @author isard
  */
-public class Ruta {
+public class Ruta implements Comparable<Ruta> {
     private int id;//obligatori
     private List<Punt> punts;
     private String titol;
@@ -209,6 +210,46 @@ public class Ruta {
     @Override
     public String toString() {
         return "Ruta{" + "id=" + id + ", punts=" + punts + ", titol=" + titol + ", description=" + description + ", text=" + text + ", distancia=" + distancia + ", duracio=" + duracio + ", desnivell_positiu=" + desnivell_positiu + ", desnivell_negatiu=" + desnivell_negatiu + ", nota_mitja_valoracio=" + nota_mitja_valoracio + ", dificultat=" + dificultat + ", numPunts=" + numPunts + '}';
+    }
+
+    @Override
+    public int compareTo(Ruta o) {
+        Integer Id = this.getId();
+        return Id.compareTo(o.getId());
+    }
+    
+    public class RutaSortByDate implements Comparator<Ruta>{
+
+        @Override
+        public int compare(Ruta o1, Ruta o2) {
+            return o1.getData_creacio().compareTo(o2.getData_creacio());
+        }
+    
+    }
+    
+    public class RutaSortByName implements Comparator<Ruta>{
+
+        @Override
+        public int compare(Ruta o1, Ruta o2) {
+            int resultat = o1.getTitol().compareTo(o2.getTitol());
+            if (resultat == 0){
+                return o1.getDescription().compareTo(o2.getDescription());
+            } else {
+                return resultat;
+            }
+        }
+        
+    }
+    
+    public class RutaSortByNumPunts implements Comparator<Ruta>{
+
+        @Override
+        public int compare(Ruta o1, Ruta o2) {
+            Integer NumPunts = o1.getNumPunts();
+            return NumPunts.compareTo(o2.getNumPunts());
+            
+        }
+        
     }
     
     
