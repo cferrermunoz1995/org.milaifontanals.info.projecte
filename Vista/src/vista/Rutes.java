@@ -6,6 +6,7 @@ package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,6 +36,7 @@ public class Rutes extends javax.swing.JFrame {
     private ConnexioGeneral gBD = null;
     private DefaultTableModel tRutes;
     private List<Ruta> rutes = new ArrayList();
+    private String mUser;
     
     /**
      * Creates new form Rutes
@@ -48,6 +51,7 @@ public class Rutes extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         this.gBD = gbd;
         txtUser.setText(user);
+        mUser = user;
         rutes = gBD.obtenirLlistaRuta(user, null, null, "");
         initTable();
     }
@@ -80,6 +84,7 @@ public class Rutes extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         dtpInici = new com.toedter.calendar.JDateChooser();
         dtpFinal = new com.toedter.calendar.JDateChooser();
+        btnCleanFilter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rutes");
@@ -171,6 +176,11 @@ public class Rutes extends javax.swing.JFrame {
 
         btnEliminar.setText("Eliminar");
         btnEliminar.setEnabled(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -183,7 +193,7 @@ public class Rutes extends javax.swing.JFrame {
                     .addComponent(btnImprimir)
                     .addComponent(btnEditar)
                     .addComponent(btnCrear))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +204,7 @@ public class Rutes extends javax.swing.JFrame {
                 .addComponent(btnEditar)
                 .addGap(71, 71, 71)
                 .addComponent(btnImprimir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(btnEliminar)
                 .addContainerGap())
         );
@@ -221,10 +231,18 @@ public class Rutes extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Data creació:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("entre");
+
+        btnCleanFilter.setText("Netejar filtre");
+        btnCleanFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCleanFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -238,31 +256,36 @@ public class Rutes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dtpInici, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addComponent(dtpInici, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dtpFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFiltrar)
-                .addGap(16, 16, 16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCleanFilter)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(btnFiltrar)
                             .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(dtpFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(dtpInici, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(dtpFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtpInici, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFiltrar)
+                            .addComponent(btnCleanFilter))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -289,16 +312,31 @@ public class Rutes extends javax.swing.JFrame {
         // TODO add your handling code here:
         Date di = dtpInici.getDate();
         Date df = dtpFinal.getDate();
-        if (di.getTime()>df.getTime()){
-            JOptionPane.showMessageDialog(this, "La data final ha de ser posterior a la data inicial", "Error",1);
-            dtpInici.setDate(null);
-            dtpFinal.setDate(null);
+        String nom = txtFiltrar.getText();
+        Timestamp tsDI = null;
+        Timestamp tsDF = null;
+        if (di!= null){
+            tsDI = new Timestamp(di.getTime());
         }
+        if (df != null){
+            tsDF = new Timestamp(df.getTime());
+        }
+        if (di!= null && df != null){
+            if (di.getTime()>df.getTime()){
+                JOptionPane.showMessageDialog(this, "La data final ha de ser posterior a la data inicial", "Error",1);
+                dtpInici.setDate(null);
+                dtpFinal.setDate(null);
+            } else {
+                rutes = gBD.obtenirLlistaRuta(mUser, tsDI, tsDF, nom);
+                initTable();
+            }
+        }
+        
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-        InfoRuta ir = new InfoRuta(gBD,null,'c');
+        InfoRuta ir = new InfoRuta(gBD,null,'c', mUser);
         ir.setVisible(true);
         //this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
@@ -306,23 +344,56 @@ public class Rutes extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
-        
         Boolean active = row !=-1;
         btnImprimir.setEnabled(active);
         btnEditar.setEnabled(active);
         if (row!=-1){
+            System.out.println(row);
             btnEliminar.setEnabled(gBD.podemEliminarRuta(rutes.get(row)));
-        } else {
-            btnEliminar.setEnabled(false);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        InfoRuta ir = new InfoRuta(gBD,null,'w');
+        int row = jTable1.getSelectedRow();
+        InfoRuta ir = new InfoRuta(gBD,rutes.get(row),'w', mUser);
         ir.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCleanFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanFilterActionPerformed
+        // TODO add your handling code here:
+        rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
+        dtpInici.setDate(null);
+        dtpFinal.setDate(null);
+        initTable();
+    }//GEN-LAST:event_btnCleanFilterActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        if (!gBD.eliminarRuta(rutes.get(row))){
+            JOptionPane.showMessageDialog(rootPane, "Error en eliminar ruta");
+            gBD.undoChanges();
+        } else {
+            int res = JOptionPane.showConfirmDialog(null,"Confirmar", "Segur que vols eliminar la ruta "+rutes.get(row).getTitol()+"+?", ConfirmationCallback.YES_NO_OPTION);
+            if (res == JOptionPane.YES_OPTION) {
+                try {
+                    if (gBD.eliminarRuta(rutes.get(row))){
+                        JOptionPane.showMessageDialog(rootPane, "Ruta esborrada");
+                        gBD.validateChanges();
+                        rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
+                        initTable();
+                    }
+                } catch (WikilocException ex){
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Procès cancel·lat");
+                
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,6 +431,7 @@ public class Rutes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCleanFilter;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
@@ -411,7 +483,7 @@ public class Rutes extends javax.swing.JFrame {
                 int row = table.rowAtPoint(point);
                 
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    InfoRuta ir = new InfoRuta(gBD, rutes.get(row), 'r');
+                    InfoRuta ir = new InfoRuta(gBD, rutes.get(row), 'r', mUser);
                     ir.setVisible(true);
                     
                 }

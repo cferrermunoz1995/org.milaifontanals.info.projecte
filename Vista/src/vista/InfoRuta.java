@@ -18,6 +18,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -29,6 +31,7 @@ public class InfoRuta extends JFrame {
     private Ruta ruta;
     private DefaultTableModel tInfoRuta;
     private List<Punt> punts = new ArrayList<>();
+    private String mUser;
     /**
      * Creates new form InfoRuta
      */
@@ -36,8 +39,9 @@ public class InfoRuta extends JFrame {
         initComponents();
     }
     
-    public InfoRuta(ConnexioGeneral gbd, Ruta rut, char option){
+    public InfoRuta(ConnexioGeneral gbd, Ruta rut, char option, String user){
         initComponents();
+        mUser = user;
         gBD = gbd;
         ruta = rut;
         initColumns();
@@ -184,6 +188,11 @@ public class InfoRuta extends JFrame {
         sliderDificultat.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dificultat", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         btnCancel.setText("Guardar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Cancel·lar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +253,7 @@ public class InfoRuta extends JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sliderDificultat, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
         );
@@ -306,6 +315,15 @@ public class InfoRuta extends JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if (ruta == null){
+            Date d = new Date();
+            Timestamp ts = new Timestamp(d.getTime());
+            double distancia = Double.parseDouble(txtDistancia.getText());
+            double temps = Double.parseDouble(txtTemps.getText());
+            double desPos = Double.parseDouble(txtDesnPos.getText());
+            double desNeg = Double.parseDouble(txtDesnNeg.getText());
+            ruta = new Ruta(1, null, txtNom.getText(), textAreaText.getText(), distancia, temps, desPos, desNeg, sliderDificultat.getValue(), 0, 0, txtDescripció.getText(), mUser, ts);
+        }
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -317,6 +335,11 @@ public class InfoRuta extends JFrame {
         }
         
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
