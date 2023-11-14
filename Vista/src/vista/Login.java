@@ -174,7 +174,8 @@ public class Login extends JFrame {
                 hexString.append(hex);
             }
             
-            System.out.println("Password: "+password+", hash: "+hexString);
+            password = hexString.toString();
+            
         } catch (NoSuchAlgorithmException ex) {
             JOptionPane.showMessageDialog(this, "Error en encriptar contrasenya", "Error", 1);
         }

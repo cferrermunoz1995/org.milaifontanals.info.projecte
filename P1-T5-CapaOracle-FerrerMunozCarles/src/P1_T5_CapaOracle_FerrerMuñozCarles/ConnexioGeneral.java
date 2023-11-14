@@ -226,7 +226,6 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
                 } else {
                     rutes.add(new Ruta(id, null, titol_ruta, text_long_ruta, distancia_ruta, duracio, des_pos, des_neg, dificultat, numpunts, 0, descrip, usuari, ts));
                 }
-                
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -471,6 +470,12 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
     }
 
+    /**
+     * 
+     * @param ruta
+     * @return boolean retorna true si es pot eliminar, i false en cas contrari
+     * @throws IGestorBDWikilocException 
+     */
     @Override
     public boolean podemEliminarRuta(Ruta ruta) throws IGestorBDWikilocException {
         if (psPossibleElimRuta == null) {
@@ -484,7 +489,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         try {
             psPossibleElimRuta.setInt(1, ruta.getId());
             ResultSet rs = psPossibleElimRuta.executeQuery();
-            return rs.next();
+            return !rs.next();
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new IGestorBDWikilocException("Error en saber si la ruta es pot eliminar");

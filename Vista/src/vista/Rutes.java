@@ -305,7 +305,7 @@ public class Rutes extends javax.swing.JFrame {
         // TODO add your handling code here:
         Login login = new Login(gBD);
         login.setVisible(true);
-        //this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnSessionActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
@@ -348,7 +348,7 @@ public class Rutes extends javax.swing.JFrame {
         btnImprimir.setEnabled(active);
         btnEditar.setEnabled(active);
         if (row!=-1){
-            System.out.println(row);
+            //System.out.println(row);
             btnEliminar.setEnabled(gBD.podemEliminarRuta(rutes.get(row)));
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -372,26 +372,20 @@ public class Rutes extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
-        if (!gBD.eliminarRuta(rutes.get(row))){
-            JOptionPane.showMessageDialog(rootPane, "Error en eliminar ruta");
-            gBD.undoChanges();
-        } else {
-            int res = JOptionPane.showConfirmDialog(null,"Confirmar", "Segur que vols eliminar la ruta "+rutes.get(row).getTitol()+"+?", ConfirmationCallback.YES_NO_OPTION);
-            if (res == JOptionPane.YES_OPTION) {
-                try {
-                    if (gBD.eliminarRuta(rutes.get(row))){
-                        JOptionPane.showMessageDialog(rootPane, "Ruta esborrada");
-                        gBD.validateChanges();
-                        rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
-                        initTable();
-                    }
-                } catch (WikilocException ex){
-                    JOptionPane.showMessageDialog(rootPane, ex);
+        int res = JOptionPane.showConfirmDialog(null,"Confirmar", "Segur que vols eliminar la ruta "+rutes.get(row).getTitol()+"+?", ConfirmationCallback.YES_NO_OPTION);
+        if (res == JOptionPane.YES_OPTION) {
+            try {
+                if (gBD.eliminarRuta(rutes.get(row))){
+                    JOptionPane.showMessageDialog(rootPane, "Ruta esborrada");
+                    gBD.validateChanges();
+                    rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
+                    initTable();
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Procès cancel·lat");
-                
+            } catch (WikilocException ex){
+                    JOptionPane.showMessageDialog(rootPane, ex);
             }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Procès cancel·lat");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 

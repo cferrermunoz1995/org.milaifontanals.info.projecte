@@ -26,7 +26,7 @@ create table TIPUS(
 create table USUARI(
     login_usuari varchar2(60) constraint usuari_pk primary key,
     email_usuari varchar2(60) constraint sk_usuari_email unique, 
-    contrasenya_usuari varchar2(60) constraint nn_usu_contra not null,
+    contrasenya_usuari varchar2(100) constraint nn_usu_contra not null,
     foto_usuari BLOB
 );
 
