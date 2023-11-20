@@ -23,7 +23,7 @@ public class Login extends JFrame {
      * Creates new form Login
      */
     public Login(){
-        
+        initComponents();
     }
     
     public Login(ConnexioGeneral gbd) {
@@ -53,6 +53,7 @@ public class Login extends JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        btnContrasenya = new javax.swing.JToggleButton();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -68,11 +69,10 @@ public class Login extends JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(37, 56, 50, 0);
+        gridBagConstraints.insets = new java.awt.Insets(36, 56, 53, 0);
         getContentPane().add(btnLogin, gridBagConstraints);
 
         btnCancel.setText("Cancel");
@@ -83,33 +83,33 @@ public class Login extends JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(37, 124, 50, 0);
+        gridBagConstraints.insets = new java.awt.Insets(36, 68, 53, 0);
         getContentPane().add(btnCancel, gridBagConstraints);
 
         jLabel1.setText("Usuari:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 128, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 72, 0, 0);
         getContentPane().add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("Contrasenya:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(30, 98, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(30, 42, 0, 0);
         getContentPane().add(jLabel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 96;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -119,12 +119,12 @@ public class Login extends JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setText("WikilocLight");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.ipady = 34;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(17, 128, 0, 110);
+        gridBagConstraints.insets = new java.awt.Insets(20, 72, 0, 0);
         getContentPane().add(jLabel3, gridBagConstraints);
 
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -133,19 +133,33 @@ public class Login extends JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 96;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(27, 12, 0, 0);
         getContentPane().add(txtPassword, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         getContentPane().add(filler1, gridBagConstraints);
+
+        btnContrasenya.setText("Show");
+        btnContrasenya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContrasenyaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(27, 1, 0, 162);
+        getContentPane().add(btnContrasenya, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -205,6 +219,15 @@ public class Login extends JFrame {
         }
     }//GEN-LAST:event_Enter
 
+    private void btnContrasenyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContrasenyaActionPerformed
+        // TODO add your handling code here:
+        if (btnContrasenya.isSelected()){
+            txtPassword.setEchoChar((char) 0);
+        } else {
+            txtPassword.setEchoChar('*');
+        }
+    }//GEN-LAST:event_btnContrasenyaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +265,7 @@ public class Login extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JToggleButton btnContrasenya;
     private javax.swing.JButton btnLogin;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JEditorPane jEditorPane1;

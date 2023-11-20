@@ -6,10 +6,14 @@ package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
+import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
+import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +23,7 @@ public class InfoPunt extends JFrame {
 
     private ConnexioGeneral gBD = null;
     private Punt mPunt;
+    private Ruta mRuta;
     private List<Tipus> mTipus = new ArrayList();
     /**
      * Creates new form InfoPunt
@@ -27,7 +32,7 @@ public class InfoPunt extends JFrame {
         initComponents();
     }
     
-    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, char option){
+    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, Ruta ruta, char option){
         initComponents();
         gBD = gbd;
         mTipus = gBD.getListTipus();
@@ -86,8 +91,18 @@ public class InfoPunt extends JFrame {
         jLabel7.setText("Altitut:");
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel·lar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,6 +191,50 @@ public class InfoPunt extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);
+        if (res == JOptionPane.YES_OPTION){
+            if (mPunt == null){
+                Double latitude = Double.parseDouble(txtLatitud.getText());
+                Double longitud = Double.parseDouble(txtLongitud.getText());
+                Double altitude = Double.parseDouble(txtAltitut.getText());
+                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex());
+                mPunt = new Punt(0, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
+                
+                try {
+                    gBD.afegirPunt(mPunt);
+                } catch (WikilocException ex){
+                    JOptionPane.showMessageDialog(this, "ex", "Error", 1);
+                }
+            } else {
+                Double latitude = Double.parseDouble(txtLatitud.getText());
+                Double longitud = Double.parseDouble(txtLongitud.getText());
+                Double altitude = Double.parseDouble(txtAltitut.getText());
+                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex());
+                mPunt.setNom(txtNom.getText());
+                mPunt.setDesc(textAreaDesc.getText());
+                mPunt.setTipus(tipus);
+                mPunt.setLongitude(longitud);
+                mPunt.setLatitude(latitude);
+                mPunt.setAltitude(altitude);
+                
+                try {
+                    gBD.actualitzarPunt(mPunt);
+                } catch (WikilocException ex){
+                    JOptionPane.showMessageDialog(this, "ex", "Error", 1);
+                }
+            }
+        } else {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments

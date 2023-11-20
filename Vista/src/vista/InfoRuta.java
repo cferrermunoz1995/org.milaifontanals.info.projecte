@@ -145,6 +145,11 @@ public class InfoRuta extends JFrame {
         jPanel1.add(jScrollPane2, gridBagConstraints);
 
         btnAfegir.setText("Afegir");
+        btnAfegir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfegirActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -330,7 +335,7 @@ public class InfoRuta extends JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         if (jTable1.getSelectedRow()!=-1){
-            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()), 'w');
+            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w');
             ip.setVisible(true);
         }
         
@@ -340,6 +345,13 @@ public class InfoRuta extends JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
+        // TODO add your handling code here:
+        InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o');
+        ip.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAfegirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -416,7 +428,7 @@ public class InfoRuta extends JFrame {
                 int row = table.rowAtPoint(point);
                 
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    InfoPunt ip = new InfoPunt(gBD, punts.get(row), 'r');
+                    InfoPunt ip = new InfoPunt(gBD, punts.get(row), ruta, 'r');
                     ip.setVisible(true);
                     
                 }
