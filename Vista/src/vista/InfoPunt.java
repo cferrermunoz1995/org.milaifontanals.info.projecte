@@ -37,6 +37,7 @@ public class InfoPunt extends JFrame {
         gBD = gbd;
         mTipus = gBD.getListTipus();
         mPunt = jPunt;
+        mRuta = ruta;
         initCbo();
         if (mPunt != null){
             initTexts(option);
@@ -205,11 +206,18 @@ public class InfoPunt extends JFrame {
                 Double latitude = Double.parseDouble(txtLatitud.getText());
                 Double longitud = Double.parseDouble(txtLongitud.getText());
                 Double altitude = Double.parseDouble(txtAltitut.getText());
-                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex());
+                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
+                System.out.println(mRuta);
                 mPunt = new Punt(0, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
                 
                 try {
-                    gBD.afegirPunt(mPunt);
+                    if (gBD.afegirPunt(mPunt)){
+                        JOptionPane.showMessageDialog(rootPane, "Punt inserit", "Èxit",0);
+                        gBD.validateChanges();
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error inserint el punt", "Error",0);
+                    }
                 } catch (WikilocException ex){
                     JOptionPane.showMessageDialog(this, "ex", "Error", 1);
                 }
@@ -226,7 +234,14 @@ public class InfoPunt extends JFrame {
                 mPunt.setAltitude(altitude);
                 
                 try {
-                    gBD.actualitzarPunt(mPunt);
+                    if(gBD.actualitzarPunt(mPunt)){
+                        JOptionPane.showMessageDialog(rootPane, "Punt inserit", "Èxit",0);
+                        txtNum.setText(mPunt.getId()+"");
+                        gBD.validateChanges();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error inserint el punt", "Error",0);
+                    }
+                        
                 } catch (WikilocException ex){
                     JOptionPane.showMessageDialog(this, "ex", "Error", 1);
                 }

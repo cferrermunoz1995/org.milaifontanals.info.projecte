@@ -22,37 +22,37 @@ insert into RUTA (id_ruta, titol_ruta, descrip_ruta, text_long_ruta, distancia_r
 values (null, 'Ruta 3', 'Descripció ruta 3', 'Ruta 3 - Castelló', 10, 2, 100, 100, 2, 'cferrer3');
 
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(1, 1, 'Punt 1 - Ruta 1', 'Punt 1 - Ruta 1', null, 12.1, 13.1, 1, 3.1);
+(null, 1, 'Punt 1 - Ruta 1', 'Punt 1 - Ruta 1', null, 12.1, 13.1, 1, 3.1);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(2, 1, 'Punt 2 - Ruta 1', 'Punt 2 - Ruta 1', null, 12, 13, 2, 3);
+(null, 1, 'Punt 2 - Ruta 1', 'Punt 2 - Ruta 1', null, 12, 13, 2, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(3, 1, 'Punt 3 - Ruta 1', 'Punt 3 - Ruta 1', null, 12, 13, 3, 3);
+(null, 1, 'Punt 3 - Ruta 1', 'Punt 3 - Ruta 1', null, 12, 13, 3, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(4, 1, 'Punt 4 - Ruta 1', 'Punt 4 - Ruta 1', null, 12, 13, 4, 3);
+(null, 1, 'Punt 4 - Ruta 1', 'Punt 4 - Ruta 1', null, 12, 13, 4, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(5, 1, 'Punt 5 - Ruta 1', 'Punt 5 - Ruta 1', null, 12, 13, 5, 3);
+(null, 1, 'Punt 5 - Ruta 1', 'Punt 5 - Ruta 1', null, 12, 13, 5, 3);
 
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(1, 2, 'Punt 1 - Ruta 2', 'Punt 1 - Ruta 2', null, 12, 13, 1, 3);
+(null, 2, 'Punt 1 - Ruta 2', 'Punt 1 - Ruta 2', null, 12, 13, 1, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(2, 2, 'Punt 2 - Ruta 2', 'Punt 2 - Ruta 2', null, 12, 13, 2, 3);
+(null, 2, 'Punt 2 - Ruta 2', 'Punt 2 - Ruta 2', null, 12, 13, 2, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(3, 2, 'Punt 3 - Ruta 2', 'Punt 3 - Ruta 2', null, 12, 13, 3, 3);
+(null, 2, 'Punt 3 - Ruta 2', 'Punt 3 - Ruta 2', null, 12, 13, 3, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(4, 2, 'Punt 4 - Ruta 2', 'Punt 4 - Ruta 2', null, 12, 13, 4, 3);
+(null, 2, 'Punt 4 - Ruta 2', 'Punt 4 - Ruta 2', null, 12, 13, 4, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(5, 2, 'Punt 5 - Ruta 2', 'Punt 5 - Ruta 2', null, 12, 13, 5, 3);
+(null, 2, 'Punt 5 - Ruta 2', 'Punt 5 - Ruta 2', null, 12, 13, 5, 3);
 
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(1, 3, 'Punt 1 - Ruta 3', 'Punt 1 - Ruta 3', null, 12, 13, 1, 3);
+(null, 3, 'Punt 1 - Ruta 3', 'Punt 1 - Ruta 3', null, 12, 13, 1, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(2, 3, 'Punt 2 - Ruta 3', 'Punt 2 - Ruta 3', null, 12, 13, 2, 3);
+(null, 3, 'Punt 2 - Ruta 3', 'Punt 2 - Ruta 3', null, 12, 13, 2, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(3, 3, 'Punt 3 - Ruta 3', 'Punt 3 - Ruta 3', null, 12, 13, 3, 3);
+(null, 3, 'Punt 3 - Ruta 3', 'Punt 3 - Ruta 3', null, 12, 13, 3, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(4, 3, 'Punt 4 - Ruta 3', 'Punt 4 - Ruta 3', null, 12, 13, 4, 3);
+(null, 3, 'Punt 4 - Ruta 3', 'Punt 4 - Ruta 3', null, 12, 13, 4, 3);
 insert into PUNT (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, lon_punt, tipus_punt, alt_punt) values
-(5, 3, 'Punt 5 - Ruta 3', 'Punt 5 - Ruta 3', null, 12, 13, 5, 3);
+(null, 3, 'Punt 5 - Ruta 3', 'Punt 5 - Ruta 3', null, 12, 13, 5, 3);
 
 insert into COMENTARI (id_comen, text_comen, valor_info_comen, feta_comen, dific_comen, v_pais_comen, v_seg_comen, mom_temp_comen, id_usu_comen, id_ruta_comen) values
 (null, 'Comentari 1 - Ruta 1', 1, 0, null, null, null, CURRENT_TIMESTAMP, 'cferrer2', 1);

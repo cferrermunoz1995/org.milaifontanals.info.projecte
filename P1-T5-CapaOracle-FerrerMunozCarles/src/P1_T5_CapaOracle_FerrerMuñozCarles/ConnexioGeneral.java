@@ -21,13 +21,10 @@ import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.Usuari;
-import com.sun.source.tree.BreakTree;
 import java.sql.Timestamp;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -89,7 +86,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             for (int i = 0; i < claus.length; i++) {
                 valors[i] = props.getProperty(claus[i]);
                 if (valors[i] == null || valors[i].isEmpty()) {
-                    System.out.println(valors[i]);
+//                    System.out.println(valors[i]);
                     throw new IGestorBDWikilocException("L'arxiu " + nomFitxerPropietats + " no troba la clau " + claus[i]);
                 }
             }
@@ -287,10 +284,10 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             ResultSet generatedKeys = psInsRuta.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int generatedId = generatedKeys.getInt(1);
-                System.out.println("Generated ID: " + generatedId);
+//                System.out.println("Generated ID: " + generatedId);
                 ruta.setId(generatedId);
             } else {
-                System.out.println("caca");
+//                System.out.println("caca");
             }
 
             return res;
@@ -330,8 +327,8 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     public boolean afegirPunt(Punt punt) throws IGestorBDWikilocException {
         if (psInsPunt == null) {
             try {
-                psInsPunt = conn.prepareStatement("insert into punt (num_punt, id_ruta_punt, nom_punt, desc_punt, foto_punt, lat_punt, "
-                        + "lon_punt, tipus_punt, alt_punt) values (null,?,?,?,null,?,?,?,?)", new String[]{"num_punt"});
+                psInsPunt = conn.prepareStatement("insert into punt (id_ruta_punt, nom_punt, desc_punt, lat_punt, "
+                        + "lon_punt, tipus_punt, alt_punt) values (?,?,?,?,?,?,?)", new String[]{"num_punt"});
             } catch (SQLException ex) {
                 throw new IGestorBDWikilocException("Error en preparar sentència psInsPunt");
             }
@@ -345,14 +342,17 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psInsPunt.setDouble(5, punt.getLongitude());
             psInsPunt.setInt(6, punt.getTipus().getId());
             psInsPunt.setDouble(7, punt.getAltitude());
-            boolean res = psInsPunt.executeUpdate() == 1;
+            boolean res = false;
+            if (psInsPunt.executeUpdate() == 1){
+                res = true;
+            }
             ResultSet generatedKeys = psInsPunt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int generatedId = generatedKeys.getInt(1);
-                System.out.println("Generated ID: " + generatedId);
+//                System.out.println("Generated ID: " + generatedId);
                 punt.setId(generatedId);
             } else {
-                System.out.println("caca");
+//                System.out.println("caca");
             }
             return res;
         } catch (SQLException ex) {
@@ -607,7 +607,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             ResultSet rs = psChangePuntsMax.executeQuery();
             rs.next();
             int max = rs.getInt("num_punt")+1;
-            System.out.println(max);
+//            System.out.println(max);
             psChangePunts.setInt(1, max);
             psChangePunts.setInt(2, p1.getRuta().getId());
             psChangePunts.setInt(3, p1.getId());

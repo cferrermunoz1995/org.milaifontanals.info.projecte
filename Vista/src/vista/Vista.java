@@ -58,6 +58,5 @@ public class Vista extends JFrame{
         }
         return info;
     }
-    
-    
+       
 }

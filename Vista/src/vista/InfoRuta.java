@@ -47,6 +47,7 @@ public class InfoRuta extends JFrame {
         initColumns();
         if (ruta!=null){
             punts = gBD.obtenirPunts(ruta);
+            ruta.setPunts(punts);
             initTable();
             initTexts(option);
             initSlider();
@@ -350,7 +351,8 @@ public class InfoRuta extends JFrame {
         // TODO add your handling code here:
         InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o');
         ip.setVisible(true);
-        this.dispose();
+        
+        //this.dispose();
     }//GEN-LAST:event_btnAfegirActionPerformed
 
     /**
