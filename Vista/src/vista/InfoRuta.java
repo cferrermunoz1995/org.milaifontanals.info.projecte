@@ -7,6 +7,7 @@ package vista;
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +21,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Timestamp;
 import java.util.Date;
+import javax.security.auth.callback.ConfirmationCallback;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -88,8 +91,8 @@ public class InfoRuta extends JFrame {
         btnImprimir = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         sliderDificultat = new javax.swing.JSlider();
-        btnCancel = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setTitle("Informació ruta");
 
@@ -184,6 +187,11 @@ public class InfoRuta extends JFrame {
         btnEliminar.setText("Eliminar");
         btnEliminar.setEnabled(false);
         btnEliminar.setInheritsPopupMenu(true);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -193,17 +201,17 @@ public class InfoRuta extends JFrame {
 
         sliderDificultat.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dificultat", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        btnCancel.setText("Guardar");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-
-        btnGuardar.setText("Cancel·lar");
+        btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancel·lar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -244,9 +252,9 @@ public class InfoRuta extends JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(293, 293, 293)
-                .addComponent(btnGuardar)
-                .addGap(87, 87, 87)
                 .addComponent(btnCancel)
+                .addGap(87, 87, 87)
+                .addComponent(btnGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,8 +309,8 @@ public class InfoRuta extends JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnCancel))
+                    .addComponent(btnCancel)
+                    .addComponent(btnGuardar))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
@@ -319,20 +327,6 @@ public class InfoRuta extends JFrame {
         btnEditar.setEnabled(active);
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        if (ruta == null){
-            Date d = new Date();
-            Timestamp ts = new Timestamp(d.getTime());
-            double distancia = Double.parseDouble(txtDistancia.getText());
-            double temps = Double.parseDouble(txtTemps.getText());
-            double desPos = Double.parseDouble(txtDesnPos.getText());
-            double desNeg = Double.parseDouble(txtDesnNeg.getText());
-            ruta = new Ruta(1, null, txtNom.getText(), textAreaText.getText(), distancia, temps, desPos, desNeg, sliderDificultat.getValue(), 0, 0, txtDescripció.getText(), mUser, ts);
-        }
-        this.dispose();
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         if (jTable1.getSelectedRow()!=-1){
@@ -342,11 +336,6 @@ public class InfoRuta extends JFrame {
         
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
-
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
         // TODO add your handling code here:
         InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o');
@@ -354,6 +343,42 @@ public class InfoRuta extends JFrame {
         
         //this.dispose();
     }//GEN-LAST:event_btnAfegirActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        Rutes r = new Rutes(gBD, mUser);
+        r.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow()!=-1){
+            int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);
+            if (res == JOptionPane.YES_OPTION){
+                try {
+                    if (gBD.eliminarPunt(punts.get(jTable1.getSelectedRow()))){
+                        JOptionPane.showMessageDialog(rootPane, "Punt eliminat", "Èxit",0);
+                        gBD.validateChanges();
+                        punts.clear();
+                        punts = gBD.obtenirPunts(ruta);
+                        initTable();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error eliminant el punt", "Error",0);
+                    }
+                } catch (WikilocException ex){
+                    JOptionPane.showMessageDialog(this, "ex", "Error", 1);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Error en eliminar punt", "Error", 1);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,7 +444,7 @@ public class InfoRuta extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initTable() {
-        
+        removeAllRows(tInfoRuta);
         for (Punt p : punts){
             tInfoRuta.addRow(new Object[]{p.getId(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
         }
@@ -495,5 +520,12 @@ public class InfoRuta extends JFrame {
         tInfoRuta.addColumn("Latitud");
         tInfoRuta.addColumn("Longitud");
         tInfoRuta.addColumn("Altitud");
+    }
+    
+    private static void removeAllRows(DefaultTableModel model) {
+        int rowCount = model.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
     }
 }

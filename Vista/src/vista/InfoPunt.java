@@ -207,7 +207,7 @@ public class InfoPunt extends JFrame {
                 Double longitud = Double.parseDouble(txtLongitud.getText());
                 Double altitude = Double.parseDouble(txtAltitut.getText());
                 Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
-                System.out.println(mRuta);
+                //System.out.println(mRuta);
                 mPunt = new Punt(0, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
                 
                 try {
@@ -235,7 +235,7 @@ public class InfoPunt extends JFrame {
                 
                 try {
                     if(gBD.actualitzarPunt(mPunt)){
-                        JOptionPane.showMessageDialog(rootPane, "Punt inserit", "Èxit",0);
+                        JOptionPane.showMessageDialog(rootPane, "Punt actualitzat", "Èxit",0);
                         txtNum.setText(mPunt.getId()+"");
                         gBD.validateChanges();
                     } else {
@@ -243,11 +243,9 @@ public class InfoPunt extends JFrame {
                     }
                         
                 } catch (WikilocException ex){
-                    JOptionPane.showMessageDialog(this, "ex", "Error", 1);
+                    JOptionPane.showMessageDialog(this, ex, "Error", 1);
                 }
             }
-        } else {
-            this.dispose();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 

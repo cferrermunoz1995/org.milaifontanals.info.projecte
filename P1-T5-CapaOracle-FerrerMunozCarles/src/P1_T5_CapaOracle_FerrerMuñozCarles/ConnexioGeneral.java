@@ -420,7 +420,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         List<Punt> punts = new ArrayList<>();
         if (psSelPunts == null) {
             try {
-                psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ?");
+                psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ? order by num_punt");
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new IGestorBDWikilocException("Error en crear psSelPunts");
