@@ -10,6 +10,7 @@ import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +23,8 @@ import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.table.JTableHeader;
 /**
  *
  * @author isard
@@ -37,6 +40,7 @@ public class Rutes extends javax.swing.JFrame {
     private DefaultTableModel tRutes;
     private List<Ruta> rutes = new ArrayList();
     private String mUser;
+    private JTableHeader header;
     
     /**
      * Creates new form Rutes
@@ -54,6 +58,8 @@ public class Rutes extends javax.swing.JFrame {
         mUser = user;
         rutes = gBD.obtenirLlistaRuta(user, null, null, "");
         initTable();
+        header = jTable1.getTableHeader();
+        header.addMouseListener(new ColumnHeaderClickListerner(jTable1));
     }
 
     /**
@@ -455,6 +461,8 @@ public class Rutes extends javax.swing.JFrame {
             }
         };
         
+        removeAllRows(tRutes);
+        
        
         jTable1.setModel(tRutes);
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -483,5 +491,34 @@ public class Rutes extends javax.swing.JFrame {
                 }
             }
         });
+    }
+    
+    private static void removeAllRows(DefaultTableModel model) {
+        int rowCount = model.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+    }
+
+    private static class ColumnHeaderClickListerner extends MouseInputAdapter  {
+
+        private final JTable table;
+        public ColumnHeaderClickListerner(JTable table) {
+            this.table = table;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int columnIndex = table.columnAtPoint(e.getPoint());
+            
+            // Add your logic here based on the column header click event
+            switch (columnIndex){
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+        }
+        
     }
 }

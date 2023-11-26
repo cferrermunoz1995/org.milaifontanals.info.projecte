@@ -9,11 +9,14 @@ import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -42,6 +45,105 @@ public class InfoPunt extends JFrame {
         if (mPunt != null){
             initTexts(option);
         }
+        txtAltitut.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtAltitut.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtAltitut.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtAltitut.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtLatitud.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtLatitud.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtLatitud.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtLatitud.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtLongitud.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtLongitud.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtLongitud.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtLongitud.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
@@ -80,6 +182,11 @@ public class InfoPunt extends JFrame {
         jLabel4.setText("Tipus:");
 
         cboTipus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona un element"}));
+        cboTipus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipusActionPerformed(evt);
+            }
+        });
 
         textAreaDesc.setColumns(20);
         textAreaDesc.setRows(5);
@@ -248,6 +355,12 @@ public class InfoPunt extends JFrame {
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void cboTipusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipusActionPerformed
+        // TODO add your handling code here:
+        btnGuardar.setEnabled(cboTipus.getSelectedIndex()!=0);
+        
+    }//GEN-LAST:event_cboTipusActionPerformed
 
     /**
      * @param args the command line arguments

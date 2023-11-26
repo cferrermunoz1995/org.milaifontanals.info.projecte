@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -35,6 +37,7 @@ public class InfoRuta extends JFrame {
     private DefaultTableModel tInfoRuta;
     private List<Punt> punts = new ArrayList<>();
     private String mUser;
+    private JTableHeader header;
     /**
      * Creates new form InfoRuta
      */
@@ -56,6 +59,8 @@ public class InfoRuta extends JFrame {
             initSlider();
         }
         setExtendedState(MAXIMIZED_BOTH);
+        header = jTable1.getTableHeader();
+        header.addMouseListener(new InfoRuta.ColumnHeaderClickListerner(jTable1));
     }
 
     /**
@@ -527,5 +532,27 @@ public class InfoRuta extends JFrame {
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
         }
+    }
+    
+    private static class ColumnHeaderClickListerner extends MouseInputAdapter  {
+
+        private final JTable table;
+        public ColumnHeaderClickListerner(JTable table) {
+            this.table = table;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int columnIndex = table.columnAtPoint(e.getPoint());
+            
+            // Add your logic here based on the column header click event
+            switch (columnIndex){
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+        }
+        
     }
 }
