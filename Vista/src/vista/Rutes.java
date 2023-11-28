@@ -345,7 +345,7 @@ public class Rutes extends javax.swing.JFrame {
         // TODO add your handling code here:
         InfoRuta ir = new InfoRuta(gBD,null,'c', mUser);
         ir.setVisible(true);
-        //this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

@@ -53,13 +53,14 @@ public class InfoRuta extends JFrame {
         mUser = user;
         gBD = gbd;
         ruta = rut;
+        initTextsDouble();
         initColumns();
+        initSlider();
         if (ruta!=null){
             punts = gBD.obtenirPunts(ruta);
             ruta.setPunts(punts);
             initTable();
             initTexts(option);
-            initSlider();
         }
         setExtendedState(MAXIMIZED_BOTH);
         header = jTable1.getTableHeader();
@@ -103,6 +104,7 @@ public class InfoRuta extends JFrame {
         btnGuardar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Informació ruta");
 
         jLabel1.setText("Nom:");
@@ -368,7 +370,7 @@ public class InfoRuta extends JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);{
+        int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols guardar la Ruta?", "Guardar ruta", ConfirmationCallback.YES_NO_OPTION);{
             if (res == JOptionPane.YES_OPTION){
                 int id = 0;
                 int numpunts = 0;
@@ -382,26 +384,40 @@ public class InfoRuta extends JFrame {
                 } else {
                     ts = new Timestamp(System.currentTimeMillis());
                 }
-                try {
+                    try {
                         double distancia = Double.parseDouble(txtDistancia.getText());
                         double temps = Double.parseDouble(txtTemps.getText());
                         double desnpos = Double.parseDouble(txtDesnPos.getText());
                         double desnneg = Double.parseDouble(txtDesnNeg.getText());
                         int dif = sliderDificultat.getValue();
+                        System.out.println(dif);
                         ruta = new Ruta(id,null,txtNom.getText(),textAreaText.getText(),distancia, temps,desnpos, desnneg, dif, numpunts,val,txtDescripció.getText(),mUser,ts);
+                        
                     } catch (Exception ex){
+                        ex.printStackTrace();
                         JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta", "Error", 1);
+                        return;
                     }
                 if (id == 0){
                     try{
                         if (gBD.afegirRuta(ruta, mUser)){
-                            
+                            JOptionPane.showMessageDialog(rootPane, "Ruta inserida", "Èxit", 1);
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                         }
                     } catch (Exception ex){
                         JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                     }
                 } else {
-
+                    try{
+                        if (gBD.actualitzarRuta(ruta)){
+                            JOptionPane.showMessageDialog(rootPane, "Ruta actualitzada", "Èxit", 1);
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
+                        }
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Procès cancel·lat", "Cancel·lat", 1);
@@ -527,8 +543,8 @@ public class InfoRuta extends JFrame {
         sliderDificultat.setPaintTicks(true);
         sliderDificultat.setPaintLabels(true);
     }
-
-    private void initTexts(char option) {
+    
+    private void initTextsDouble(){
         txtDesnNeg.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -661,6 +677,10 @@ public class InfoRuta extends JFrame {
                 }
             }
         });
+    }
+
+    private void initTexts(char option) {
+        
         txtDescripció.setText(ruta.getDescription());
         txtNom.setText(ruta.getTitol());
         textAreaText.setText(ruta.getText());

@@ -45,105 +45,7 @@ public class InfoPunt extends JFrame {
         if (mPunt != null){
             initTexts(option);
         }
-        txtAltitut.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                
-            }
-            
-            private void validateText() {
-                String inputValue = txtAltitut.getText();
-
-                try {
-                    // Attempt to parse the entered text as a double
-                    double doubleValue = Double.parseDouble(inputValue);
-                    // Valid double value, you can handle it as needed
-                    txtAltitut.setForeground(Color.BLACK);
-                    btnGuardar.setEnabled(true);
-                } catch (NumberFormatException ex) {
-                    // Handling the case where parsing fails
-                    // Change text color or provide other feedback to indicate an error
-                    txtAltitut.setForeground(Color.RED);
-                    btnGuardar.setEnabled(false);
-                }
-            }
-        });
-        txtLatitud.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                
-            }
-            
-            private void validateText() {
-                String inputValue = txtLatitud.getText();
-
-                try {
-                    // Attempt to parse the entered text as a double
-                    double doubleValue = Double.parseDouble(inputValue);
-                    // Valid double value, you can handle it as needed
-                    txtLatitud.setForeground(Color.BLACK);
-                    btnGuardar.setEnabled(true);
-                } catch (NumberFormatException ex) {
-                    // Handling the case where parsing fails
-                    // Change text color or provide other feedback to indicate an error
-                    txtLatitud.setForeground(Color.RED);
-                    btnGuardar.setEnabled(false);
-                }
-            }
-        });
-        txtLongitud.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateText();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                
-            }
-            
-            private void validateText() {
-                String inputValue = txtLongitud.getText();
-
-                try {
-                    // Attempt to parse the entered text as a double
-                    double doubleValue = Double.parseDouble(inputValue);
-                    // Valid double value, you can handle it as needed
-                    txtLongitud.setForeground(Color.BLACK);
-                    btnGuardar.setEnabled(true);
-                } catch (NumberFormatException ex) {
-                    // Handling the case where parsing fails
-                    // Change text color or provide other feedback to indicate an error
-                    txtLongitud.setForeground(Color.RED);
-                    btnGuardar.setEnabled(false);
-                }
-            }
-        });
+        
     }
 
     /**
@@ -424,6 +326,105 @@ public class InfoPunt extends JFrame {
     }
 
     private void initTexts(char option) {
+        txtAltitut.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtAltitut.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtAltitut.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtAltitut.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtLatitud.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtLatitud.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtLatitud.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtLatitud.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtLongitud.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtLongitud.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtLongitud.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtLongitud.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
         txtNum.setText(mPunt.getId()+"");
         txtNom.setText(mPunt.getNom());
         txtAltitut.setText(mPunt.getAltitude()+"");
