@@ -8,6 +8,7 @@ import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.JTableHeader;
 
@@ -61,6 +64,7 @@ public class InfoRuta extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         header = jTable1.getTableHeader();
         header.addMouseListener(new InfoRuta.ColumnHeaderClickListerner(jTable1));
+        
     }
 
     /**
@@ -181,7 +185,13 @@ public class InfoRuta extends JFrame {
         jPanel1.add(btnEditar, gridBagConstraints);
 
         btnImprimir.setText("Imprimir");
+        btnImprimir.setToolTipText("Opció en desenvolupament. Temporalment desactivada.");
         btnImprimir.setEnabled(false);
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -327,7 +337,7 @@ public class InfoRuta extends JFrame {
         int row = jTable1.getSelectedRow();
         
         Boolean active = row !=-1;
-        btnImprimir.setEnabled(active);
+        
         btnEliminar.setEnabled(active);
         btnEditar.setEnabled(active);
     }//GEN-LAST:event_jTable1MouseClicked
@@ -358,7 +368,45 @@ public class InfoRuta extends JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
+        int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);{
+            if (res == JOptionPane.YES_OPTION){
+                int id = 0;
+                int numpunts = 0;
+                double val = 0;
+                Timestamp ts = null;
+                if (ruta != null){
+                    id = ruta.getId();
+                    numpunts = ruta.getNumPunts();
+                    val = ruta.getNota_mitja_valoracio();
+                    ts = ruta.getData_creacio();
+                } else {
+                    ts = new Timestamp(System.currentTimeMillis());
+                }
+                try {
+                        double distancia = Double.parseDouble(txtDistancia.getText());
+                        double temps = Double.parseDouble(txtTemps.getText());
+                        double desnpos = Double.parseDouble(txtDesnPos.getText());
+                        double desnneg = Double.parseDouble(txtDesnNeg.getText());
+                        int dif = sliderDificultat.getValue();
+                        ruta = new Ruta(id,null,txtNom.getText(),textAreaText.getText(),distancia, temps,desnpos, desnneg, dif, numpunts,val,txtDescripció.getText(),mUser,ts);
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta", "Error", 1);
+                    }
+                if (id == 0){
+                    try{
+                        if (gBD.afegirRuta(ruta, mUser)){
+                            
+                        }
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
+                    }
+                } else {
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Procès cancel·lat", "Cancel·lat", 1);
+            }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -384,6 +432,10 @@ public class InfoRuta extends JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error en eliminar punt", "Error", 1);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -477,6 +529,138 @@ public class InfoRuta extends JFrame {
     }
 
     private void initTexts(char option) {
+        txtDesnNeg.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtDesnNeg.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtDesnNeg.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtDesnNeg.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtDesnPos.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtDesnPos.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtDesnPos.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtDesnPos.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtDistancia.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtDistancia.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtDistancia.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtDistancia.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
+        txtTemps.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtTemps.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtTemps.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtTemps.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
         txtDescripció.setText(ruta.getDescription());
         txtNom.setText(ruta.getTitol());
         textAreaText.setText(ruta.getText());

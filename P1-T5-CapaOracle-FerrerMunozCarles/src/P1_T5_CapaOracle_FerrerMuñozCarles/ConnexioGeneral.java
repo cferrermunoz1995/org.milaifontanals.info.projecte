@@ -258,7 +258,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     }
 
     @Override
-    public boolean afegirRuta(Ruta ruta, Usuari user) throws IGestorBDWikilocException {
+    public boolean afegirRuta(Ruta ruta, String user) throws IGestorBDWikilocException {
         if (psInsRuta == null) {
             try {
                 psInsRuta = conn.prepareStatement("insert into RUTA (id_ruta, titol_ruta, descrip_ruta, text_long_ruta, distancia_ruta, "
@@ -278,7 +278,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psInsRuta.setDouble(6, ruta.getDesnivell_positiu());
             psInsRuta.setDouble(7, ruta.getDesnivell_negatiu());
             psInsRuta.setInt(8, ruta.getDificultat());
-            psInsRuta.setString(9, user.getLogin());
+            psInsRuta.setString(9, user);
             //TODO
             boolean res = psInsRuta.executeUpdate() == 1;
             ResultSet generatedKeys = psInsRuta.getGeneratedKeys();

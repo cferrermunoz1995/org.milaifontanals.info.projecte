@@ -181,6 +181,7 @@ public class Rutes extends javax.swing.JFrame {
         btnImprimir.setEnabled(false);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.setToolTipText("Si el botó està desactivat tot i tenir una ruta seleccionada és degut a que la ruta té comentaris. Les rutes amb comentaris no es poden esborrar.");
         btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -8,7 +8,6 @@ import java.util.List;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
-import P1_T5_Model_FerrerMuñozCarles.Usuari;
 import java.util.HashMap;
 import java.sql.Timestamp;
 
@@ -26,7 +25,7 @@ public interface IGestorBDWikiloc {
     
     boolean actualitzarRuta(Ruta ruta) throws  IGestorBDWikilocException;
     
-    boolean afegirRuta(Ruta ruta, Usuari usuari) throws IGestorBDWikilocException;
+    boolean afegirRuta(Ruta ruta, String usuari) throws IGestorBDWikilocException;
     
     boolean eliminarRuta(Ruta ruta) throws IGestorBDWikilocException;
     

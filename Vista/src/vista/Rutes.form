@@ -161,6 +161,7 @@
         <Component class="javax.swing.JButton" name="btnEliminar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Si el bot&#xf3; est&#xe0; desactivat tot i tenir una ruta seleccionada &#xe9;s degut a que la ruta t&#xe9; comentaris. Les rutes amb comentaris no es poden esborrar."/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>

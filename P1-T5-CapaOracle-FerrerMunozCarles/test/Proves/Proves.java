@@ -47,7 +47,7 @@ public class Proves {
         }
         //Prova afegir ruta
         System.out.println("Prova afegir ruta");
-        if (gBD.afegirRuta(r1, user)){
+        if (gBD.afegirRuta(r1, user.getLogin())){
             System.out.println("Ruta afegida: "+r1);
         } else {
             System.out.println("Ruta no afegida");
@@ -104,7 +104,7 @@ public class Proves {
         gBD.validateChanges();
         //Prova podem eliminar ruta, útil en el cas de que estiguem mirant si la ruta té comentaris
         System.out.println("Prova podemEliminarRuta");
-        if (gBD.podemEliminarRuta(r1)){
+        if (!gBD.podemEliminarRuta(r1)){
             System.out.println("Ruta no possible eliminar");
         } else {
             System.out.println("Ruta possible eliminar");
