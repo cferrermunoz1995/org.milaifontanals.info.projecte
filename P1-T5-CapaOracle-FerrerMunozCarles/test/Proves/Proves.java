@@ -89,7 +89,7 @@ public class Proves {
         for (int i=0; i<punts.size();i++){
             System.out.println(punts.get(i));
         }
-        gBD.canviarOrdrePunts(punts.get(0), punts.get(1));
+//        gBD.canviarOrdrePunts(punts.get(0), punts.get(1));
         //Prova Eliminar Punt
         if (gBD.eliminarPunt(p1)){
             System.out.println("Punt eliminat"+p1.getNom());

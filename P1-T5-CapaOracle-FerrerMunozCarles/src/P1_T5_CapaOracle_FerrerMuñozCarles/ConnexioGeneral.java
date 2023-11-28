@@ -328,7 +328,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         if (psInsPunt == null) {
             try {
                 psInsPunt = conn.prepareStatement("insert into punt (id_ruta_punt, nom_punt, desc_punt, lat_punt, "
-                        + "lon_punt, tipus_punt, alt_punt) values (?,?,?,?,?,?,?)", new String[]{"num_punt"});
+                        + "lon_punt, tipus_punt, alt_punt) values (?,?,?,?,?,?,?)", new String[]{"id_punt"});
             } catch (SQLException ex) {
                 throw new IGestorBDWikilocException("Error en preparar sentència psInsPunt");
             }
@@ -365,7 +365,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     public boolean eliminarPunt(Punt punt) throws IGestorBDWikilocException {
         if (psDelPunt == null) {
             try {
-                psDelPunt = conn.prepareStatement("delete from punt where id_ruta_punt = ? and num_punt = ?");
+                psDelPunt = conn.prepareStatement("delete from punt where id_ruta_punt = ? and id_punt = ?");
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new IGestorBDWikilocException("Error en iniciar psDelPunt");
@@ -393,7 +393,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
     public boolean actualitzarPunt(Punt punt) throws IGestorBDWikilocException {
         if (psUpdPunt == null) {
             try {
-                psUpdPunt = conn.prepareStatement("UPDATE punt SET nom_punt = ?, desc_punt = ?, lat_punt = ?, lon_punt=?, alt_punt=?, TIPUS_PUNT=? WHERE id_ruta_punt = ? and num_punt = ?");
+                psUpdPunt = conn.prepareStatement("UPDATE punt SET nom_punt = ?, desc_punt = ?, lat_punt = ?, lon_punt=?, alt_punt=?, TIPUS_PUNT=? WHERE id_ruta_punt = ? and id_punt = ?");
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new IGestorBDWikilocException("Error en crear psUpdPunt");
@@ -420,7 +420,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         List<Punt> punts = new ArrayList<>();
         if (psSelPunts == null) {
             try {
-                psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ? order by num_punt");
+                psSelPunts = conn.prepareStatement("select * from punt where id_ruta_punt = ? order by id_punt");
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 throw new IGestorBDWikilocException("Error en crear psSelPunts");
@@ -430,7 +430,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psSelPunts.setInt(1, ruta.getId());
             ResultSet rs = psSelPunts.executeQuery();
             while (rs.next()) {
-                int num_punt = rs.getInt("num_punt");
+                int num_punt = rs.getInt("id_punt");
                 int id_ruta_punt = rs.getInt("id_ruta_punt");
                 String nom_punt = rs.getString("nom_punt");
                 String desc_punt = rs.getString("desc_punt");
@@ -580,7 +580,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             throw new IGestorBDWikilocException("Error en recuperar tipus: " + id_tipus);
         }
     }
-    
+    //mirar bé
     @Override
     public boolean canviarOrdrePunts(Punt p1, Punt p2) {
         if (!p1.getRuta().equals(p2.getRuta())){
@@ -588,14 +588,14 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
         }
         if (psChangePuntsMax == null){
             try {
-                psChangePuntsMax = conn.prepareStatement("select num_punt from punt where id_ruta_punt = ? order by num_punt desc fetch first 1 row only");
+                psChangePuntsMax = conn.prepareStatement("select id_punt from punt where id_ruta_punt = ? order by id_punt desc fetch first 1 row only");
             } catch (SQLException ex) {
                 throw new IGestorBDWikilocException("Error en preparar psChangePuntsMax");
             }
         }
         if (psChangePunts == null){
             try {
-                psChangePunts = conn.prepareStatement("update punt set num_punt = ? where id_ruta_punt = ? and num_punt = ?");
+                psChangePunts = conn.prepareStatement("update punt set num_punt = ? where id_ruta_punt = ? and _punt = ?");
             } catch (SQLException ex) {
                 throw new IGestorBDWikilocException("Error en preparar psChangePunts");
             }
