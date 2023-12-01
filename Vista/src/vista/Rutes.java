@@ -488,6 +488,7 @@ public class Rutes extends javax.swing.JFrame {
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                     InfoRuta ir = new InfoRuta(gBD, rutes.get(row), 'r', mUser);
                     ir.setVisible(true);
+                    Rutes.this.dispose();
                     
                 }
             }
@@ -498,6 +499,7 @@ public class Rutes extends javax.swing.JFrame {
         int rowCount = model.getRowCount();
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
+            
         }
     }
 
@@ -515,6 +517,7 @@ public class Rutes extends javax.swing.JFrame {
             // Add your logic here based on the column header click event
             switch (columnIndex){
                 case 0:
+                    System.out.println("");
                     break;
                 case 1:
                     break;

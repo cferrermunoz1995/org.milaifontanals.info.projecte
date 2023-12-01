@@ -394,7 +394,7 @@ public class InfoRuta extends JFrame {
                         ruta = new Ruta(id,null,txtNom.getText(),textAreaText.getText(),distancia, temps,desnpos, desnneg, dif, numpunts,val,txtDescripció.getText(),mUser,ts);
                         
                     } catch (Exception ex){
-                        ex.printStackTrace();
+                        
                         JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta", "Error", 1);
                         return;
                     }
