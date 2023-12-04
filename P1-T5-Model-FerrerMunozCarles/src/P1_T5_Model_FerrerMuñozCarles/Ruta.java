@@ -218,7 +218,7 @@ public class Ruta implements Comparable<Ruta> {
         return Id.compareTo(o.getId());
     }
     
-    public class RutaSortByDate implements Comparator<Ruta>{
+    public static class RutaSortByDate implements Comparator<Ruta>{
 
         @Override
         public int compare(Ruta o1, Ruta o2) {
@@ -227,7 +227,7 @@ public class Ruta implements Comparable<Ruta> {
     
     }
     
-    public class RutaSortByName implements Comparator<Ruta>{
+    public static class RutaSortByName implements Comparator<Ruta>{
 
         @Override
         public int compare(Ruta o1, Ruta o2) {
@@ -241,12 +241,23 @@ public class Ruta implements Comparable<Ruta> {
         
     }
     
-    public class RutaSortByNumPunts implements Comparator<Ruta>{
+    public static class RutaSortByNumPunts implements Comparator<Ruta>{
 
         @Override
         public int compare(Ruta o1, Ruta o2) {
             Integer NumPunts = o1.getNumPunts();
             return NumPunts.compareTo(o2.getNumPunts());
+            
+        }
+        
+    }
+    
+    public static class RutaSortByValo implements Comparator<Ruta>{
+
+        @Override
+        public int compare(Ruta o1, Ruta o2) {
+            Double NumPunts = o1.getNota_mitja_valoracio();
+            return NumPunts.compareTo(o2.getNota_mitja_valoracio());
             
         }
         

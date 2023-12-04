@@ -6,6 +6,10 @@ package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
+import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByDate;
+import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByName;
+import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByNumPunts;
+import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByValo;
 import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -17,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.security.auth.callback.ConfirmationCallback;
@@ -37,8 +42,8 @@ public class Rutes extends javax.swing.JFrame {
     
     private static SimpleDateFormat sdf;
     private ConnexioGeneral gBD = null;
-    private DefaultTableModel tRutes;
-    private List<Ruta> rutes = new ArrayList();
+    private static DefaultTableModel tRutes;
+    private static List<Ruta> rutes = new ArrayList();
     private String mUser;
     private JTableHeader header;
     
@@ -379,7 +384,7 @@ public class Rutes extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
-        int res = JOptionPane.showConfirmDialog(null,"Confirmar", "Segur que vols eliminar la ruta "+rutes.get(row).getTitol()+"+?", ConfirmationCallback.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(null,"Confirmar", "Segur que vols eliminar la ruta "+rutes.get(row).getTitol()+"?", ConfirmationCallback.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION) {
             try {
                 if (gBD.eliminarRuta(rutes.get(row))){
@@ -473,7 +478,7 @@ public class Rutes extends javax.swing.JFrame {
         tRutes.addColumn("Data creació");
         tRutes.addColumn("Número de punts");
         tRutes.addColumn("Valoració mitja");
-        Date date;
+        Date date = null;
         for (Ruta r : rutes){
             Timestamp tms = r.getData_creacio();
             date = new Date(tms.getTime());
@@ -513,13 +518,46 @@ public class Rutes extends javax.swing.JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             int columnIndex = table.columnAtPoint(e.getPoint());
-            
+            Rutes.removeAllRows(tRutes);
+            Date date = null;
             // Add your logic here based on the column header click event
             switch (columnIndex){
                 case 0:
-                    System.out.println("");
+                    
+                    Collections.sort(rutes, new RutaSortByName());
+
+                    for (Ruta r : rutes){
+                        Timestamp tms = r.getData_creacio();
+                        date = new Date(tms.getTime());
+                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                    }
                     break;
                 case 1:
+                    Collections.sort(rutes, new RutaSortByDate());
+
+                    for (Ruta r : rutes){
+                        Timestamp tms = r.getData_creacio();
+                        date = new Date(tms.getTime());
+                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                    }
+                    break;
+                case 2:
+                    Collections.sort(rutes, new RutaSortByNumPunts());
+
+                    for (Ruta r : rutes){
+                        Timestamp tms = r.getData_creacio();
+                        date = new Date(tms.getTime());
+                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                    }
+                    break;
+                case 3:
+                    Collections.sort(rutes, new RutaSortByValo());
+
+                    for (Ruta r : rutes){
+                        Timestamp tms = r.getData_creacio();
+                        date = new Date(tms.getTime());
+                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                    }
                     break;
             }
         }
