@@ -362,6 +362,7 @@ public class InfoRuta extends JFrame {
         if (jTable1.getSelectedRow()!=-1){
             InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w', mUser, optionRuta);
             ip.setVisible(true);
+            this.dispose();
         }
         
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -375,9 +376,13 @@ public class InfoRuta extends JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        Rutes r = new Rutes(gBD, mUser);
-        r.setVisible(true);
-        this.dispose();
+        int res = JOptionPane.showConfirmDialog(rootPane, "Segur que vols cancel·lar?", "Cancel·lar", ConfirmationCallback.YES_NO_OPTION);
+        if (res == JOptionPane.YES_OPTION){
+            Rutes r = new Rutes(gBD, mUser);
+            r.setVisible(true);
+            this.dispose();
+        }
+        
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed

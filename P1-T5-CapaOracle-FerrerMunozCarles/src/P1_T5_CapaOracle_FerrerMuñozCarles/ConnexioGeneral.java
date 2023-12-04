@@ -406,12 +406,12 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             psUpdPunt.setDouble(4, punt.getLongitude());
             psUpdPunt.setDouble(5, punt.getAltitude());
             psUpdPunt.setInt(6, punt.getTipus().getId());
-            psUpdPunt.setInt(7, punt.getId());
-            psUpdPunt.setInt(8, punt.getRuta().getId());
+            psUpdPunt.setInt(8, punt.getId());
+            psUpdPunt.setInt(7, punt.getRuta().getId());
             return psUpdPunt.executeUpdate() == 1;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new IGestorBDWikilocException("Error en eliminar punt: " + punt.getNom());
+            throw new IGestorBDWikilocException("Error en actualitzar el punt: " + punt.getNom());
         }
     }
 
