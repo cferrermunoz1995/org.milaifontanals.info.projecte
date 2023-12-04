@@ -46,6 +46,7 @@ public class Rutes extends javax.swing.JFrame {
     private static List<Ruta> rutes = new ArrayList();
     private String mUser;
     private JTableHeader header;
+    private static int anterior = -8;
     
     /**
      * Creates new form Rutes
@@ -520,8 +521,9 @@ public class Rutes extends javax.swing.JFrame {
             int columnIndex = table.columnAtPoint(e.getPoint());
             Rutes.removeAllRows(tRutes);
             Date date = null;
-            // Add your logic here based on the column header click event
-            switch (columnIndex){
+            if (columnIndex != anterior){
+                anterior = columnIndex;
+                switch (columnIndex){
                 case 0:
                     
                     Collections.sort(rutes, new RutaSortByName());
@@ -559,6 +561,16 @@ public class Rutes extends javax.swing.JFrame {
                         tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
                     }
                     break;
+                }
+            }
+            else {
+                anterior = columnIndex;
+                Collections.sort(rutes, Collections.reverseOrder());
+                for (Ruta r : rutes){
+                        Timestamp tms = r.getData_creacio();
+                        date = new Date(tms.getTime());
+                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                }
             }
         }
         
