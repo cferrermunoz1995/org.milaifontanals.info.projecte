@@ -28,6 +28,9 @@ public class InfoPunt extends JFrame {
     private Punt mPunt;
     private Ruta mRuta;
     private List<Tipus> mTipus = new ArrayList();
+    private String mUser;
+    private char optionRuta;
+    
     /**
      * Creates new form InfoPunt
      */
@@ -35,12 +38,14 @@ public class InfoPunt extends JFrame {
         initComponents();
     }
     
-    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, Ruta ruta, char option){
+    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, Ruta ruta, char option, String user, char oR){
         initComponents();
         gBD = gbd;
         mTipus = gBD.getListTipus();
         mPunt = jPunt;
         mRuta = ruta;
+        mUser = user;
+        optionRuta = oR;
         initCbo();
         if (mPunt != null){
             initTexts(option);
@@ -204,7 +209,13 @@ public class InfoPunt extends JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        int res = JOptionPane.showConfirmDialog(rootPane, "Segur que vols cancel·lar?", "Cancel·lar", ConfirmationCallback.YES_NO_OPTION);
+        if (res == JOptionPane.YES_OPTION){
+            InfoRuta ir = new InfoRuta(gBD, mRuta, optionRuta, mUser);
+            ir.setVisible(true);
+            this.dispose();
+        }
+        
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -223,6 +234,9 @@ public class InfoPunt extends JFrame {
                     if (gBD.afegirPunt(mPunt)){
                         JOptionPane.showMessageDialog(rootPane, "Punt inserit", "Èxit",0);
                         gBD.validateChanges();
+                        InfoRuta ir = new InfoRuta(gBD, mRuta, optionRuta, mUser);
+                        ir.setVisible(true);
+            
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Error inserint el punt", "Error",0);

@@ -41,6 +41,7 @@ public class InfoRuta extends JFrame {
     private List<Punt> punts = new ArrayList<>();
     private String mUser;
     private JTableHeader header;
+    private char optionRuta;
     /**
      * Creates new form InfoRuta
      */
@@ -55,12 +56,12 @@ public class InfoRuta extends JFrame {
         ruta = rut;
         initTextsDouble();
         initColumns();
-        initSlider();
+        optionRuta = option;
         if (ruta!=null){
             punts = gBD.obtenirPunts(ruta);
             ruta.setPunts(punts);
             initTable();
-            initTexts(option);
+            initTexts();
         }
         setExtendedState(MAXIMIZED_BOTH);
         header = jTable1.getTableHeader();
@@ -100,9 +101,10 @@ public class InfoRuta extends JFrame {
         btnEditar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        sliderDificultat = new javax.swing.JSlider();
         btnGuardar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        cboDificultat = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Informació ruta");
@@ -216,8 +218,6 @@ public class InfoRuta extends JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 122, 20, 0);
         jPanel1.add(btnEliminar, gridBagConstraints);
 
-        sliderDificultat.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dificultat", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
-
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,77 +232,90 @@ public class InfoRuta extends JFrame {
             }
         });
 
+        cboDificultat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona una dificultat", "1", "2", "3", "4", "5" }));
+        cboDificultat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDificultatActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Dificultat:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtDistancia, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(txtDesnPos))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(56, 56, 56)
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtTemps, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtDesnNeg, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(168, 168, 168))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(293, 293, 293)
-                .addComponent(btnCancel)
-                .addGap(87, 87, 87)
-                .addComponent(btnGuardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtDistancia, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                            .addComponent(txtDesnPos))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel5)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(txtTemps, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel7)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(txtDesnNeg, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(43, 43, 43)
+                                                .addComponent(jLabel8)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(cboDificultat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(155, 155, 155))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sliderDificultat, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(293, 293, 293)
+                                .addComponent(btnCancel)
+                                .addGap(87, 87, 87)
+                                .addComponent(btnGuardar))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(47, 47, 47)
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(sliderDificultat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboDificultat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtDescripció, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -328,7 +341,7 @@ public class InfoRuta extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnGuardar))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -347,7 +360,7 @@ public class InfoRuta extends JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         if (jTable1.getSelectedRow()!=-1){
-            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w');
+            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w', mUser, optionRuta);
             ip.setVisible(true);
         }
         
@@ -355,10 +368,9 @@ public class InfoRuta extends JFrame {
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
         // TODO add your handling code here:
-        InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o');
+        InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o', mUser, optionRuta);
         ip.setVisible(true);
-        
-        //this.dispose();
+        this.dispose();
     }//GEN-LAST:event_btnAfegirActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -389,8 +401,7 @@ public class InfoRuta extends JFrame {
                         double temps = Double.parseDouble(txtTemps.getText());
                         double desnpos = Double.parseDouble(txtDesnPos.getText());
                         double desnneg = Double.parseDouble(txtDesnNeg.getText());
-                        int dif = sliderDificultat.getValue();
-                        System.out.println(dif);
+                        int dif = cboDificultat.getSelectedIndex();
                         ruta = new Ruta(id,null,txtNom.getText(),textAreaText.getText(),distancia, temps,desnpos, desnneg, dif, numpunts,val,txtDescripció.getText(),mUser,ts);
                         
                     } catch (Exception ex){
@@ -402,6 +413,7 @@ public class InfoRuta extends JFrame {
                     try{
                         if (gBD.afegirRuta(ruta, mUser)){
                             JOptionPane.showMessageDialog(rootPane, "Ruta inserida", "Èxit", 1);
+                            gBD.validateChanges();
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                         }
@@ -453,6 +465,11 @@ public class InfoRuta extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void cboDificultatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDificultatActionPerformed
+        // TODO add your handling code here:
+        btnGuardar.setEnabled(cboDificultat.getSelectedIndex()!=0);
+    }//GEN-LAST:event_cboDificultatActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -495,6 +512,7 @@ public class InfoRuta extends JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
+    private javax.swing.JComboBox<String> cboDificultat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -502,11 +520,11 @@ public class InfoRuta extends JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JSlider sliderDificultat;
     private javax.swing.JTextArea textAreaText;
     private javax.swing.JTextField txtDescripció;
     private javax.swing.JTextField txtDesnNeg;
@@ -528,20 +546,13 @@ public class InfoRuta extends JFrame {
                 int row = table.rowAtPoint(point);
                 
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    InfoPunt ip = new InfoPunt(gBD, punts.get(row), ruta, 'r');
+                    InfoPunt ip = new InfoPunt(gBD, punts.get(row), ruta, 'r', mUser, optionRuta);
                     ip.setVisible(true);
-                    
+                    InfoRuta.this.dispose();
                 }
             }
         });
         
-    }
-
-    private void initSlider() {
-        sliderDificultat.setMajorTickSpacing(1);
-        sliderDificultat.setMinorTickSpacing(1);
-        sliderDificultat.setPaintTicks(true);
-        sliderDificultat.setPaintLabels(true);
     }
     
     private void initTextsDouble(){
@@ -679,7 +690,7 @@ public class InfoRuta extends JFrame {
         });
     }
 
-    private void initTexts(char option) {
+    private void initTexts() {
         
         txtDescripció.setText(ruta.getDescription());
         txtNom.setText(ruta.getTitol());
@@ -688,8 +699,8 @@ public class InfoRuta extends JFrame {
         txtTemps.setText(ruta.getDuracio()+"");
         txtDesnNeg.setText(ruta.getDesnivell_negatiu()+"");
         txtDesnPos.setText(ruta.getDesnivell_positiu()+"");
-        sliderDificultat.setExtent(ruta.getDificultat());
-        switch (option){
+        cboDificultat.setSelectedIndex(ruta.getDificultat());
+        switch (optionRuta){
             case 'r':
                 initTextsBool(false);
                 break;
@@ -707,7 +718,7 @@ public class InfoRuta extends JFrame {
         txtDesnNeg.setEnabled(b);
         txtDesnPos.setEnabled(b);
         txtDistancia.setEnabled(b);
-        sliderDificultat.setEnabled(b);
+        cboDificultat.setEnabled(b);
         
     }
 

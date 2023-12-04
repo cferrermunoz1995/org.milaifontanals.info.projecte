@@ -160,7 +160,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
                 + "    count(punt.nom_punt) as count\n"
                 + "FROM \n"
                 + "    ruta\n"
-                + "INNER JOIN \n"
+                + "left JOIN \n"
                 + "    punt\n"
                 + "ON \n"
                 + "    ruta.id_ruta = punt.id_ruta_punt\n"
