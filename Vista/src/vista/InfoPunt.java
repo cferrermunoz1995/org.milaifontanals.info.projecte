@@ -278,7 +278,6 @@ public class InfoPunt extends JFrame {
                 Double longitud = Double.parseDouble(txtLongitud.getText());
                 Double altitude = Double.parseDouble(txtAltitut.getText());
                 Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
-                //System.out.println(mRuta);
                 mPunt = new Punt(0, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
                 
                 try {
@@ -305,7 +304,6 @@ public class InfoPunt extends JFrame {
                 mPunt.setLongitude(longitud);
                 mPunt.setLatitude(latitude);
                 mPunt.setAltitude(altitude);
-                System.out.println(mPunt);
                 try {
                     if(gBD.actualitzarPunt(mPunt)){
                         JOptionPane.showMessageDialog(rootPane, "Punt actualitzat", "Èxit",JOptionPane.OK_OPTION);

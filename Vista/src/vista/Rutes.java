@@ -339,10 +339,10 @@ public class Rutes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "La data final ha de ser posterior a la data inicial", "Error",1);
                 dtpInici.setDate(null);
                 dtpFinal.setDate(null);
-            } else {
-                rutes = gBD.obtenirLlistaRuta(mUser, tsDI, tsDF, nom);
-                initTable();
             }
+        } else {
+            rutes = gBD.obtenirLlistaRuta(mUser, tsDI, tsDF, nom);
+            initTable();
         }
         
     }//GEN-LAST:event_btnFiltrarActionPerformed
@@ -379,6 +379,7 @@ public class Rutes extends javax.swing.JFrame {
         rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
         dtpInici.setDate(null);
         dtpFinal.setDate(null);
+        txtFiltrar.setText("");
         initTable();
     }//GEN-LAST:event_btnCleanFilterActionPerformed
 

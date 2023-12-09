@@ -219,6 +219,7 @@ public class InfoRuta extends JFrame {
         jPanel1.add(btnEliminar, gridBagConstraints);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.setEnabled(false);
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -366,15 +367,12 @@ public class InfoRuta extends JFrame {
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
         // TODO add your handling code here:
-        
         if (ruta == null){
             JOptionPane.showMessageDialog(rootPane, "Has de guardar la ruta abans d'afegir-hi punts", "Alerta", JOptionPane.OK_OPTION);
         } else {
-            if (jTable1.getSelectedRow()!=-1){
-                InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o', mUser, optionRuta);
-                ip.setVisible(true);
-                this.dispose();
-            }
+            InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o', mUser, optionRuta);
+            ip.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
 
@@ -415,7 +413,7 @@ public class InfoRuta extends JFrame {
                         
                     } catch (Exception ex){
                         
-                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta", "Error", 1);
+                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta (Fiax't en el valor del desplegable de la dificultat i que els valors de text siguin correctes)", "Error", 1);
                         return;
                     }
                 if (id == 0){
@@ -424,7 +422,7 @@ public class InfoRuta extends JFrame {
                             JOptionPane.showMessageDialog(rootPane, "Ruta inserida", "Èxit", 1);
                             gBD.validateChanges();
                         } else {
-                            JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
+                            JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta ", "Error", 1);
                         }
                     } catch (Exception ex){
                         JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
