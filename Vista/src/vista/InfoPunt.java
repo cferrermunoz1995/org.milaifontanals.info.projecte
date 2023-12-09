@@ -274,11 +274,18 @@ public class InfoPunt extends JFrame {
         int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION){
             if (mPunt == null){
-                Double latitude = Double.parseDouble(txtLatitud.getText());
-                Double longitud = Double.parseDouble(txtLongitud.getText());
-                Double altitude = Double.parseDouble(txtAltitut.getText());
-                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
-                mPunt = new Punt(0, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
+                
+                try {
+                    Integer num = Integer.parseInt(txtNum.getText());
+                    Double latitude = Double.parseDouble(txtLatitud.getText());
+                    Double longitud = Double.parseDouble(txtLongitud.getText());
+                    Double altitude = Double.parseDouble(txtAltitut.getText());
+                    Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
+                    mPunt = new Punt(0,num, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
+                } catch (Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "Error creant el punt", "Error",JOptionPane.OK_OPTION);
+                }
+                
                 
                 try {
                     if (gBD.afegirPunt(mPunt)){
@@ -294,17 +301,20 @@ public class InfoPunt extends JFrame {
                     JOptionPane.showMessageDialog(this, "ex", "Error", 1);
                 }
             } else {
-                Double latitude = Double.parseDouble(txtLatitud.getText());
-                Double longitud = Double.parseDouble(txtLongitud.getText());
-                Double altitude = Double.parseDouble(txtAltitut.getText());
-                Tipus tipus = mTipus.get(cboTipus.getSelectedIndex());
-                mPunt.setNom(txtNom.getText());
-                mPunt.setDesc(textAreaDesc.getText());
-                mPunt.setTipus(tipus);
-                mPunt.setLongitude(longitud);
-                mPunt.setLatitude(latitude);
-                mPunt.setAltitude(altitude);
+                
                 try {
+                    Integer num = Integer.parseInt(txtNum.getText());
+                    Double latitude = Double.parseDouble(txtLatitud.getText());
+                    Double longitud = Double.parseDouble(txtLongitud.getText());
+                    Double altitude = Double.parseDouble(txtAltitut.getText());
+                    Tipus tipus = mTipus.get(cboTipus.getSelectedIndex());
+                    mPunt.setNumero(num);
+                    mPunt.setNom(txtNom.getText());
+                    mPunt.setDesc(textAreaDesc.getText());
+                    mPunt.setTipus(tipus);
+                    mPunt.setLongitude(longitud);
+                    mPunt.setLatitude(latitude);
+                    mPunt.setAltitude(altitude);
                     if(gBD.actualitzarPunt(mPunt)){
                         JOptionPane.showMessageDialog(rootPane, "Punt actualitzat", "Èxit",JOptionPane.OK_OPTION);
                         txtNum.setText(mPunt.getId()+"");
@@ -391,6 +401,39 @@ public class InfoPunt extends JFrame {
     }
 
     private void initTexts(char option) {
+        txtNum.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+            
+            private void validateText() {
+                String inputValue = txtNum.getText();
+
+                try {
+                    // Attempt to parse the entered text as a double
+                    double doubleValue = Double.parseDouble(inputValue);
+                    // Valid double value, you can handle it as needed
+                    txtNum.setForeground(Color.BLACK);
+                    btnGuardar.setEnabled(true);
+                } catch (NumberFormatException ex) {
+                    // Handling the case where parsing fails
+                    // Change text color or provide other feedback to indicate an error
+                    txtNum.setForeground(Color.RED);
+                    btnGuardar.setEnabled(false);
+                }
+            }
+        });
         txtAltitut.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {

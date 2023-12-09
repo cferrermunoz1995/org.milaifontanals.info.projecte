@@ -12,6 +12,7 @@ import java.awt.Image;
  */
 public class Punt {
     private int id; //obligatori, el crea la bd
+    private int numero; //obligatori
     private Ruta ruta; //obligatori
     private String nom; //obligatori
     private String desc; //obligatori
@@ -21,8 +22,9 @@ public class Punt {
     private double altitude; //obligatori
     private Tipus tipus; //obligatori
 
-    public Punt(int id,Ruta ruta, String nom, String desc, Image foto, double latitude, double longitude, double altitude, Tipus tipus) {
+    public Punt(int id, int num, Ruta ruta, String nom, String desc, Image foto, double latitude, double longitude, double altitude, Tipus tipus) {
         setId(id);
+        setNumero(num);
         setRuta(ruta);
         setNom(nom);
         setDesc(desc);
@@ -40,6 +42,16 @@ public class Punt {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+    
+    
 
     public Ruta getRuta() {
         return ruta;

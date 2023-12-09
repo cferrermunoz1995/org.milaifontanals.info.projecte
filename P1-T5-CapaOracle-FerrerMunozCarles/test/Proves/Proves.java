@@ -36,8 +36,8 @@ public class Proves {
         Usuari user = new Usuari("cferrer1","cferrer1","cferrer1");
         Ruta r1 = new Ruta(4,null,"Títol prova","Text prova", 10, 10,10,10,1,0,4,"Descripció", "cferrer1", new Timestamp(System.currentTimeMillis()));
         
-        Punt p1 = new Punt(15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
-        Punt p2 = new Punt(18,r1,"punt prova 2", "descripció prova 2", null, 52,45,45,tipus.get(0));
+        Punt p1 = new Punt(0,15,r1,"punt prova", "descripció prova", null, 45,45,45,tipus.get(0));
+        Punt p2 = new Punt(0,18,r1,"punt prova 2", "descripció prova 2", null, 52,45,45,tipus.get(0));
         
         mostrarTipus(tipus);
         if (gBD.comprovarContrasenya("cferrer1", "cferrer1")){
