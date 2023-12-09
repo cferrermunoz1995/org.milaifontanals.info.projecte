@@ -82,6 +82,8 @@ public class InfoPunt extends JFrame {
         btnGuardar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Punt");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText("Número:");

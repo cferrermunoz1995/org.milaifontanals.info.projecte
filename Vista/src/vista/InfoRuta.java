@@ -359,19 +359,23 @@ public class InfoRuta extends JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        if (jTable1.getSelectedRow()!=-1){
-            InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w', mUser, optionRuta);
-            ip.setVisible(true);
-            this.dispose();
-        }
-        
+        InfoPunt ip = new InfoPunt(gBD, punts.get(jTable1.getSelectedRow()),ruta, 'w', mUser, optionRuta);
+        ip.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
         // TODO add your handling code here:
-        InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o', mUser, optionRuta);
-        ip.setVisible(true);
-        this.dispose();
+        
+        if (ruta == null){
+            JOptionPane.showMessageDialog(rootPane, "Has de guardar la ruta abans d'afegir-hi punts", "Alerta", JOptionPane.OK_OPTION);
+        } else {
+            if (jTable1.getSelectedRow()!=-1){
+                InfoPunt ip = new InfoPunt(gBD, null, ruta, 'o', mUser, optionRuta);
+                ip.setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_btnAfegirActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
