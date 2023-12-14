@@ -6,8 +6,10 @@ package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
-import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import java.awt.TextArea;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -36,10 +38,13 @@ public class Vista extends JFrame{
             JFrame frame = new Login(gBD);
             frame.setVisible(true);
             
-        } catch (Exception ex){
+        } catch (IGestorBDWikilocException ex){
+            JOptionPane.showMessageDialog(this, "Error en connectar-se a la base de dades (IGestorBDWikilocException)", "Error", 1);
+            System.exit(WIDTH);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             JOptionPane.showMessageDialog(this, "Error en connectar-se a la base de dades", "Error", 1);
             System.exit(WIDTH);
-        }
+        } 
     }
     
     private String infoError(Throwable ex) {

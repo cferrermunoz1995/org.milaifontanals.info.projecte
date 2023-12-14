@@ -357,7 +357,7 @@ public class ConnexioGeneral implements IGestorBDWikiloc {
             }
             return res;
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            
             throw new IGestorBDWikilocException("Error en intentar inserir punt: " + punt.getNom());
         }
     }

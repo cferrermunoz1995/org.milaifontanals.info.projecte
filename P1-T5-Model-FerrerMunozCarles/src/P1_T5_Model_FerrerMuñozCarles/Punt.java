@@ -5,12 +5,13 @@
 package P1_T5_Model_FerrerMuñozCarles;
 
 import java.awt.Image;
+import java.util.Comparator;
 
 /**
  *
  * @author isard
  */
-public class Punt {
+public class Punt implements Comparable<Punt>{
     private int id; //obligatori, el crea la bd
     private int numero; //obligatori
     private Ruta ruta; //obligatori
@@ -137,7 +138,68 @@ public class Punt {
     public String toString() {
         return "Punt{" + "id=" + id + ", ruta=" + ruta + ", nom=" + nom + ", desc=" + desc + ", foto=" + foto + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + ", tipus=" + tipus + '}';
     }
+
+    @Override
+    public int compareTo(Punt o) {
+        Integer id = this.getId();
+        return id.compareTo(o.getId());
+    }
     
+    public static class PuntSortByNum implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            Integer num = o1.getNumero();
+            return num.compareTo(o2.getNumero());
+        }
+    }
+    
+    public static class PuntSortByName implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            return o1.getNom().compareTo(o2.getNom());
+        }
+    }
+    
+    public static class PuntSortByDesc implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            return o1.getDesc().compareTo(o2.getDesc());
+        }
+        
+    }
+    
+    public static class PuntSortByLatitud implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            Double lat = o1.getLatitude();
+            return lat.compareTo(o2.getLatitude());
+        }
+        
+    }
+    
+    public static class PuntSortByLong implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            Double lon = o1.getLongitude();
+            return lon.compareTo(o2.getLongitude());
+        }
+        
+    }
+    
+    public static class PuntSortByAlt implements Comparator<Punt>{
+
+        @Override
+        public int compare(Punt o1, Punt o2) {
+            Double alt = o1.getAltitude();
+            return alt.compareTo(o2.getAltitude());
+        }
+        
+    }
     
     
 }

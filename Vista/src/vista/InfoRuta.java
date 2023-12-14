@@ -5,9 +5,15 @@
 package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByAlt;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByDesc;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByLatitud;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByLong;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByName;
+import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByNum;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
-import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -17,11 +23,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Collections;
 import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -37,11 +41,12 @@ public class InfoRuta extends JFrame {
 
     private ConnexioGeneral gBD = null;
     private Ruta ruta;
-    private DefaultTableModel tInfoRuta;
-    private List<Punt> punts = new ArrayList<>();
+    private static DefaultTableModel tInfoRuta;
+    private static List<Punt> punts = new ArrayList<>();
     private String mUser;
     private JTableHeader header;
     private char optionRuta;
+    private static int anterior = -8;
     /**
      * Creates new form InfoRuta
      */
@@ -411,10 +416,10 @@ public class InfoRuta extends JFrame {
                         int dif = cboDificultat.getSelectedIndex();
                         ruta = new Ruta(id,null,txtNom.getText(),textAreaText.getText(),distancia, temps,desnpos, desnneg, dif, numpunts,val,txtDescripció.getText(),mUser,ts);
                         
-                    } catch (Exception ex){
-                        
-                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta (Fiax't en el valor del desplegable de la dificultat i que els valors de text siguin correctes)", "Error", 1);
-                        return;
+                    } catch (IGestorBDWikilocException ex){
+                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta", "Error", 1);
+                    } catch (NumberFormatException ex){
+                        JOptionPane.showMessageDialog(rootPane, "Error en crear la ruta, valors no adequats", "Error", 1);
                     }
                 if (id == 0){
                     try{
@@ -424,7 +429,7 @@ public class InfoRuta extends JFrame {
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta ", "Error", 1);
                         }
-                    } catch (Exception ex){
+                    } catch (IGestorBDWikilocException ex){
                         JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                     }
                 } else {
@@ -434,7 +439,7 @@ public class InfoRuta extends JFrame {
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                         }
-                    } catch (Exception ex){
+                    } catch (IGestorBDWikilocException ex){
                         JOptionPane.showMessageDialog(rootPane, "Error en guardar la ruta", "Error", 1);
                     }
                 }
@@ -459,7 +464,7 @@ public class InfoRuta extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Error eliminant el punt", "Error",0);
                     }
-                } catch (WikilocException ex){
+                } catch (IGestorBDWikilocException ex){
                     JOptionPane.showMessageDialog(this, "ex", "Error", 1);
                 }
             }
@@ -544,7 +549,7 @@ public class InfoRuta extends JFrame {
     private void initTable() {
         removeAllRows(tInfoRuta);
         for (Punt p : punts){
-            tInfoRuta.addRow(new Object[]{p.getId(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
         }
         jTable1.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent mouseEvent) {
@@ -766,14 +771,62 @@ public class InfoRuta extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             int columnIndex = table.columnAtPoint(e.getPoint());
-            
+            InfoRuta.removeAllRows(tInfoRuta);
             // Add your logic here based on the column header click event
-            switch (columnIndex){
-                case 0:
-                    break;
-                case 1:
-                    break;
+            if (columnIndex != anterior){
+                anterior = columnIndex;
+                switch (columnIndex){
+                    //numero
+                    case 0:
+                        Collections.sort(punts,new PuntSortByNum());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                    //nom    
+                    case 1:
+                        Collections.sort(punts,new PuntSortByName());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                    //descripcio
+                    case 2:
+                        Collections.sort(punts,new PuntSortByDesc());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                    //latitud
+                    case 3:
+                        Collections.sort(punts,new PuntSortByLatitud());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                    //longitud
+                    case 4:
+                        Collections.sort(punts,new PuntSortByLong());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                    //altitud
+                    case 5:
+                        Collections.sort(punts,new PuntSortByAlt());
+                        for (Punt p : punts){
+                            tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                        }
+                        break;
+                }
+            } else {
+                anterior = columnIndex;
+                Collections.sort(punts, Collections.reverseOrder());
+                for (Punt p : punts){
+                    tInfoRuta.addRow(new Object[]{p.getNumero(), p.getNom(), p.getDesc(), p.getLatitude(), p.getLongitude(), p.getAltitude()});
+                }
             }
+            
         }
         
     }

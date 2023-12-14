@@ -5,12 +5,12 @@
 package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByDate;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByName;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByNumPunts;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByValo;
-import P1_T5_Model_FerrerMuñozCarles.WikilocException;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -395,7 +395,7 @@ public class Rutes extends javax.swing.JFrame {
                     rutes = gBD.obtenirLlistaRuta(mUser, null, null, "");
                     initTable();
                 }
-            } catch (WikilocException ex){
+            } catch (IGestorBDWikilocException ex){
                     JOptionPane.showMessageDialog(rootPane, ex);
             }
         } else {
@@ -525,45 +525,45 @@ public class Rutes extends javax.swing.JFrame {
             if (columnIndex != anterior){
                 anterior = columnIndex;
                 switch (columnIndex){
-                case 0:
-                    
-                    Collections.sort(rutes, new RutaSortByName());
+                    case 0:
 
-                    for (Ruta r : rutes){
-                        Timestamp tms = r.getData_creacio();
-                        date = new Date(tms.getTime());
-                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
-                    }
-                    break;
-                case 1:
-                    Collections.sort(rutes, new RutaSortByDate());
+                        Collections.sort(rutes, new RutaSortByName());
 
-                    for (Ruta r : rutes){
-                        Timestamp tms = r.getData_creacio();
-                        date = new Date(tms.getTime());
-                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
-                    }
-                    break;
-                case 2:
-                    Collections.sort(rutes, new RutaSortByNumPunts());
+                        for (Ruta r : rutes){
+                            Timestamp tms = r.getData_creacio();
+                            date = new Date(tms.getTime());
+                            tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                        }
+                        break;
+                    case 1:
+                        Collections.sort(rutes, new RutaSortByDate());
 
-                    for (Ruta r : rutes){
-                        Timestamp tms = r.getData_creacio();
-                        date = new Date(tms.getTime());
-                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
-                    }
-                    break;
-                case 3:
-                    Collections.sort(rutes, new RutaSortByValo());
+                        for (Ruta r : rutes){
+                            Timestamp tms = r.getData_creacio();
+                            date = new Date(tms.getTime());
+                            tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                        }
+                        break;
+                    case 2:
+                        Collections.sort(rutes, new RutaSortByNumPunts());
 
-                    for (Ruta r : rutes){
-                        Timestamp tms = r.getData_creacio();
-                        date = new Date(tms.getTime());
-                        tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                        for (Ruta r : rutes){
+                            Timestamp tms = r.getData_creacio();
+                            date = new Date(tms.getTime());
+                            tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                        }
+                        break;
+                    case 3:
+                        Collections.sort(rutes, new RutaSortByValo());
+
+                        for (Ruta r : rutes){
+                            Timestamp tms = r.getData_creacio();
+                            date = new Date(tms.getTime());
+                            tRutes.addRow(new Object[]{r.getTitol(), sdf.format(date), r.getNumPunts(),r.getNota_mitja_valoracio()});
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
             else {
                 anterior = columnIndex;
                 Collections.sort(rutes, Collections.reverseOrder());

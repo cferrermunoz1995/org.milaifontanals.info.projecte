@@ -5,6 +5,7 @@
 package vista;
 
 import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Tipus;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -48,10 +50,9 @@ public class InfoPunt extends JFrame {
         mUser = user;
         optionRuta = oR;
         initCbo();
-        if (mPunt != null){
-            initTexts(option);
-        }
+        initTexts(option);
         setExtendedState(MAXIMIZED_BOTH);
+        
     }
 
     /**
@@ -184,7 +185,7 @@ public class InfoPunt extends JFrame {
         gridBagConstraints.insets = new java.awt.Insets(22, 23, 0, 0);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        jLabel6.setText("Longitut:");
+        jLabel6.setText("Longitud:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -210,7 +211,7 @@ public class InfoPunt extends JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
         getContentPane().add(txtLongitud, gridBagConstraints);
 
-        jLabel7.setText("Altitut:");
+        jLabel7.setText("Altitud:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
@@ -229,6 +230,7 @@ public class InfoPunt extends JFrame {
         getContentPane().add(txtAltitut, gridBagConstraints);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.setEnabled(false);
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -274,7 +276,6 @@ public class InfoPunt extends JFrame {
         int res = JOptionPane.showConfirmDialog(this, "Estàs segur que vols inserir el Punt?", "Inserir punt", ConfirmationCallback.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION){
             if (mPunt == null){
-                
                 try {
                     Integer num = Integer.parseInt(txtNum.getText());
                     Double latitude = Double.parseDouble(txtLatitud.getText());
@@ -282,8 +283,12 @@ public class InfoPunt extends JFrame {
                     Double altitude = Double.parseDouble(txtAltitut.getText());
                     Tipus tipus = mTipus.get(cboTipus.getSelectedIndex()-1);
                     mPunt = new Punt(0,num, mRuta, txtNom.getText(), textAreaDesc.getText(), null, latitude, longitud, altitude, tipus);
-                } catch (Exception ex){
+                } catch (IGestorBDWikilocException | WikilocException ex){
                     JOptionPane.showMessageDialog(rootPane, "Error creant el punt", "Error",JOptionPane.OK_OPTION);
+                    return;
+                } catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(rootPane, "Error creant el punt, dades no vàlides", "Error",JOptionPane.OK_OPTION);
+                    return;
                 }
                 
                 
@@ -297,8 +302,8 @@ public class InfoPunt extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Error inserint el punt", "Error",JOptionPane.OK_OPTION);
                     }
-                } catch (WikilocException ex){
-                    JOptionPane.showMessageDialog(this, "ex", "Error", 1);
+                } catch (IGestorBDWikilocException | WikilocException ex){
+                    JOptionPane.showMessageDialog(this, ex, "Error", 1);
                 }
             } else {
                 
@@ -326,7 +331,7 @@ public class InfoPunt extends JFrame {
                         JOptionPane.showMessageDialog(rootPane, "Error actualitzant el punt", "Error",JOptionPane.OK_OPTION);
                     }
                         
-                } catch (WikilocException ex){
+                } catch (IGestorBDWikilocException ex){
                     JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.OK_OPTION);
                 }
             }
@@ -533,18 +538,22 @@ public class InfoPunt extends JFrame {
                 }
             }
         });
-        txtNum.setText(mPunt.getId()+"");
-        txtNom.setText(mPunt.getNom());
-        txtAltitut.setText(mPunt.getAltitude()+"");
-        txtLongitud.setText(mPunt.getLongitude()+"");
-        txtLatitud.setText(mPunt.getLatitude()+"");
-        cboTipus.setSelectedIndex(mPunt.getTipus().getId());
-        textAreaDesc.setText(mPunt.getDesc());
-        if (option=='r'){
-            initTextsBool(false);
-        } else {
-            initTextsBool(true);
-        }
+        if (mPunt!=null){
+            txtNum.setText(mPunt.getId()+"");
+            txtNom.setText(mPunt.getNom());
+            txtAltitut.setText(mPunt.getAltitude()+"");
+            txtLongitud.setText(mPunt.getLongitude()+"");
+            txtLatitud.setText(mPunt.getLatitude()+"");
+            cboTipus.setSelectedIndex(mPunt.getTipus().getId());
+            textAreaDesc.setText(mPunt.getDesc()); 
+            if (option=='r'){
+                initTextsBool(false);
+            } else {
+                initTextsBool(true);
+            }
+        } 
+        
+        
     }
 
     private void initTextsBool(boolean b) {
