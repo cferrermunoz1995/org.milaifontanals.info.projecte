@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RutesPunts" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b181925e-9a13-48d6-84c4-f93487fc232c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapterP1"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/Reports/RutesPunts_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/RutesPunts"/>
+	<parameter name="Usuari" class="java.lang.String">
+		<property name="com.jaspersoft.studio.js.ic.label" value="Seleccioni usuari (en blanc, tots)"/>
+		<property name="com.jaspersoft.studio.js.ic.type" value="SINGLE_QUERY"/>
+		<property name="com.jaspersoft.studio.js.ic.ds" value="/DataSource/OracleDataSource"/>
+		<property name="com.jaspersoft.studio.js.ic.value">
+			<![CDATA[{"query":"select login_usuari from usuari","language":"sql","valueField":"login_usuari","columns":["login_usuari"]}]]>
+		</property>
+		<parameterDescription><![CDATA[En blanc, totes les rutes]]></parameterDescription>
+	</parameter>
+	<parameter name="Ruta" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.js.ic.ds" value="/DataSource/OracleDataSource"/>
+		<property name="com.jaspersoft.studio.js.ic.label" value="Selecciona la ruta (en blanc, totes)"/>
+		<property name="com.jaspersoft.studio.js.ic.type" value="SINGLE_QUERY"/>
+		<property name="com.jaspersoft.studio.js.ic.value">
+			<![CDATA[{"query":"select id_ruta, titol_ruta from ruta","language":"sql","valueField":"id_ruta","columns":["titol_ruta"]}]]>
+		</property>
+		<parameterDescription><![CDATA[Selecciona la ruta, en blanc per totes]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT u."LOGIN_USUARI",
+	u."EMAIL_USUARI",
+	r."ID_RUTA",
+	r."TITOL_RUTA",
+	r."DESCRIP_RUTA",
+	r."DISTANCIA_RUTA",
+	r."DESN_NEG_RUTA",
+	r."DESN_POS_RUTA",
+	r."TEMPS_RUTA",
+	r."DIFICULTAT_RUTA",
+	p."NUM_PUNT",
+	p."NOM_PUNT",
+	p."DESC_PUNT",
+	p."LAT_PUNT",
+	p."LON_PUNT",
+	p."ALT_PUNT"
+FROM "RUTA" r
+	left join "PUNT" p ON 
+	 r."ID_RUTA" = p."ID_RUTA_PUNT" 
+	left join "USUARI" u ON 
+	 r."ID_USUARI_RUTA" = u."LOGIN_USUARI" 
+where 
+ 	(r."ID_USUARI_RUTA" = $P{Usuari} or 
+ 	$P{Usuari} is null) and 
+ 	( r."ID_RUTA" = $P{Ruta} or  $P{Ruta} is null)
+ORDER BY r."ID_RUTA" ,
+	p."NUM_PUNT"]]>
+	</queryString>
+	<field name="LOGIN_USUARI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="LOGIN_USUARI"/>
+		<property name="com.jaspersoft.studio.field.label" value="LOGIN_USUARI"/>
+	</field>
+	<field name="EMAIL_USUARI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMAIL_USUARI"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMAIL_USUARI"/>
+	</field>
+	<field name="ID_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ID_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="ID_RUTA"/>
+	</field>
+	<field name="TITOL_RUTA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TITOL_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TITOL_RUTA"/>
+	</field>
+	<field name="DESCRIP_RUTA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DESCRIP_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="DESCRIP_RUTA"/>
+	</field>
+	<field name="DISTANCIA_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DISTANCIA_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="DISTANCIA_RUTA"/>
+	</field>
+	<field name="DESN_NEG_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DESN_NEG_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="DESN_NEG_RUTA"/>
+	</field>
+	<field name="DESN_POS_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DESN_POS_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="DESN_POS_RUTA"/>
+	</field>
+	<field name="TEMPS_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="TEMPS_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TEMPS_RUTA"/>
+	</field>
+	<field name="DIFICULTAT_RUTA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DIFICULTAT_RUTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="DIFICULTAT_RUTA"/>
+	</field>
+	<field name="NUM_PUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NUM_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="NUM_PUNT"/>
+	</field>
+	<field name="NOM_PUNT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOM_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOM_PUNT"/>
+	</field>
+	<field name="DESC_PUNT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DESC_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="DESC_PUNT"/>
+	</field>
+	<field name="LAT_PUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="LAT_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="LAT_PUNT"/>
+	</field>
+	<field name="LON_PUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="LON_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="LON_PUNT"/>
+	</field>
+	<field name="ALT_PUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ALT_PUNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="ALT_PUNT"/>
+	</field>
+	<group name="Ruta" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{ID_RUTA}]]></groupExpression>
+		<groupHeader>
+			<band height="217">
+				<staticText>
+					<reportElement x="371" y="190" width="92" height="25" uuid="bc9101d7-2822-4ee1-a254-da9f15c9b594">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4cc5e1f0-aa03-4ca7-aa3c-fce4e185061c"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Longitud]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="279" y="190" width="92" height="25" uuid="5703a850-0f70-4c10-a5ad-a7bbaf9eb4d5">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eef0ff19-5e1f-44ef-baa4-5958d4cbdde6"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Latitud]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="463" y="190" width="92" height="25" uuid="1c889501-d729-4324-a95a-24726f24a0eb">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d17e509e-8ea4-4b7a-bdbc-f772b111fc03"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Altitud]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="190" width="95" height="25" uuid="b20f5fc6-089e-4769-94af-1523ca73a767">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cdfadfca-57d2-4a3f-9170-7e1e6d870c7a"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Número]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="187" y="190" width="92" height="25" uuid="54be5918-9e0d-4bcc-8f6c-4fed36cdd215">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="19d36af4-caf9-40d2-a320-ce2535ff2c62"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descripció]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="95" y="190" width="92" height="25" uuid="0259d6d0-6a32-490b-8e22-fd1586d314d8">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ca62c8d9-27ad-4f73-85d2-a54e401071b9"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Títol]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="215" width="551" height="1" uuid="582e6bd4-0b59-4d5c-a20d-a8ec5ab3cf91"/>
+				</line>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="150" width="100" height="30" uuid="6d39d1d0-15e0-483f-a590-46556d8dd09d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{LOGIN_USUARI}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="236" y="150" width="242" height="30" uuid="66245e70-f1a9-445d-bc17-eeee68a3ef7f"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{EMAIL_USUARI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="150" width="48" height="30" uuid="5a9e6c8c-d029-4235-9c9e-f9cd92fd7560"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Log in:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="170" y="150" width="49" height="30" uuid="b4e3cf89-b9fc-4f7b-b0ba-d0f1c8769c4e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Email:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="-1" width="80" height="20" uuid="ac68f396-7746-4163-8d9e-75d521ed3963">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Títol:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="85" y="-1" width="90" height="20" uuid="69be9324-6f0f-49f3-98a2-8063258396d7"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TITOL_RUTA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="30" width="80" height="20" uuid="74335aeb-5f40-493f-bfb3-23ebe18a452e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descripció:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="84" y="30" width="100" height="20" uuid="5f145134-14d7-4e6c-87c7-fdcf97ea9b63"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCRIP_RUTA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="57" width="80" height="20" uuid="bf7a2d1a-e575-46da-87cc-0050d5357018">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Distància:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="85" y="59" width="102" height="20" uuid="b3271a46-f67a-420e-8f4d-867b135339c4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DISTANCIA_RUTA} + " kilometres"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="85" width="80" height="20" uuid="bc440def-816a-4060-bfe8-4ff206c8dcaa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Temps:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="87" y="85" width="66" height="20" uuid="7c4b1e8a-86a7-4de8-8e90-94c78254332e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TEMPS_RUTA} + " hores"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="301" y="0" width="110" height="20" uuid="904fca28-2b6a-4675-bec0-c4eab5864ec4">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Desnivell Positiu:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="301" y="27" width="112" height="20" uuid="8fb4969e-a413-4aa2-b525-fb0165ae9c8c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Desnivell Negatiu:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="440" y="1" width="110" height="20" uuid="22debfee-29a9-4fe1-b622-bb0530e70444">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESN_POS_RUTA}+" metres"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="440" y="30" width="114" height="20" uuid="5d6db58c-03e8-47f2-9d10-8ff5e94a473d"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESN_NEG_RUTA}+ " metres"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="301" y="57" width="80" height="20" uuid="55616baa-fe08-40ae-b208-8ea1b6fd8289">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dificultat:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="440" y="57" width="40" height="20" uuid="41220370-298b-4400-90fc-fdf2757288ce"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DIFICULTAT_RUTA}+" / 5"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="130" width="250" height="24" uuid="0ade49b0-b4ee-4d65-92b5-b8411158eb6a"/>
+					<textElement>
+						<font size="12" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Informació de l'usuari propietari de la ruta]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="43" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="105" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="222" height="50" uuid="ec31ad85-59dd-4cc3-b7f0-2ca404615368"/>
+				<imageExpression><![CDATA["LogoMilaInformatica.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="340" y="7" width="204" height="30" uuid="6eaab12d-f46b-43cd-a30c-17b5af04e54e"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Milà - Wikiloc]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="154" height="24" uuid="4b56ce43-db74-4f37-b2a2-27d05b782c9b"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Informació de la ruta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="95" height="30" uuid="78b33a72-350d-4879-bc13-5c7f4935296b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cdfadfca-57d2-4a3f-9170-7e1e6d870c7a"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{NUM_PUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="10" width="92" height="30" uuid="c55a5630-ae36-4d5d-b311-024f3117d54b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ca62c8d9-27ad-4f73-85d2-a54e401071b9"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{NOM_PUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="187" y="10" width="92" height="30" uuid="a8f1298e-55a7-40e1-a96e-b6d122ac4256">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="19d36af4-caf9-40d2-a320-ce2535ff2c62"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DESC_PUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="10" width="92" height="30" uuid="59c65e58-5c6d-478b-9537-7d4cd78444b3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eef0ff19-5e1f-44ef-baa4-5958d4cbdde6"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{LAT_PUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="371" y="10" width="92" height="30" uuid="e405f6c6-0925-4c30-920f-88f72696b279">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4cc5e1f0-aa03-4ca7-aa3c-fce4e185061c"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{LON_PUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="463" y="10" width="92" height="30" uuid="822a6dd8-6b33-4889-981c-f5703ebdfb0f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d17e509e-8ea4-4b7a-bdbc-f772b111fc03"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ALT_PUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="82" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="0" y="60" width="140" height="16" uuid="d524ba17-fb65-468e-a1aa-b154fb0362c2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="60" width="70" height="16" uuid="db7256dc-de07-4548-bc90-679e79b5f312">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Pàgina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="490" y="60" width="64" height="16" uuid="84da03bb-747e-480a-a6a7-87e09cb93168">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
