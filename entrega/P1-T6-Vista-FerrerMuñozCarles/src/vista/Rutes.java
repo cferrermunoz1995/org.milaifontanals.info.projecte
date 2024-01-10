@@ -4,7 +4,7 @@
  */
 package vista;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByDate;
 import P1_T5_Model_FerrerMuñozCarles.Ruta.RutaSortByName;
@@ -52,7 +52,7 @@ public class Rutes extends javax.swing.JFrame {
     }
     
     private static SimpleDateFormat sdf;
-    private ConnexioGeneral gBD = null;
+    private IGestorBDWikiloc gBD = null;
     private static DefaultTableModel tRutes;
     private static List<Ruta> rutes = new ArrayList();
     private String mUser;
@@ -71,7 +71,7 @@ public class Rutes extends javax.swing.JFrame {
     public Rutes(){
         initComponents();
     }
-    public Rutes(ConnexioGeneral gbd, String user) {
+    public Rutes(IGestorBDWikiloc gbd, String user) {
         initComponents();
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);

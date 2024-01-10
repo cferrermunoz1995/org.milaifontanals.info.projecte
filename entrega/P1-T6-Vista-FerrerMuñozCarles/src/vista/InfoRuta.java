@@ -4,7 +4,8 @@
  */
 package vista;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByAlt;
 import P1_T5_Model_FerrerMuñozCarles.Punt.PuntSortByDesc;
@@ -42,7 +43,7 @@ import javax.swing.table.JTableHeader;
  */
 public class InfoRuta extends JFrame {
 
-    private ConnexioGeneral gBD = null;
+    private IGestorBDWikiloc gBD = null;
     private Ruta ruta;
     private static DefaultTableModel tInfoRuta;
     private static List<Punt> punts = new ArrayList<>();
@@ -57,7 +58,7 @@ public class InfoRuta extends JFrame {
         initComponents();
     }
     
-    public InfoRuta(ConnexioGeneral gbd, Ruta rut, char option, String user){
+    public InfoRuta(IGestorBDWikiloc gbd, Ruta rut, char option, String user){
         initComponents();
         mUser = user;
         gBD = gbd;

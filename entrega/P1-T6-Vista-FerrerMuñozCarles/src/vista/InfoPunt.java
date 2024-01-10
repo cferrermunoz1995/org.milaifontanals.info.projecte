@@ -4,7 +4,8 @@
  */
 package vista;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikilocException;
 import P1_T5_Model_FerrerMuñozCarles.Punt;
 import P1_T5_Model_FerrerMuñozCarles.Ruta;
@@ -25,7 +26,7 @@ import javax.swing.event.DocumentListener;
  */
 public class InfoPunt extends JFrame {
 
-    private ConnexioGeneral gBD = null;
+    private IGestorBDWikiloc gBD = null;
     private Punt mPunt;
     private Ruta mRuta;
     private List<Tipus> mTipus = new ArrayList();
@@ -39,7 +40,7 @@ public class InfoPunt extends JFrame {
         initComponents();
     }
     
-    public InfoPunt(ConnexioGeneral gbd, Punt jPunt, Ruta ruta, char option, String user, char oR){
+    public InfoPunt(IGestorBDWikiloc gbd, Punt jPunt, Ruta ruta, char option, String user, char oR){
         
         initComponents();
         gBD = gbd;

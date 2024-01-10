@@ -4,7 +4,8 @@
  */
 package vista;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author isard
  */
 public class Vista extends JFrame{
-    private ConnexioGeneral gBD = null;
+    private IGestorBDWikiloc gBD = null;
     private static String nomClassePersistencia = null;
     private static String fitxerConfigJRS = null;
     
@@ -28,7 +29,7 @@ public class Vista extends JFrame{
 
     private void go() {
         try {
-            gBD = (ConnexioGeneral) Class.forName(nomClassePersistencia).newInstance();
+            gBD = (IGestorBDWikiloc) Class.forName(nomClassePersistencia).newInstance();
             JFrame frame = new Login(gBD);
             frame.setVisible(true);
             

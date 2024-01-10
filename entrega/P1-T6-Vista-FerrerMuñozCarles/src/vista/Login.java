@@ -4,7 +4,8 @@
  */
 package vista;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
+
+import P1_T5_InterficiePersistencia_FerrerMuñozCarles.IGestorBDWikiloc;
 import java.awt.event.KeyEvent;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends JFrame {
 
-    private ConnexioGeneral gBD = null;
+    private IGestorBDWikiloc gBD = null;
     /**
      * Creates new form Login
      */
@@ -26,7 +27,7 @@ public class Login extends JFrame {
         initComponents();
     }
     
-    public Login(ConnexioGeneral gbd) {
+    public Login(IGestorBDWikiloc gbd) {
         initComponents();
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
