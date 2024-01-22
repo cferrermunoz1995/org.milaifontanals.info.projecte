@@ -4,12 +4,12 @@
  */
 package Proves;
 
-import P1_T5_CapaOracle_FerrerMuñozCarles.ConnexioGeneral;
-import P1_T5_Model_FerrerMuñozCarles.Punt;
-import P1_T5_Model_FerrerMuñozCarles.Ruta;
-import P1_T5_Model_FerrerMuñozCarles.Tipus;
-import P1_T5_Model_FerrerMuñozCarles.Usuari;
-import P1_T5_Model_FerrerMuñozCarles.WikilocException;
+import P1_T5_CapaOracle_FerrerMunozCarles.ConnexioGeneral;
+import P1_T5_Model_FerrerMunozCarles.Punt;
+import P1_T5_Model_FerrerMunozCarles.Ruta;
+import P1_T5_Model_FerrerMunozCarles.Tipus;
+import P1_T5_Model_FerrerMunozCarles.Usuari;
+import P1_T5_Model_FerrerMunozCarles.WikilocException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
