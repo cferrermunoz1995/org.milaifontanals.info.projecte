@@ -34,6 +34,7 @@ public class Vista extends JFrame{
             frame.setVisible(true);
             
         } catch (Exception ex){
+            
             JOptionPane.showMessageDialog(this, "Error en connectar-se a la base de dades", "Error", 1);
             System.exit(WIDTH);
         }
